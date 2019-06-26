@@ -1,0 +1,15 @@
+F:\MyTestProject\MyTestProject\IDal\bin\Debug\IDal.dll
+F:\MyTestProject\MyTestProject\IDal\bin\Debug\IDal.pdb
+F:\MyTestProject\MyTestProject\IDal\obj\Debug\IDal.csproj.CoreCompileInputs.cache
+F:\MyTestProject\MyTestProject\IDal\obj\Debug\IDal.dll
+F:\MyTestProject\MyTestProject\IDal\obj\Debug\IDal.pdb
+F:\MyTestProject\MyTestProject\IDal\bin\Debug\Entities.dll
+F:\MyTestProject\MyTestProject\IDal\bin\Debug\EntityFramework.dll
+F:\MyTestProject\MyTestProject\IDal\bin\Debug\Entities.pdb
+F:\MyTestProject\MyTestProject\IDal\bin\Debug\Entities.dll.config
+F:\MyTestProject\MyTestProject\IDal\bin\Debug\EntityFramework.xml
+F:\MyTestProject\MyTestProject\IDal\bin\Debug\zh-Hans\EntityFramework.resources.dll
+F:\MyTestProject\MyTestProject\IDal\obj\Debug\IDal.csprojAssemblyReference.cache
+F:\MyTestProject\MyTestProject\IDal\obj\Debug\IDal.csproj.CopyComplete
+F:\MyTestProject\MyTestProject\IDal\bin\Debug\Utlis.dll
+F:\MyTestProject\MyTestProject\IDal\bin\Debug\Utlis.pdb
