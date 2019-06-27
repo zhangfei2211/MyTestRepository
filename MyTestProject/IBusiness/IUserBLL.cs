@@ -11,5 +11,9 @@ namespace IBusiness
     public interface IUserBLL : IAutofac
     {
         Task<B_User> GetUserByUserName(string userName);
+
+        Task<bool> AddOrUpdateUserToken(string token);
+
+        Task<bool> CommitTest();
     }
 }

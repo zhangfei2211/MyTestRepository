@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
+using Dal;
+using IDal;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -34,6 +36,8 @@ namespace WebSite.Autofac
             builder.RegisterAssemblyTypes(assemblys.ToArray())
                 .Where(t => baseType.IsAssignableFrom(t) && t != baseType)
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
+
+            builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IBaseRepository<>)).InstancePerRequest();
 
             return builder;
         }

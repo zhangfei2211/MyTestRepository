@@ -53,6 +53,9 @@
     <Compile Include="B_User.cs">
       <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="B_UserToken.cs">
+      <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Enum\AjaxStatus.cs" />
     <Compile Include="Model\OrderField.cs" />
     <Compile Include="Model\PagedResult.cs" />

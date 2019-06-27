@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Utlis;
+@using Entities;
+@{
+    var user = SessionHelp.Get("User") as B_User;
+}
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -6,24 +11,28 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/js")
 </head>
+
 <body>
-    <div>
-        <ul class="nav pull-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#000000">
-                    "你的用户名" &nbsp;<span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu dropdown-usermenu purple">
-                    <li><a href="@Url.Action("Logout","User")"><i class="glyphicon glyphicon-off" style="margin-right:10px" ;></i><span>注销</span></a></li>
-                </ul>
-            </li>
-        </ul>
-        <h1 class="head"><strong>健康元X系统</strong></h1>
+    <div class="bg-primary h-50">
+        <div class="pl-10" style="display: inline-block;margin-top:5px;width:100%">
+            <strong style="font-size:30px">健康元信息管理系统</strong>
+            <ul class="pull-right pr-50" style="list-style-type:none;margin-top:10px">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" style="color:#ffffff;text-decoration: none;cursor:pointer">
+                        @(user.UserCnName) <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-usermenu purple" style="min-width:50px">
+                        <li><a href="@Url.Action("Logout","../Login/")"><i class="glyphicon glyphicon-off" style="margin-right:10px;"></i><span>注销</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div style="width:200px;float:left">
+    
+    <div class="col-lg-2">
         @Html.Partial("Nav")
     </div>
-    <div style="width:100%;float:left;">
+    <div class="col-lg-10">
         @RenderBody()
     </div>
 </body>

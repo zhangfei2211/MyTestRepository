@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.9.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.9.2\lib\net45\Autofac.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -46,13 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Autofac\IAutofac.cs" />
-    <Compile Include="Cookie\CookieHelp.cs" />
-    <Compile Include="Cookie\CookieTimeOutType.cs" />
+    <Compile Include="CookieHelp.cs" />
+    <Compile Include="DESHelp.cs" />
+    <Compile Include="Extension\BaseDataTypeExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Session\SessionHelp.cs" />
+    <Compile Include="SessionHelp.cs" />
+    <Compile Include="TokenHelp.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

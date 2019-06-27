@@ -4,46 +4,67 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ZyfTestDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ZyfTestDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="B_User">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="UserId" Type="nvarchar" MaxLength="36" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="50" />
           <Property Name="UserCnName" Type="nvarchar" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" />
           <Property Name="Phone" Type="nvarchar" MaxLength="50" />
           <Property Name="Age" Type="int" />
           <Property Name="IsDelete" Type="bit" Nullable="false" />
-          <Property Name="Creator" Type="nvarchar" MaxLength="50" />
+          <Property Name="Creator" Type="uniqueidentifier" />
+          <Property Name="CreateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="B_UserToken">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Token" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Expires" Type="datetime" Nullable="false" />
+          <Property Name="Creator" Type="uniqueidentifier" />
           <Property Name="CreateDate" Type="datetime" />
         </EntityType>
         <EntityContainer Name="ZyfTestDbModelStoreContainer">
           <EntitySet Name="B_User" EntityType="Self.B_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_UserToken" EntityType="Self.B_UserToken" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ZyfTestDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ZyfTestDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="B_User" EntityType="ZyfTestDbModel.B_User" />
+          <EntitySet Name="B_UserToken" EntityType="ZyfTestDbModel.B_UserToken" />
+        </EntityContainer>
         <EntityType Name="B_User">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="UserId" Type="String" MaxLength="36" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserCnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Age" Type="Int32" />
           <Property Name="IsDelete" Type="Boolean" Nullable="false" />
-          <Property Name="Creator" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Creator" Type="Guid" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityContainer Name="ZyfTestDbEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="B_User" EntityType="Self.B_User" />
-        </EntityContainer>
+        <EntityType Name="B_UserToken">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="Token" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Expires" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Creator" Type="Guid" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -53,15 +74,26 @@
           <EntitySetMapping Name="B_User">
             <EntityTypeMapping TypeName="ZyfTestDbModel.B_User">
               <MappingFragment StoreEntitySet="B_User">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserCnName" ColumnName="UserCnName" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
-                <ScalarProperty Name="Creator" ColumnName="Creator" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Creator" ColumnName="Creator" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserCnName" ColumnName="UserCnName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_UserToken">
+            <EntityTypeMapping TypeName="ZyfTestDbModel.B_UserToken">
+              <MappingFragment StoreEntitySet="B_UserToken">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Creator" ColumnName="Creator" />
+                <ScalarProperty Name="Expires" ColumnName="Expires" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

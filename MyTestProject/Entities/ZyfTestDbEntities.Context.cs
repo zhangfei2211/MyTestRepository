@@ -26,5 +26,6 @@ namespace Entities
         }
     
         public virtual DbSet<B_User> B_User { get; set; }
+        public virtual DbSet<B_UserToken> B_UserToken { get; set; }
     }
 }

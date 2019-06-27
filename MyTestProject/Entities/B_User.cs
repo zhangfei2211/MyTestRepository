@@ -14,14 +14,14 @@ namespace Entities
     
     public partial class B_User
     {
-        public string UserId { get; set; }
+        public System.Guid UserId { get; set; }
         public string UserName { get; set; }
         public string UserCnName { get; set; }
         public string Password { get; set; }
         public string Phone { get; set; }
         public Nullable<int> Age { get; set; }
         public bool IsDelete { get; set; }
-        public string Creator { get; set; }
+        public Nullable<System.Guid> Creator { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
     }
 }

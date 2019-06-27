@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using Utlis.Cookie;
-using Utlis.Session;
+using Utlis;
 using WebSite.Filter;
 using WebSite.Models;
 
@@ -26,67 +25,107 @@ namespace WebSite.Controllers
 
         public ActionResult Index()
         {
-            var isRemember = CookieHelp.GetCookieValue("isRemember");
+            var token = CookieHelp.GetCookieValue("token");
 
-            if (isRemember != null&& isRemember.ToLower()=="true")
+            if (token != null)
             {
                 ViewBag.isRemember = true;
-                ViewBag.UserName= CookieHelp.GetCookieValue("userName");
-                ViewBag.Password = CookieHelp.GetCookieValue("userPassword");
+                ViewBag.UserName = TokenHelp.GetUserNameByToken(token);
+                ViewBag.Password = "*******";
             }
-
-            var cookieValues = CookieHelp.GetCookieValues("user");
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> Logging(string userName,string password,bool isRemember)
+        public async Task<ActionResult> Logging(string userName, string password, bool isRemember)
         {
             try
             {
-                var user = await userBLL.GetUserByUserName(userName);
                 var result = new AjaxResult<object>();
-                if (user == null)
+
+                var token = CookieHelp.GetCookieValue("token");
+                if (token != null
+                    && userName.Equals(TokenHelp.GetUserNameByToken(token))
+                    && TokenHelp.IsTokenNotExpired(token))
                 {
-                    result.Status = AjaxStatus.UnSuccess;
-                    result.Message = "登录失败，用户名不存在";
-                }
-                else
-                {
-                    if (user.Password == password)
+                    var user = await userBLL.GetUserByUserName(userName);
+                    if (user == null)
+                    {
+                        result.Status = AjaxStatus.UnSuccess;
+                        result.Message = "登录失败，用户名不存在";
+                    }
+                    else
                     {
                         result.Status = AjaxStatus.Success;
                         result.Message = "登录成功";
 
                         FormsAuthentication.SetAuthCookie(userName, false);
-
                         SessionHelp.Add("User", user);
+                        DealToken(isRemember, TokenHelp.GetUserIdByToken(token), userName);
+                        
+                    }
+                }
 
-                        if (isRemember)
-                        {
-                            CookieHelp.SetCookie("userName", userName);
-                            CookieHelp.SetCookie("userPassword", password);
-                            CookieHelp.SetCookie("isRemember", isRemember.ToString().ToLower());
-                        }
-                        else
-                        {
-                            CookieHelp.ClearCookie("userName");
-                            CookieHelp.ClearCookie("userPassword");
-                            CookieHelp.ClearCookie("isRemember");
-                        }
+                else
+                {
+                    var user = await userBLL.GetUserByUserName(userName);
+
+                    if (user == null)
+                    {
+                        result.Status = AjaxStatus.UnSuccess;
+                        result.Message = "登录失败，用户名不存在";
                     }
                     else
                     {
-                        result.Status = AjaxStatus.UnSuccess;
-                        result.Message = "登录失败，密码错误";
+                        if (user.Password == password)
+                        {
+                            result.Status = AjaxStatus.Success;
+                            result.Message = "登录成功";
+
+                            FormsAuthentication.SetAuthCookie(userName, false);
+                            SessionHelp.Add("User", user);
+                            DealToken(isRemember, user.UserId.ToString(), userName);
+                        }
+                        else
+                        {
+                            result.Status = AjaxStatus.UnSuccess;
+                            result.Message = "登录失败，密码错误";
+                        }
                     }
                 }
                 return Json(result);
             }
-            catch(Exception ex)
+            catch (Exception)
             {
                 return Json(new AjaxResult<object>());
             }
+        }
+
+        /// <summary>
+        /// 处理token
+        /// </summary>
+        /// <param name="isRemember"></param>
+        /// <param name="userId"></param>
+        /// <param name="userName"></param>
+        private void DealToken(bool isRemember,string userId,string userName)
+        {
+            if (isRemember)
+            {
+                var token = TokenHelp.GetEncryptToken(userId, userName);
+                userBLL.AddOrUpdateUserToken(token);
+                CookieHelp.SetCookie("token", token);
+            }
+            else
+            {
+                CookieHelp.ClearCookie("token");
+            }
+        }
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            SessionHelp.Remove("User");
+            return RedirectToAction("Index");
         }
     }
 }

@@ -6,22 +6,76 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities;
-using IDal.User;
+using Utlis;
+using Utlis.Extension;
 
 namespace Business
 {
-    public class UserBLL : IUserBLL
+    public class UserBLL : BaseBll,IUserBLL
     {
-        private IUserDal userDal;
-
-        public UserBLL(IUserDal _userDal)
+        public UserBLL(IBaseRepository<B_User> _userDal,
+            IBaseRepository<B_UserToken> _userTokenDal)
         {
             userDal = _userDal;
+            userTokenDal = _userTokenDal;
         }
 
-        public Task<B_User> GetUserByUserName(string userName)
+        public async Task<B_User> GetUserByUserName(string userName)
         {
-            return userDal.GetUserByUserName(userName);
+            return await userDal.Find(d => d.UserName == userName);
+        }
+
+        public async Task<bool> AddOrUpdateUserToken(string token)
+        {
+            var userId = TokenHelp.GetUserIdByToken(token).ToGuid();
+            if (userId == null)
+            {
+                return false;
+            }
+            B_UserToken userToken = new B_UserToken
+            {
+                UserId = userId.Value,
+                Token = token,
+                Expires = TokenHelp.GetExpiresByToken(token) ?? DateTime.Now
+            };
+            if (await userTokenDal.Find(d => d.UserId == userToken.UserId) != null)
+            {
+                return await userTokenDal.Update(userToken);
+            }
+            else
+            {
+                return await userTokenDal.Add(userToken);
+            }
+        }
+
+        public async Task<bool> CommitTest()
+        {
+            B_User user = new B_User
+            {
+                UserId = Guid.NewGuid(),
+                UserName = "zyf",
+                UserCnName = "张宇飞",
+                Password = "1",
+                Phone = "111111",
+                Age = 30,
+                IsDelete = false,
+                Creator = Guid.NewGuid(),
+                CreateDate = DateTime.Now
+            };
+
+            await userDal.Add(user, false);
+
+            var token = TokenHelp.GetEncryptToken(user.UserId.ToString(), user.UserName);
+            B_UserToken userToken = new B_UserToken
+            {
+                UserId = user.UserId,
+                Token = token,
+                Expires = TokenHelp.GetExpiresByToken(token) ?? DateTime.Now
+            };
+
+            await userTokenDal.Add(userToken, false);
+
+            return await userDal.SaveChangesAsync();
         }
     }
 }

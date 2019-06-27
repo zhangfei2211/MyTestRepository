@@ -4,50 +4,61 @@
 }
 
 <style>
-    table {
-        margin: 0px auto;
-        width: 300px;
-        height: 150px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-left: -150px;
-        margin-top: -75px;
+
+    /*web background*/
+    .container {
+        display: table;
+        height: 100%;
     }
 
-    .input {
-        width:150px;
+    .row {
+        display: table-cell;
+        vertical-align: middle;
+    }
+    /* centered columns styles */
+    .row-centered {
+        text-align: center;
+    }
+
+    .col-centered {
+        display: inline-block;
+        float: none;
+        text-align: left;
+        margin-right: -4px;
     }
 </style>
 
-<table>
-    <tr>
-        <td>用户名：</td>
-        <td>
-            <input type="text" id="txtUserName" class="input" value="@ViewBag.UserName"/>
-        </td>
-    </tr>
-    <tr>
-        <td>密&nbsp;&nbsp;码：</td>
-        <td>
-            <input type="password" id="txtPassword" class="input" value="@ViewBag.Password"/>
-        </td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>
-            <label for="cbIsRemember">
-                <input type="checkbox" id="cbIsRemember" checked="@((bool)ViewBag.IsRemember)"/>记住密码
-            </label>
-        </td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>
-            <input type="button" id="btnLogging" value="登录" onclick="login()"/>
-        </td>
-    </tr>
-</table>
+<div class="container">
+    <div class="row row-centered">
+        <div class="well col-md-3 col-centered">
+            <form class="form-horizontal login1" role="form">
+                <div class="form-group">
+                    <div class="input-group input-group-md">
+                        <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+                        <input type="text" class="form-control" id="txtUserName" value="@ViewBag.UserName" placeholder="请输入用户名" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group input-group-md">
+                        <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input type="password" class="form-control" id="txtPassword" value="@ViewBag.Password" placeholder="请输入密码" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group input-group-md checkbox-custom checkbox-default" style="margin-left:40px">
+                        <input type="checkbox" id="cbIsRemember" value="记住密码" checked="@ViewBag.IsRemember" />
+                        <label for="cbIsRemember">记住密码</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group input-group-md col-lg-4" style="margin-left:40px">
+                        <input type="button" id="btnLogging" class="btn btn-primary btn-block" value="登录" onclick="login()" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script>
     document.onkeydown = function (event) {
@@ -68,6 +79,7 @@
                     window.location.href = "@Url.Action("ListDemo","Demo")";
                 }
                 else {
+                    $("#txtPassword").val("");
                     alert(data.Message);
                 }
             }
