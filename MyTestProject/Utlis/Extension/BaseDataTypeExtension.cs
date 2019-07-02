@@ -18,6 +18,11 @@ namespace Utlis.Extension
             return string.IsNullOrWhiteSpace(s);
         }
 
+        /// <summary>
+        /// 字符串转Guid
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public static Guid? ToGuid(this string s)
         {
             try
@@ -29,6 +34,11 @@ namespace Utlis.Extension
             {
                 return null;
             }
+        }
+
+        public static bool IsNull(this object obj)
+        {
+            return obj == null;
         }
     }
 }

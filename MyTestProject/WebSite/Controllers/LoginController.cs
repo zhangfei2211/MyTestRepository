@@ -27,7 +27,7 @@ namespace WebSite.Controllers
         {
             var token = CookieHelp.GetCookieValue("token");
 
-            if (token != null)
+            if (token != null && TokenHelp.IsTokenNotExpired(token))
             {
                 ViewBag.isRemember = true;
                 ViewBag.UserName = TokenHelp.GetUserNameByToken(token);
@@ -43,6 +43,7 @@ namespace WebSite.Controllers
             {
                 var result = new AjaxResult<object>();
 
+                //如果cookie中有token，并且和当前用户名一致，同时时间没过期的话，免密登录
                 var token = CookieHelp.GetCookieValue("token");
                 if (token != null
                     && userName.Equals(TokenHelp.GetUserNameByToken(token))
@@ -53,19 +54,20 @@ namespace WebSite.Controllers
                     {
                         result.Status = AjaxStatus.UnSuccess;
                         result.Message = "登录失败，用户名不存在";
+                        CookieHelp.ClearCookie("token");
                     }
                     else
                     {
                         result.Status = AjaxStatus.Success;
                         result.Message = "登录成功";
 
+                        CurrentUser currentUser = AutoMapHelp.MapTo<CurrentUser>(user);
+
                         FormsAuthentication.SetAuthCookie(userName, false);
-                        SessionHelp.Add("User", user);
+                        SessionHelp.Add("User", currentUser);
                         DealToken(isRemember, TokenHelp.GetUserIdByToken(token), userName);
-                        
                     }
                 }
-
                 else
                 {
                     var user = await userBLL.GetUserByUserName(userName);
@@ -74,6 +76,7 @@ namespace WebSite.Controllers
                     {
                         result.Status = AjaxStatus.UnSuccess;
                         result.Message = "登录失败，用户名不存在";
+                        CookieHelp.ClearCookie("token");
                     }
                     else
                     {
@@ -83,11 +86,14 @@ namespace WebSite.Controllers
                             result.Message = "登录成功";
 
                             FormsAuthentication.SetAuthCookie(userName, false);
-                            SessionHelp.Add("User", user);
+
+                            CurrentUser currentUser = AutoMapHelp.MapTo<CurrentUser>(user);
+                            SessionHelp.Add("User", currentUser);
                             DealToken(isRemember, user.UserId.ToString(), userName);
                         }
                         else
                         {
+                            CookieHelp.ClearCookie("token");
                             result.Status = AjaxStatus.UnSuccess;
                             result.Message = "登录失败，密码错误";
                         }
@@ -95,8 +101,9 @@ namespace WebSite.Controllers
                 }
                 return Json(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                CookieHelp.ClearCookie("token");
                 return Json(new AjaxResult<object>());
             }
         }
