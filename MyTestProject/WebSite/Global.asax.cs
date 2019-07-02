@@ -21,7 +21,8 @@ namespace WebSite
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            Autofac.AutofacConfig.Initialise();
+            Config.AutofacConfig.Initialise();
+            Config.AutoMapperConfig.Register();
         }
     }
 }

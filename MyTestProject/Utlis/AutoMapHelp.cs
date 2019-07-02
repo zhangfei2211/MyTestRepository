@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,45 +10,50 @@ using Utlis.Extension;
 
 namespace Utlis
 {
+    /// <summary>
+    /// 只用于未配置映射的情况，有损效率。
+    /// </summary>
     public static class AutoMapHelp
     {
-        private static MapperConfiguration config = new MapperConfiguration(d=>{});
-
-        private static bool ConfigExist(Type srcType, Type destType)
+        private static IMapper CreateMap(Type sourceType, Type destinationType)
         {
-            return config.FindMapper(new TypePair(srcType, destType)).IsNull();
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap(sourceType, destinationType);
+            });
+
+            config.AssertConfigurationIsValid();//验证结构映射是否正确，发布时注释掉
+
+            return config.CreateMapper();
         }
 
-        private static bool ConfigExist<TSrc, TDest>()
+        private static IMapper CreateMap<TSource, TDestination>()
         {
-            return config.FindMapper(new TypePair(typeof(TSrc), typeof(TDest))).IsNull();
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<TSource, TDestination>();
+            });
+
+            config.AssertConfigurationIsValid();//验证结构映射是否正确，发布时注释掉
+
+            return config.CreateMapper();
         }
+
 
         public static T MapTo<T>(this object source)
         {
+            var time1 = DateTime.Now;
             if (source.IsNull())
             {
                 return default(T);
             }
-            config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap(source.GetType(),typeof(T));
-            });
-            config.AssertConfigurationIsValid();//验证结构映射是否正确，发布时注释掉
-            config.R
-            var mapper = config.CreateMapper();
 
-            return mapper.Map<T>(source);
+            return CreateMap(source.GetType(), typeof(T)).Map<T>(source);
         }
 
         public static IList<TDest> MapTo<TSource, TDest>(this IEnumerable<TSource> source)
         {
-            //if (!ConfigExist<TSource, TDest>())
-            //{
-                Mapper.Initialize(cfg => cfg.CreateMap<TSource, TDest>());
-            //}
-
-            return Mapper.Map<IList<TDest>>(source);
+            return CreateMap<TSource, TDest>().Map<IList<TDest>>(source);
         }
 
         public static TDest MapTo<TSource, TDest>(this TSource source, TDest dest)
@@ -59,12 +65,7 @@ namespace Utlis
                 return dest;
             }
 
-            //if (!ConfigExist<TSource, TDest>())
-            //{
-                Mapper.Initialize(cfg => cfg.CreateMap<TSource, TDest>());
-            //}
-
-            return Mapper.Map<TDest>(source);
+            return CreateMap<TSource, TDest>().Map<TDest>(source);
         }
 
         /// <summary>
@@ -72,12 +73,7 @@ namespace Utlis
         /// </summary>
         public static IEnumerable<T> DataReaderMapTo<T>(this IDataReader reader)
         {
-            Mapper.Reset();
-            //if (!ConfigExist<IDataReader, T>())
-            //{
-                Mapper.Initialize(cfg => cfg.CreateMap<IDataReader, T>());
-            //
-            return Mapper.Map<IDataReader, IEnumerable<T>>(reader);
+            return CreateMap<IDataReader, T>().Map<IDataReader, IEnumerable<T>>(reader);
         }
     }
 }

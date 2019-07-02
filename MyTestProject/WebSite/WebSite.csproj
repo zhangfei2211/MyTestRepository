@@ -142,8 +142,9 @@
     <Compile Include="Areas\Demo\Controllers\ListDemoController.cs" />
     <Compile Include="Areas\Demo\DemoAreaRegistration.cs" />
     <Compile Include="Common\BaseController.cs" />
+    <Compile Include="Config\AutoMapperConfig.cs" />
     <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Autofac\AutofacConfig.cs" />
+    <Compile Include="Config\AutofacConfig.cs" />
     <Compile Include="Filter\LoginAuthorizeAttribute.cs" />
     <Compile Include="Filter\MyCheckFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">

@@ -9,8 +9,7 @@ using System.Web.Compilation;
 using System.Web.Mvc;
 using Utlis.Autofac;
 
-namespace WebSite.Autofac
-{
+namespace WebSite.Config
     public class AutofacConfig
     {
         /// <summary>
