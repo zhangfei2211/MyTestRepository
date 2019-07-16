@@ -12,11 +12,14 @@ namespace WebSite
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery.validate*",
                 "~/Scripts/modernizr-*",
-                "~/Scripts/bootstrap.js"));
+                "~/Scripts/bootstrap.js",
+                "~/Scripts/jquery.page.js",
+                "~/Scripts/layui/layui.all.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Scripts/layui/css/layui.css"));
         }
     }
 }

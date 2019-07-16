@@ -9,8 +9,12 @@ namespace IDal
 {
     public interface IBaseRepositoryForSql : IAutofac
     {
-        Task<IQueryable<T>> FindListBySQL<T>(string sql, params object[] parameters);
+        IQueryable<T> FindListBySQL<T>(string sql, params object[] parameters);
 
-        Task<int> ExecuteSQL(string sql, params object[] parameters);
+        Task<IQueryable<T>> FindListBySQLAsync<T>(string sql, params object[] parameters);
+
+        int ExecuteSQL(string sql, params object[] parameters);
+
+        Task<int> ExecuteSQLAsync(string sql, params object[] parameters);
     }
 }

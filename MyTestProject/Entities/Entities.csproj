@@ -57,9 +57,10 @@
       <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Enum\AjaxStatus.cs" />
-    <Compile Include="Model\OrderField.cs" />
+    <Compile Include="Enum\SortStatus.cs" />
+    <Compile Include="Model\OrderCondition.cs" />
     <Compile Include="Model\PagedResult.cs" />
-    <Compile Include="Model\PageModel.cs" />
+    <Compile Include="Model\PageSearchModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ZyfTestDbEntities.Context.cs">
       <AutoGen>True</AutoGen>

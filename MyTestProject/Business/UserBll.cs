@@ -22,7 +22,7 @@ namespace Business
 
         public async Task<B_User> GetUserByUserName(string userName)
         {
-            return await userDal.Find(d => d.UserName == userName);
+            return await userDal.FindAsync(d => d.UserName == userName);
         }
 
         public async Task<bool> AddOrUpdateUserToken(string token)
@@ -38,13 +38,13 @@ namespace Business
                 Token = token,
                 Expires = TokenHelp.GetExpiresByToken(token) ?? DateTime.Now
             };
-            if (await userTokenDal.Find(d => d.UserId == userToken.UserId) != null)
+            if (await userTokenDal.FindAsync(d => d.UserId == userToken.UserId) != null)
             {
-                return await userTokenDal.Update(userToken);
+                return await userTokenDal.UpdateAsync(userToken);
             }
             else
             {
-                return await userTokenDal.Add(userToken);
+                return await userTokenDal.AddAsync(userToken);
             }
         }
 
@@ -63,7 +63,7 @@ namespace Business
                 CreateDate = DateTime.Now
             };
 
-            await userDal.Add(user, false);
+            await userDal.AddAsync(user, false);
 
             var token = TokenHelp.GetEncryptToken(user.UserId.ToString(), user.UserName);
             B_UserToken userToken = new B_UserToken
@@ -73,7 +73,7 @@ namespace Business
                 Expires = TokenHelp.GetExpiresByToken(token) ?? DateTime.Now
             };
 
-            await userTokenDal.Add(userToken, false);
+            await userTokenDal.AddAsync(userToken, false);
 
             return await userDal.SaveChangesAsync();
         }
