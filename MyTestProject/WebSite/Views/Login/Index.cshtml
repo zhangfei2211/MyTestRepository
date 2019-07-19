@@ -76,7 +76,7 @@
             data: { userName: $("#txtUserName").val(), password: $("#txtPassword").val(), isRemember: $('#cbIsRemember').is(":checked") },
             success: function (data) {
                 if (data.Status) {
-                    window.location.href = "@Url.Action("ListDemo","Demo")";
+                    window.location.href = "@Url.Action("Index","Home")";
                 }
                 else {
                     $("#txtPassword").val("");

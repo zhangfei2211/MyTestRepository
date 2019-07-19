@@ -14,6 +14,8 @@ namespace Business
 
         protected IBaseRepository<B_UserToken> userTokenDal;
 
+        protected IBaseRepository<B_Menu> menuDal;
+
         /// <summary>
         /// 专用于执行sql
         /// </summary>

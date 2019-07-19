@@ -8,16 +8,15 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Utlis;
+using WebSite.Common;
 using WebSite.Filter;
 using WebSite.Models;
 
 namespace WebSite.Controllers
 {
     [AllowAnonymous]
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
-        private readonly IUserBLL userBLL;
-
         public LoginController(IUserBLL _userBLL)
         {
             userBLL = _userBLL;
@@ -41,7 +40,7 @@ namespace WebSite.Controllers
         {
             try
             {
-                var result = new AjaxResult<object>();
+                var result = new AjaxResult();
 
                 //如果cookie中有token，并且和当前用户名一致，同时时间没过期的话，免密登录
                 var token = CookieHelp.GetCookieValue("token");
@@ -104,7 +103,7 @@ namespace WebSite.Controllers
             catch (Exception ex)
             {
                 CookieHelp.ClearCookie("token");
-                return Json(new AjaxResult<object>());
+                return Json(new AjaxResult());
             }
         }
 

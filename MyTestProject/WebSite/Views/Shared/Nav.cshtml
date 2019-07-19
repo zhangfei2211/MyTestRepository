@@ -1,1 +1,19 @@
 ﻿
+<a class="list-title" href="javascript:;">导航菜单</a>
+<ul id="mainMenu" class="accordion"></ul>
+
+<script>
+    $(function () {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("../../Menu/GetMenu")",
+            dataType: "json",
+            data: {},
+            success: function (data) {
+                if (data.Status=="@((int)Entities.Enum.AjaxStatus.Success)") {
+                    $("#mainMenu").menu(data.Data,"mainContent");
+                }
+            }
+        });
+    });
+</script>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Utlis;
 
 namespace WebSite.Filter
 {
@@ -17,7 +18,7 @@ namespace WebSite.Filter
                 return;
             }
 
-            if (!HttpContext.Current.User.Identity.IsAuthenticated || filterContext.HttpContext.Session["User"] == null)
+            if (!HttpContext.Current.User.Identity.IsAuthenticated || SessionHelp.Get("User") == null)
             {
                 filterContext.HttpContext.Response.Redirect("~/Login");  //跳转到登录页
             }

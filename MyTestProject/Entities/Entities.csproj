@@ -50,7 +50,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="B_Menu.cs">
+      <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="B_Role.cs">
+      <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="B_RoleMenu.cs">
+      <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="B_User.cs">
+      <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="B_UserRole.cs">
       <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="B_UserToken.cs">

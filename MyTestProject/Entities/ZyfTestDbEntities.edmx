@@ -5,6 +5,38 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ZyfTestDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="B_Menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ParentId" Type="uniqueidentifier" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Href" Type="nvarchar" MaxLength="200" />
+          <Property Name="IconPath" Type="nvarchar" MaxLength="100" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="CreateBy" Type="uniqueidentifier" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="uniqueidentifier" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="B_Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="B_RoleMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RoleId" Type="uniqueidentifier" />
+          <Property Name="MenuId" Type="uniqueidentifier" />
+        </EntityType>
         <EntityType Name="B_User">
           <Key>
             <PropertyRef Name="UserId" />
@@ -19,6 +51,14 @@
           <Property Name="Creator" Type="uniqueidentifier" />
           <Property Name="CreateDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="B_UserRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" />
+          <Property Name="RoleId" Type="uniqueidentifier" />
+        </EntityType>
         <EntityType Name="B_UserToken">
           <Key>
             <PropertyRef Name="UserId" />
@@ -30,7 +70,11 @@
           <Property Name="CreateDate" Type="datetime" />
         </EntityType>
         <EntityContainer Name="ZyfTestDbModelStoreContainer">
+          <EntitySet Name="B_Menu" EntityType="Self.B_Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_Role" EntityType="Self.B_Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_RoleMenu" EntityType="Self.B_RoleMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="B_User" EntityType="Self.B_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_UserRole" EntityType="Self.B_UserRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="B_UserToken" EntityType="Self.B_UserToken" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -40,6 +84,10 @@
         <EntityContainer Name="ZyfTestDbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="B_User" EntityType="ZyfTestDbModel.B_User" />
           <EntitySet Name="B_UserToken" EntityType="ZyfTestDbModel.B_UserToken" />
+          <EntitySet Name="B_Menu" EntityType="ZyfTestDbModel.B_Menu" />
+          <EntitySet Name="B_Role" EntityType="ZyfTestDbModel.B_Role" />
+          <EntitySet Name="B_RoleMenu" EntityType="ZyfTestDbModel.B_RoleMenu" />
+          <EntitySet Name="B_UserRole" EntityType="ZyfTestDbModel.B_UserRole" />
         </EntityContainer>
         <EntityType Name="B_User">
           <Key>
@@ -64,6 +112,46 @@
           <Property Name="Expires" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Creator" Type="Guid" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="B_Menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="ParentId" Type="Guid" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Href" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IconPath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="CreateBy" Type="Guid" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Guid" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="B_Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="RoleName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="B_RoleMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="RoleId" Type="Guid" />
+          <Property Name="MenuId" Type="Guid" />
+        </EntityType>
+        <EntityType Name="B_UserRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" />
+          <Property Name="RoleId" Type="Guid" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -94,6 +182,50 @@
                 <ScalarProperty Name="Expires" ColumnName="Expires" />
                 <ScalarProperty Name="Token" ColumnName="Token" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_Menu">
+            <EntityTypeMapping TypeName="ZyfTestDbModel.B_Menu">
+              <MappingFragment StoreEntitySet="B_Menu">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="IconPath" ColumnName="IconPath" />
+                <ScalarProperty Name="Href" ColumnName="Href" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_Role">
+            <EntityTypeMapping TypeName="ZyfTestDbModel.B_Role">
+              <MappingFragment StoreEntitySet="B_Role">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_RoleMenu">
+            <EntityTypeMapping TypeName="ZyfTestDbModel.B_RoleMenu">
+              <MappingFragment StoreEntitySet="B_RoleMenu">
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_UserRole">
+            <EntityTypeMapping TypeName="ZyfTestDbModel.B_UserRole">
+              <MappingFragment StoreEntitySet="B_UserRole">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

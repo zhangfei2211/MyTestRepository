@@ -6,12 +6,12 @@ using System.Web;
 
 namespace WebSite.Models
 {
-    public class AjaxResult<T> where T:class
+    public class AjaxResult
     {
         public AjaxStatus Status;
 
         public string Message;
 
-        public T Data;
+        public object Data;
     }
 }

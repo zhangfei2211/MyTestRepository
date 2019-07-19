@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IBusiness;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +10,10 @@ namespace WebSite.Common
 {
     public class BaseController : Controller
     {
+        protected IUserBLL userBLL;
+
+        protected IMenuBll menuBll;
+
         /// <summary>
         /// 获取加密后的Token
         /// </summary>

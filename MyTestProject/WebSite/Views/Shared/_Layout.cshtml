@@ -1,8 +1,5 @@
-﻿@using Utlis;
-<!DOCTYPE html>
-@{
-    var user = (SessionHelp.Get("User") as CurrentUser);
-}
+﻿<!DOCTYPE html>
+
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -11,27 +8,33 @@
 </head>
 
 <body>
-    <div class="bg-primary h-50">
-        <div class="pl-10" style="display: inline-block;margin-top:5px;width:100%">
-            <strong style="font-size:30px">健康元信息管理系统</strong>
-            <ul class="pull-right pr-50" style="list-style-type:none;margin-top:10px">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" style="color:#ffffff;text-decoration: none;cursor:pointer">
-                        @(user.UserCnName) <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-usermenu purple" style="min-width:50px">
-                        <li><a href="@Url.Action("Logout","../Login/")"><i class="glyphicon glyphicon-off" style="margin-right:10px;"></i><span>注销</span></a></li>
-                    </ul>
-                </li>
-            </ul>
+    <div class="auto-layout" style="width: 99.6%;margin-left: 2px;margin-top: 3px;" options="{leftWidth: 205, topHeight:100}">
+        <div position="top" style="height:100px">
+            @Html.Partial("Head")
         </div>
-    </div>
-
-    <div class="col-lg-2">
-        @Html.Partial("Nav")
-    </div>
-    <div class="col-lg-10">
-        @RenderBody()
+        <div position="left" style="overflow:auto;">
+            @Html.Partial("Nav")
+        </div>
+        <div position="center" id="mainContent">
+            @RenderBody()
+        </div>
+        @*<div position="bottom">
+            <div class="bg-primary h-50"></div>
+        </div>*@
     </div>
 </body>
 </html>
+
+<script type="text/javascript">
+    $(function () {
+        $("div.auto-layout").each(function () {
+            var options = eval('(' + $(this).attr('options') + ')');
+            var opts = $.extend({
+                //height: '99%',
+                heightDiff: -2,
+                leftWidth: 200
+            }, options || {});
+            $(this).ligerLayout(opts);
+        });
+    });
+</script>
