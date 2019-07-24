@@ -8,14 +8,14 @@
 </head>
 
 <body>
-    <div class="auto-layout" style="width: 99.6%;margin-left: 2px;margin-top: 3px;" options="{leftWidth: 205, topHeight:100}">
+    <div class="auto-layout" style="width: 100%;" options="{leftWidth: 205, topHeight:100}">
         <div position="top" style="height:100px">
             @Html.Partial("Head")
         </div>
-        <div position="left" style="overflow:auto;">
+        <div position="left" style="overflow:auto;height:100%">
             @Html.Partial("Nav")
         </div>
-        <div position="center" id="mainContent">
+        <div position="center" style="overflow:auto;height:100%">
             @RenderBody()
         </div>
         @*<div position="bottom">
@@ -30,9 +30,10 @@
         $("div.auto-layout").each(function () {
             var options = eval('(' + $(this).attr('options') + ')');
             var opts = $.extend({
-                //height: '99%',
-                heightDiff: -2,
-                leftWidth: 200
+                //height: '98%',
+                heightDiff: -3,
+                leftWidth: 200,
+                space:0
             }, options || {});
             $(this).ligerLayout(opts);
         });

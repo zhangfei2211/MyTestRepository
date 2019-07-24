@@ -141,10 +141,11 @@
     <Compile Include="Areas\Demo2\Demo2AreaRegistration.cs" />
     <Compile Include="Areas\Demo\Controllers\ListDemoController.cs" />
     <Compile Include="Areas\Demo\DemoAreaRegistration.cs" />
+    <Compile Include="Areas\Home\HomeAreaRegistration.cs" />
     <Compile Include="Common\BaseController.cs" />
     <Compile Include="Common\MenuController.cs" />
     <Compile Include="Config\AutoMapperConfig.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Areas\Home\Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Config\AutofacConfig.cs" />
     <Compile Include="Filter\LoginAuthorizeAttribute.cs" />
@@ -741,6 +742,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Areas\Home\Views\web.config" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -779,7 +781,7 @@
     <Content Include="Scripts\layui\font\iconfont.woff" />
     <Content Include="Scripts\layui\font\iconfont.woff2" />
     <Content Include="Views\Shared\Head.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Areas\Home\Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -787,6 +789,8 @@
     <Folder Include="Areas\Demo2\Views\Shared\" />
     <Folder Include="Areas\Demo\Models\" />
     <Folder Include="Areas\Demo\Views\Shared\" />
+    <Folder Include="Areas\Home\Models\" />
+    <Folder Include="Areas\Home\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

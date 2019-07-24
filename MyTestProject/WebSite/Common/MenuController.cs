@@ -11,6 +11,7 @@ using WebSite.Models;
 
 namespace WebSite.Common
 {
+    [AllowAnonymous]
     public class MenuController : BaseController
     {
         public MenuController(IMenuBll _menuBll)
@@ -39,6 +40,9 @@ namespace WebSite.Common
                 result.Status = AjaxStatus.UnSuccess;
                 result.Message = ex.Message;
             }
+
+            //对于跨域请求需要增加
+            //System.Web.HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Origin", "*");
             return Json(result);
         }
     }

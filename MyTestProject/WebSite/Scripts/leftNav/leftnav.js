@@ -13,7 +13,7 @@
 
             if (item.ParentId != null) {
                 var href = item.Href == null ? "javascript:;" : (item.Href == "" ? "javascript:;" : item.Href);
-                var div = '<li id="li_' + item.Id + '"><a link="' + href + '">' + item.Name + '</a></li>';
+                var div = '<li id="li_' + item.Id + '"><a href="' + href + '">' + item.Name + '</a></li>';
                 $("#li_" + item.ParentId +" .submenu").append(div);
             }
         });
@@ -51,13 +51,13 @@ $.fn.menu = function (menuJson,contentDivId) {
     $('.submenu li').click(function () {
         $(".submenu li.current").removeClass('current');
         $(this).addClass('current');
-        $.get($(this).find('a').attr("link"),
-            function (html) {
-                $("#" + contentDivId).html(html);
-            });
+        //$.get($(this).find('a').attr("link"),
+        //    function (html) {
+        //        $("#" + contentDivId).html(html);
+        //    });
     });
 
-    //SelectCurrentMenu($(this));
+    SelectCurrentMenu($(this));
 }
 
 function SelectCurrentMenu(nav) {
