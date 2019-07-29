@@ -122,6 +122,22 @@ namespace IDal
         Task<bool> DeletePhysicalDataAsync(T entity, bool isSaveChange = true);
 
         /// <summary>
+        /// 根据id删除数据
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isSaveChange"></param>
+        /// <returns></returns>
+        bool DeletePhysicalDataById(Guid id, bool isSaveChange = true);
+
+        /// <summary>
+        /// 根据id删除数据
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isSaveChange"></param>
+        /// <returns></returns>
+        Task<bool> DeletePhysicalDataByIdAsync(Guid id, bool isSaveChange = true);
+
+        /// <summary>
         /// 批量物理删除，删除具体数据
         /// </summary>
         /// <param name="list"></param>

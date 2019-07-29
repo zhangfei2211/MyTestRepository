@@ -10,10 +10,12 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Utlis.Extension;
+using Utlis;
 
 namespace Dal
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : class
+    public class BaseRepository<T> : IBaseRepository<T> where T : class,new()
     {
         public ZyfTestDbEntities db = DbContextFactory.GetCurrentContext();
 
@@ -21,7 +23,8 @@ namespace Dal
         {
             try
             {
-                db.Entry<T>(entity).State = EntityState.Added;
+                SetCreate(entity);
+                db.Entry(entity).State = EntityState.Added;
 
                 return SaveChanges(isSaveChange);
             }
@@ -35,6 +38,8 @@ namespace Dal
         {
             try
             {
+                SetCreate(entity);
+
                 db.Entry<T>(entity).State = EntityState.Added;
 
                 return await SaveChangesAsync(isSaveChange);
@@ -47,24 +52,27 @@ namespace Dal
 
         public virtual bool Adds(List<T> list, bool isSaveChange = true)
         {
-            foreach (T ele in list)
+            for (int i = 0; i < list.Count; i++)
             {
-                db.Entry<T>(ele).State = EntityState.Added;
+                SetCreate(list[i]);
+                db.Entry<T>(list[i]).State = EntityState.Added;
             }
             return SaveChanges(isSaveChange);
         }
 
         public virtual async Task<bool> AddsAsync(List<T> list, bool isSaveChange = true)
         {
-            foreach (T ele in list)
+            for (int i = 0; i < list.Count; i++)
             {
-                db.Entry<T>(ele).State = EntityState.Added;
+                SetCreate(list[i]);
+                db.Entry<T>(list[i]).State = EntityState.Added;
             }
             return await SaveChangesAsync(isSaveChange);
         }
 
         public virtual bool Update(T entity, bool isSaveChange = true)
         {
+            SetUpdate(entity);
             db.Set<T>().Attach(entity);
             db.Entry<T>(entity).State = EntityState.Modified;
             return SaveChanges(isSaveChange);
@@ -72,6 +80,7 @@ namespace Dal
 
         public virtual async Task<bool> UpdateAsync(T entity, bool isSaveChange = true)
         {
+            SetUpdate(entity);
             db.Set<T>().Attach(entity);
             db.Entry<T>(entity).State = EntityState.Modified;
             return await SaveChangesAsync(isSaveChange);
@@ -79,20 +88,22 @@ namespace Dal
 
         public virtual bool Updates(List<T> list, bool isSaveChange = true)
         {
-            foreach (T ele in list)
+            for (int i = 0; i < list.Count; i++)
             {
-                db.Set<T>().Attach(ele);
-                db.Entry<T>(ele).State = EntityState.Modified;
+                SetUpdate(list[i]);
+                db.Set<T>().Attach(list[i]);
+                db.Entry<T>(list[i]).State = EntityState.Modified;
             }
             return SaveChanges(isSaveChange);
         }
 
         public virtual async Task<bool> UpdatesAsync(List<T> list, bool isSaveChange = true)
         {
-            foreach (T ele in list)
+            for (int i = 0; i < list.Count; i++)
             {
-                db.Set<T>().Attach(ele);
-                db.Entry<T>(ele).State = EntityState.Modified;
+                SetUpdate(list[i]);
+                db.Set<T>().Attach(list[i]);
+                db.Entry<T>(list[i]).State = EntityState.Modified;
             }
             return await SaveChangesAsync(isSaveChange);
         }
@@ -188,6 +199,40 @@ namespace Dal
         {
             db.Set<T>().Attach(entity);
             db.Entry<T>(entity).State = EntityState.Deleted;
+            return await SaveChangesAsync(isSaveChange);
+        }
+
+        public virtual bool DeletePhysicalDataById(Guid id, bool isSaveChange = true)
+        {
+            T t = new T();
+            PropertyInfo proInfo = t.GetType().GetProperty("Id");
+            if (proInfo == null)
+            {
+                return false;
+            }
+            else
+            {
+                proInfo.SetValue(t, id, null);
+            }
+
+            db.Entry<T>(t).State = EntityState.Deleted;
+            return SaveChanges(isSaveChange);
+        }
+
+        public virtual async Task<bool> DeletePhysicalDataByIdAsync(Guid id, bool isSaveChange = true)
+        {
+            T t = new T();
+            PropertyInfo proInfo = t.GetType().GetProperty("Id");
+            if (proInfo == null)
+            {
+                return false;
+            }
+            else
+            {
+                proInfo.SetValue(t, id, null);
+            }
+
+            db.Entry<T>(t).State = EntityState.Deleted;
             return await SaveChangesAsync(isSaveChange);
         }
 
@@ -403,5 +448,42 @@ namespace Dal
             return query;
         }
 
+        private void SetCreate(T entity)
+        {
+            if (!CurrentUser.User.IsNull())
+            {
+                Type type = entity.GetType();
+
+                var createByPs = type.GetProperty("CreateBy");
+                var createDatePs = type.GetProperty("CreateDate");
+                if (!createByPs.IsNull() && createByPs.GetValue(entity).IsNull())
+                {
+                    createByPs.SetValue(entity, CurrentUser.User.UserId);
+                }
+                if (!createDatePs.IsNull() && createDatePs.GetValue(entity).IsNull())
+                {
+                    createDatePs.SetValue(entity, DateTime.Now);
+                }
+            }
+        }
+
+        private void SetUpdate(T entity)
+        {
+            if (!CurrentUser.User.IsNull())
+            {
+                Type type = entity.GetType();
+
+                var updateByPs = type.GetProperty("UpdateBy");
+                var updateDatePs = type.GetProperty("UpdateDate");
+                if (!updateByPs.IsNull() && updateByPs.GetValue(entity).IsNull())
+                {
+                    updateByPs.SetValue(entity, CurrentUser.User.UserId);
+                }
+                if (!updateDatePs.IsNull() && updateDatePs.GetValue(entity).IsNull())
+                {
+                    updateDatePs.SetValue(entity, DateTime.Now);
+                }
+            }
+        }
     }
 }

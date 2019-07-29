@@ -40,5 +40,10 @@ namespace Utlis.Extension
         {
             return obj == null;
         }
+
+        public static bool IsNull(this Guid guid)
+        {
+            return false;
+        }
     }
 }

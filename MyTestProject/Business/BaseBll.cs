@@ -16,6 +16,12 @@ namespace Business
 
         protected IBaseRepository<B_Menu> menuDal;
 
+        protected IBaseRepository<B_Role> roleDal;
+
+        protected IBaseRepository<B_RoleMenu> roleMenuDal;
+
+        protected IBaseRepository<B_UserRole> userRoleDal;
+
         /// <summary>
         /// 专用于执行sql
         /// </summary>

@@ -14,10 +14,12 @@ namespace Business
     public class UserBLL : BaseBll,IUserBLL
     {
         public UserBLL(IBaseRepository<B_User> _userDal,
-            IBaseRepository<B_UserToken> _userTokenDal)
+            IBaseRepository<B_UserToken> _userTokenDal,
+            IBaseRepository<B_UserRole> _userRoleDal)
         {
             userDal = _userDal;
             userTokenDal = _userTokenDal;
+            userRoleDal = _userRoleDal;
         }
 
         public async Task<B_User> GetUserByUserName(string userName)
@@ -48,34 +50,19 @@ namespace Business
             }
         }
 
-        public async Task<bool> CommitTest()
+        public async Task<IQueryable<B_UserRole>> GetUserRoleByUserId(Guid userId)
         {
-            B_User user = new B_User
-            {
-                UserId = Guid.NewGuid(),
-                UserName = "zyf",
-                UserCnName = "张宇飞",
-                Password = "1",
-                Phone = "111111",
-                Age = 30,
-                IsDelete = false,
-                Creator = Guid.NewGuid(),
-                CreateDate = DateTime.Now
-            };
+            return await userRoleDal.FindListAsync(d => d.UserId.Equals(userId));
+        }
 
-            await userDal.AddAsync(user, false);
+        public async Task<bool> SaveUserRole(Guid userId,List<B_UserRole> userRoleList)
+        {
+            var oldList = (await GetUserRoleByUserId(userId)).ToList();
 
-            var token = TokenHelp.GetEncryptToken(user.UserId.ToString(), user.UserName);
-            B_UserToken userToken = new B_UserToken
-            {
-                UserId = user.UserId,
-                Token = token,
-                Expires = TokenHelp.GetExpiresByToken(token) ?? DateTime.Now
-            };
+            await userRoleDal.DeletePhysicalDatasAsync(oldList, false);
+            await userRoleDal.AddsAsync(userRoleList, false);
 
-            await userTokenDal.AddAsync(userToken, false);
-
-            return await userDal.SaveChangesAsync();
+            return await userRoleDal.SaveChangesAsync();
         }
     }
 }

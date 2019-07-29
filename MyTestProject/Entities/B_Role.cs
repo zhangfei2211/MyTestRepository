@@ -17,5 +17,9 @@ namespace Entities
         public System.Guid Id { get; set; }
         public string RoleName { get; set; }
         public string Description { get; set; }
+        public Nullable<System.Guid> CreateBy { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<System.Guid> UpdateBy { get; set; }
+        public Nullable<System.DateTime> UpdateDate { get; set; }
     }
 }

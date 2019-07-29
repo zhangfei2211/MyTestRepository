@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMenuBll.cs" />
+    <Compile Include="IRoleBll.cs" />
     <Compile Include="IUserBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

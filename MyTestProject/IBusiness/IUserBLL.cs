@@ -14,6 +14,8 @@ namespace IBusiness
 
         Task<bool> AddOrUpdateUserToken(string token);
 
-        Task<bool> CommitTest();
+        Task<IQueryable<B_UserRole>> GetUserRoleByUserId(Guid userId);
+
+        Task<bool> SaveUserRole(Guid userId, List<B_UserRole> userRoleList);
     }
 }

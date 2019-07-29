@@ -142,6 +142,7 @@
     <Compile Include="Areas\Demo\Controllers\ListDemoController.cs" />
     <Compile Include="Areas\Demo\DemoAreaRegistration.cs" />
     <Compile Include="Areas\Home\HomeAreaRegistration.cs" />
+    <Compile Include="Areas\SystemManagement\SystemManagementAreaRegistration.cs" />
     <Compile Include="Common\BaseController.cs" />
     <Compile Include="Common\MenuController.cs" />
     <Compile Include="Config\AutoMapperConfig.cs" />
@@ -743,6 +744,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Areas\Home\Views\web.config" />
+    <Content Include="Areas\SystemManagement\Views\web.config" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -791,6 +793,12 @@
     <Folder Include="Areas\Demo\Views\Shared\" />
     <Folder Include="Areas\Home\Models\" />
     <Folder Include="Areas\Home\Views\Shared\" />
+    <Folder Include="Areas\SystemManagement\Controllers\" />
+    <Folder Include="Areas\SystemManagement\Models\" />
+    <Folder Include="Areas\SystemManagement\Views\Menu\" />
+    <Folder Include="Areas\SystemManagement\Views\Role\" />
+    <Folder Include="Areas\SystemManagement\Views\Shared\" />
+    <Folder Include="Areas\SystemManagement\Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

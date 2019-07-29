@@ -23,5 +23,7 @@ namespace Entities
         public bool IsDelete { get; set; }
         public Nullable<System.Guid> Creator { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<System.Guid> UpdateBy { get; set; }
+        public Nullable<System.DateTime> UpdateDate { get; set; }
     }
 }
