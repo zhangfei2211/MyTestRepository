@@ -1,8 +1,10 @@
 ﻿using Entities;
+using Entities.Model.Common;
 using IDal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,5 +28,16 @@ namespace Business
         /// 专用于执行sql
         /// </summary>
         protected IBaseRepositoryForSql sqlDal;
+
+        /// <summary>
+        /// 获取空lamda
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        protected Expression<Func<T, bool>> GetExpression<T>()
+        {
+            Expression<Func<T, bool>> exp = d => 1 == 1;
+            return exp;
+        }
     }
 }

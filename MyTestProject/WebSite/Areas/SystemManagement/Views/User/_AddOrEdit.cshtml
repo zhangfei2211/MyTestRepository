@@ -1,0 +1,68 @@
+﻿@model Entities.B_User
+
+@Html.HiddenFor(d => d.Id)
+@Html.HiddenFor(d=>d.Password)
+@Html.HiddenFor(d => d.CreateBy)
+@Html.HiddenFor(d => d.CreateDate)
+@Html.HiddenFor(d => d.UpdateBy)
+@Html.HiddenFor(d => d.UpdateDate)
+
+<style>
+    .layui-form-label {
+        width: 100px;
+    }
+</style>
+
+<div class="layui-form-item">
+    <label class="layui-form-label">用户名：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.UserName,
+       new Dictionary<string, object> {
+               { "class", "layui-input" },
+               { "placeholder", "请输入用户名" },
+               { "lay-verify","required"} })
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">用户姓名：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.UserCnName,
+       new Dictionary<string, object> {
+               { "class", "layui-input" },
+               { "placeholder", "请输入用户姓名" },
+               { "lay-verify","required"} })
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">电话：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.Phone, new { @class = "layui-input" })
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">年龄：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.Age,
+       new Dictionary<string, object> {
+               { "class", "layui-input" },
+               { "lay-verify","number"} })
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">是否停用：</label>
+    <div class="layui-input-block">
+        @Html.CheckBoxFor(d => d.IsDelete, new Dictionary<string, object> { { "lay-skin", "primary" } })
+    </div>
+</div>
+<div class="layui-form-item">
+    <div class="layui-input-block">
+        <button type="submit" lay-submit="" class="btn btn-primary">保存</button>
+    </div>
+</div>
+
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>

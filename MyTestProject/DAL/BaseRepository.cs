@@ -1,6 +1,6 @@
 ﻿using Entities;
 using Entities.Enum;
-using Entities.Model;
+using Entities.Model.Common;
 using IDal;
 using System;
 using System.Collections.Generic;
@@ -129,6 +129,7 @@ namespace Dal
             {
                 proInfo.SetValue(entity, true, null);
             }
+            SetUpdate(entity);
             db.Set<T>().Attach(entity);
             db.Entry<T>(entity).State = EntityState.Modified;
             return SaveChanges(isSaveChange);
@@ -145,45 +146,100 @@ namespace Dal
             {
                 proInfo.SetValue(entity, true, null);
             }
+            SetUpdate(entity);
             db.Set<T>().Attach(entity);
             db.Entry<T>(entity).State = EntityState.Modified;
             return await SaveChangesAsync(isSaveChange);
         }
 
+        public virtual bool DeleteById(Guid id, bool isSaveChange = true)
+        {
+            T t = new T();
+            PropertyInfo pId = t.GetType().GetProperty("Id");
+            if (pId == null)
+            {
+                return false;
+            }
+            else
+            {
+                pId.SetValue(t, id, null);
+            }
+
+            PropertyInfo pIsDelete = t.GetType().GetProperty("IsDelete");
+            if (pIsDelete == null)
+            {
+                return false;
+            }
+            else
+            {
+                pIsDelete.SetValue(t, true, null);
+            }
+
+            db.Entry<T>(t).State = EntityState.Modified;
+            return SaveChanges(isSaveChange);
+        }
+
+        public virtual async Task<bool> DeleteByIdAsync(Guid id, bool isSaveChange = true)
+        {
+            T t = new T();
+            PropertyInfo pId = t.GetType().GetProperty("Id");
+            if (pId == null)
+            {
+                return false;
+            }
+            else
+            {
+                pId.SetValue(t, id, null);
+            }
+
+            PropertyInfo pIsDelete = t.GetType().GetProperty("IsDelete");
+            if (pIsDelete == null)
+            {
+                return false;
+            }
+            else
+            {
+                pIsDelete.SetValue(t, true, null);
+            }
+
+            db.Entry<T>(t).State = EntityState.Modified;
+            return await SaveChangesAsync(isSaveChange);
+        }
+
         public virtual bool Deletes(List<T> list, bool isSaveChange = true)
         {
-            foreach (T ele in list)
+            for (int i = 0; i < list.Count; i++)
             {
-                PropertyInfo proInfo = ele.GetType().GetProperty("IsDelete");
+                PropertyInfo proInfo = list[i].GetType().GetProperty("IsDelete");
                 if (proInfo == null)
                 {
                     return false;
                 }
                 else
                 {
-                    proInfo.SetValue(ele, true, null);
+                    proInfo.SetValue(list[i], true, null);
                 }
-                db.Set<T>().Attach(ele);
-                db.Entry<T>(ele).State = EntityState.Modified;
+                db.Set<T>().Attach(list[i]);
+                db.Entry<T>(list[i]).State = EntityState.Modified;
             }
             return SaveChanges(isSaveChange);
         }
 
         public virtual async Task<bool> DeletesAsync(List<T> list, bool isSaveChange = true)
         {
-            foreach (T ele in list)
+            for (int i = 0; i < list.Count; i++)
             {
-                PropertyInfo proInfo = ele.GetType().GetProperty("IsDelete");
+                PropertyInfo proInfo = list[i].GetType().GetProperty("IsDelete");
                 if (proInfo == null)
                 {
                     return false;
                 }
                 else
                 {
-                    proInfo.SetValue(ele, true, null);
+                    proInfo.SetValue(list[i], true, null);
                 }
-                db.Set<T>().Attach(ele);
-                db.Entry<T>(ele).State = EntityState.Modified;
+                db.Set<T>().Attach(list[i]);
+                db.Entry<T>(list[i]).State = EntityState.Modified;
             }
             return await SaveChangesAsync(isSaveChange);
         }
@@ -333,15 +389,14 @@ namespace Dal
             });
         }
 
-        public virtual PagedResult<T> FindPageList(PageSearchModel pageModel, Expression<Func<T, bool>> whereLambda)
+        public virtual PageResult<T> FindPageList(PageSearchModel pageModel, Expression<Func<T, bool>> whereLambda)
         {
             var query = db.Set<T>().AsNoTracking().Where(whereLambda);
-
             query = GetResultByOrderConditions(pageModel.OrderConditions, query);
 
             var result = query.Skip((pageModel.PageIndex - 1) * pageModel.PageSize).Take(pageModel.PageSize).ToList();
 
-            PagedResult<T> pageResult = new PagedResult<T>()
+            PageResult<T> pageResult = new PageResult<T>()
             {
                 TotalCounts = query.Count(),
                 TotalPages = query.Count() / pageModel.PageSize,
@@ -353,7 +408,7 @@ namespace Dal
             return pageResult;
         }
 
-        public virtual async Task<PagedResult<T>> FindPageListAsync(PageSearchModel pageModel, Expression<Func<T, bool>> whereLambda)
+        public virtual async Task<PageResult<T>> FindPageListAsync(PageSearchModel pageModel, Expression<Func<T, bool>> whereLambda)
         {
             return await Task.Run(() =>
             {
@@ -363,7 +418,7 @@ namespace Dal
 
                 var result=query.Skip((pageModel.PageIndex - 1) * pageModel.PageSize).Take(pageModel.PageSize).ToList();
 
-                PagedResult<T> pageResult = new PagedResult<T>()
+                PageResult<T> pageResult = new PageResult<T>()
                 {
                     TotalCounts = query.Count(),
                     TotalPages = query.Count() / pageModel.PageSize,
@@ -414,7 +469,6 @@ namespace Dal
         {
             //创建表达式变量参数
             var parameter = Expression.Parameter(typeof(T), "o");
-
             if (orders != null && orders.Count > 0)
             {
                 for (int i = 0; i < orders.Count; i++)
@@ -429,11 +483,11 @@ namespace Dal
                     var OrderName = string.Empty;
                     if (i > 0)
                     {
-                        OrderName = orders[i].SortStatus == SortStatus.Desc ? "ThenByDescending" : "ThenBy";
+                        OrderName = orders[i].IsAsc ? "ThenBy" : "ThenByDescending";
                     }
                     else
                     {
-                        OrderName = orders[i].SortStatus == SortStatus.Desc ? "OrderByDescending" : "OrderBy";
+                        OrderName = orders[i].IsAsc ? "OrderBy" : "OrderByDescending";
                     }
 
                     MethodCallExpression resultExp = Expression.Call(typeof(Queryable), OrderName,
@@ -458,7 +512,7 @@ namespace Dal
                 var createDatePs = type.GetProperty("CreateDate");
                 if (!createByPs.IsNull() && createByPs.GetValue(entity).IsNull())
                 {
-                    createByPs.SetValue(entity, CurrentUser.User.UserId);
+                    createByPs.SetValue(entity, CurrentUser.User.Id);
                 }
                 if (!createDatePs.IsNull() && createDatePs.GetValue(entity).IsNull())
                 {
@@ -477,7 +531,7 @@ namespace Dal
                 var updateDatePs = type.GetProperty("UpdateDate");
                 if (!updateByPs.IsNull() && updateByPs.GetValue(entity).IsNull())
                 {
-                    updateByPs.SetValue(entity, CurrentUser.User.UserId);
+                    updateByPs.SetValue(entity, CurrentUser.User.Id);
                 }
                 if (!updateDatePs.IsNull() && updateDatePs.GetValue(entity).IsNull())
                 {

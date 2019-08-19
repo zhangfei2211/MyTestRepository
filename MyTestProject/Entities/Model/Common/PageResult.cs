@@ -4,57 +4,61 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Model
+namespace Entities.Model.Common
 {
-    public class PagedResult<T>
+    public class PageResult<T>
     {
         #region Public Properties
+        public int Status;
+
+        public string Message;
         /// <summary>
         /// 总数据数
         /// </summary>
-        public int TotalCounts { get; set; }
+        public int TotalCounts;
 
         /// <summary>
         /// 总页数
         /// </summary>
-        public int TotalPages { get; set; }
+        public int TotalPages;
 
         /// <summary>
         /// 页大小
         /// </summary>
-        public int PageSize { get; set; }
+        public int PageSize;
 
         /// <summary>
         /// 页码
         /// </summary>
-        public int PageIndex { get; set; }
-
+        public int PageIndex;
         /// <summary>
         /// 当前页数据
         /// </summary>
-        public List<T> Data { get; set; }
+        public List<T> Data;
         #endregion
 
         #region Public Fields
         /// <summary>
         /// 获取一个当前类型的空值
         /// </summary>
-        public static readonly PagedResult<T> Empty = new PagedResult<T>(0, 0, 0, 0, null);
+        public static readonly PageResult<T> Empty = new PageResult<T>(0,null,0, 0, 0, 0, null);
         #endregion
 
         #region 构造
-        public PagedResult()
+        public PageResult()
         {
             Data = new List<T>();
         }
 
-        public PagedResult(int totalCounts, int totalPages, int pageSize, int pageIndex, List<T> data)
+        public PageResult(int status, string message, int totalCounts, int totalPages, int pageSize, int pageIndex, List<T> data)
         {
-            this.TotalPages = totalPages;
-            this.TotalCounts = totalCounts;
-            this.PageSize = pageSize;
-            this.PageIndex = pageIndex;
-            this.Data = data;
+            Status = status;
+            Message = message;
+            TotalPages = totalPages;
+            TotalCounts = totalCounts;
+            PageSize = pageSize;
+            PageIndex = pageIndex;
+            Data = data;
         }
         #endregion
 

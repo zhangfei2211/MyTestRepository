@@ -1,0 +1,55 @@
+﻿@model Entities.B_Menu
+@{
+    ViewBag.Title = "菜单信息";
+    //Layout = "~/Views/Shared/_LayoutWithOutNav.cshtml";
+}
+
+<style>
+    .layui-form-label {
+        width:100px;
+    }
+</style>
+<div class="layui-form mt-5">
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单名：</label>
+        <div class="layui-input-block">
+            @Html.TextBoxFor(d => d.Name,
+           new Dictionary<string, object> {
+               { "class", "layui-input" },
+               { "placeholder", "请输入菜单名" },
+               { "lay-verify","required"} })
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单链接：</label>
+        <div class="layui-input-block">
+            @Html.TextBoxFor(d => d.Href, new { @class = "layui-input" })
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">icon地址：</label>
+        <div class="layui-input-block">
+            @Html.TextBoxFor(d => d.IconPath, new { @class = "layui-input" })
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序序号：</label>
+        <div class="layui-input-block">
+            @Html.TextBoxFor(d => d.Sort, new { @class = "layui-input" })
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否删除：</label>
+        <div class="layui-input-block">
+            @Html.CheckBoxFor(d => d.IsDelete, new Dictionary<string, object> {{ "lay-skin", "primary" }})
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".layui-form input").attr("disabled", "disabled");
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>

@@ -1,4 +1,6 @@
 ﻿using Entities;
+using Entities.Model.Common;
+using Entities.Model.Search;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +10,24 @@ using Utlis.Autofac;
 
 namespace IBusiness
 {
-    public interface IUserBLL : IAutofac
+    public interface IUserBll : IAutofac
     {
+        Task<B_User> GetUserById(Guid userId);
+
         Task<B_User> GetUserByUserName(string userName);
 
-        Task<bool> AddOrUpdateUserToken(string token);
+        Task<PageResult<B_User>> GetUserList(PageSearchModel searchModel, UserSearch search);
+
+        Task<bool> SaveUserToken(string token);
 
         Task<IQueryable<B_UserRole>> GetUserRoleByUserId(Guid userId);
 
+        Task<bool> SaveUser(B_User user);
+
+        Task<bool> ResetPassword(Guid userId, string password);
+
         Task<bool> SaveUserRole(Guid userId, List<B_UserRole> userRoleList);
+
+        Task<bool> DeleteUser(Guid userId);
     }
 }

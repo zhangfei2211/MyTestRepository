@@ -142,9 +142,10 @@
     <Compile Include="Areas\Demo\Controllers\ListDemoController.cs" />
     <Compile Include="Areas\Demo\DemoAreaRegistration.cs" />
     <Compile Include="Areas\Home\HomeAreaRegistration.cs" />
+    <Compile Include="Areas\SystemManagement\Controllers\MenuController.cs" />
+    <Compile Include="Areas\SystemManagement\Controllers\UserController.cs" />
     <Compile Include="Areas\SystemManagement\SystemManagementAreaRegistration.cs" />
     <Compile Include="Common\BaseController.cs" />
-    <Compile Include="Common\MenuController.cs" />
     <Compile Include="Config\AutoMapperConfig.cs" />
     <Compile Include="Areas\Home\Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -175,6 +176,8 @@
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
     <Content Include="Scripts\jquery.page.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\js-cookie\js.cookie-2.2.0.min.js" />
     <Content Include="Scripts\js-cookie\js.cookie.js" />
     <Content Include="Scripts\layui\css\layui.css" />
@@ -714,6 +717,7 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\SecondaryPackaging.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -745,6 +749,16 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Areas\Home\Views\web.config" />
     <Content Include="Areas\SystemManagement\Views\web.config" />
+    <Content Include="Areas\SystemManagement\Views\Menu\Index.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\Menu\_AddOrEdit.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\Menu\Add.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\Menu\Edit.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\Menu\ViewMenu.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\User\Index.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\User\Add.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\User\Edit.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\User\_AddOrEdit.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\User\Search.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -766,7 +780,7 @@
     </Content>
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Nav.cshtml" />
-    <Content Include="Views\Shared\_LoginLayout.cshtml" />
+    <Content Include="Views\Shared\_LayoutWithOutNav.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
@@ -793,12 +807,9 @@
     <Folder Include="Areas\Demo\Views\Shared\" />
     <Folder Include="Areas\Home\Models\" />
     <Folder Include="Areas\Home\Views\Shared\" />
-    <Folder Include="Areas\SystemManagement\Controllers\" />
     <Folder Include="Areas\SystemManagement\Models\" />
-    <Folder Include="Areas\SystemManagement\Views\Menu\" />
     <Folder Include="Areas\SystemManagement\Views\Role\" />
     <Folder Include="Areas\SystemManagement\Views\Shared\" />
-    <Folder Include="Areas\SystemManagement\Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Model
+namespace Entities.Model.Common
 {
     public class OrderCondition
     {
         public string OrderbyField { get; set; }
 
-        public SortStatus SortStatus { get; set; }
+        public bool IsAsc { get; set; }
     }
 }

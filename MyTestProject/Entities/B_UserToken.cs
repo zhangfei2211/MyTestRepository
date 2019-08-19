@@ -17,7 +17,7 @@ namespace Entities
         public System.Guid UserId { get; set; }
         public string Token { get; set; }
         public System.DateTime Expires { get; set; }
-        public Nullable<System.Guid> Creator { get; set; }
+        public Nullable<System.Guid> CreateBy { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
     }
 }

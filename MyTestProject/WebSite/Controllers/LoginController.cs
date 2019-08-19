@@ -17,9 +17,9 @@ namespace WebSite.Controllers
     [AllowAnonymous]
     public class LoginController : BaseController
     {
-        public LoginController(IUserBLL _userBLL)
+        public LoginController(IUserBll _userBLL)
         {
-            userBLL = _userBLL;
+            userBll = _userBLL;
         }
 
         public ActionResult Index()
@@ -48,7 +48,7 @@ namespace WebSite.Controllers
                     && userName.Equals(TokenHelp.GetUserNameByToken(token))
                     && TokenHelp.IsTokenNotExpired(token))
                 {
-                    var user = await userBLL.GetUserByUserName(userName);
+                    var user = await userBll.GetUserByUserName(userName);
                     if (user == null)
                     {
                         result.Status = AjaxStatus.UnSuccess;
@@ -69,7 +69,7 @@ namespace WebSite.Controllers
                 }
                 else
                 {
-                    var user = await userBLL.GetUserByUserName(userName);
+                    var user = await userBll.GetUserByUserName(userName);
 
                     if (user == null)
                     {
@@ -88,7 +88,7 @@ namespace WebSite.Controllers
 
                             CurrentUser currentUser = AutoMapHelp.MapTo<CurrentUser>(user);
                             SessionHelp.Add("User", currentUser);
-                            DealToken(isRemember, user.UserId.ToString(), userName);
+                            DealToken(isRemember, user.Id.ToString(), userName);
                         }
                         else
                         {
@@ -103,7 +103,7 @@ namespace WebSite.Controllers
             catch (Exception ex)
             {
                 CookieHelp.ClearCookie("token");
-                return Json(new AjaxResult());
+                return Json(new AjaxResult { Status = AjaxStatus.UnSuccess, Message = "登录出现错误，登录失败" });
             }
         }
 
@@ -118,7 +118,7 @@ namespace WebSite.Controllers
             if (isRemember)
             {
                 var token = TokenHelp.GetEncryptToken(userId, userName);
-                userBLL.AddOrUpdateUserToken(token);
+                userBll.SaveUserToken(token);
                 CookieHelp.SetCookie("token", token);
             }
             else

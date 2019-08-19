@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="auto-layout" id="menuDiv" style="width: 100%;margin-top:2px" options="{leftWidth: 205}">
+    <div position="left" style="overflow:auto;height:100%">
+        <button type="button" id="btnRefeshMenu" class="btn btn-primary btn-sm" onclick="LoadMenuTree()">刷新菜单树</button>
+        <div id="menuTree" class="ztree"></div>
+    </div>
+    <div position="center"  style="overflow:hidden;height:100%">
+        <div class="btn-group btn-group-sm ml-30">
+            <button type="button" id="btnAddMenu" class="btn btn-primary" style="display:none" onclick="AddMenu()">新增</button>
+            <button type="button" id="btnEditMenu" class="btn btn-primary" style="display:none" onclick="EditMenu()">编辑</button>
+        </div>
+        <div id="AddOrEditDiv" style="width:100%;height:100%">
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var zTreeObj;
+    var setting = {
+        check: {
+            enable: false
+        },
+        data: {
+            simpleData: {
+                enable: true
+            }
+        },
+        callback: {
+            onClick: NodeClick
+        }
+    };
+
+    var selectNodeId = "";
+    $(function () {
+        $("#menuDiv").each(function () {
+            var options = eval('(' + $(this).attr('options') + ')');
+            var opts = $.extend({
+                //height: '98%',
+                heightDiff: -5,
+                leftWidth: 200,
+                space: 0
+            }, options || {});
+            $(this).ligerLayout(opts);
+        });
+
+        LoadMenuTree();
+    });
+
+    function LoadMenuTree() {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("GetMenuTree")",
+            dataType: "json",
+            success: function (data) {
+                zTreeObj = $.fn.zTree.init($("#menuTree"), setting, data);
+            }
+        });
+    }
+
+    function NodeClick(event, treeId, treeNode) {
+        selectNodeId = treeNode.id;
+
+        //如果选中虚拟根节点，不显示edit
+        if (selectNodeId == "@Guid.Empty.ToString()") {
+            selectNodeId = "";
+            $("#btnAddMenu").show();
+            $("#btnEditMenu").hide();
+        }
+        else {
+            if (treeNode.isParent) {
+                $("#btnAddMenu").show();
+            }
+            else {
+                $("#btnAddMenu").hide();
+            }
+            $("#btnEditMenu").show();
+        }
+
+        ViewMenu();
+    }
+
+    function ViewMenu() {
+        $.ajax({
+            type: "get",
+            url: "@Url.Action("ViewMenu")",
+            data: { id: selectNodeId },
+            dataType: "html",
+            success: function (data) {
+                $("#AddOrEditDiv").html(data);
+            }
+        });
+    }
+
+    function AddMenu() {
+        $.ajax({
+            type: "get",
+            url: "@Url.Action("Add")",
+            data: { parentId: selectNodeId },
+            dataType: "html",
+            success: function (data) {
+                $("#AddOrEditDiv").html(data);
+            }
+        });
+    }
+
+    function EditMenu() {
+        $.ajax({
+            type: "get",
+            url: "@Url.Action("Edit")",
+            data: { id: selectNodeId },
+            dataType: "html",
+            success: function (data) {
+                $("#AddOrEditDiv").html(data);
+            }
+        });
+    }
+</script>
+
+

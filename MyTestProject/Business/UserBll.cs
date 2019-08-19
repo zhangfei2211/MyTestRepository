@@ -8,10 +8,13 @@ using System.Threading.Tasks;
 using Entities;
 using Utlis;
 using Utlis.Extension;
+using Entities.Model.Common;
+using Entities.Model.Search;
+using System.Linq.Expressions;
 
 namespace Business
 {
-    public class UserBLL : BaseBll,IUserBLL
+    public class UserBLL : BaseBll,IUserBll
     {
         public UserBLL(IBaseRepository<B_User> _userDal,
             IBaseRepository<B_UserToken> _userTokenDal,
@@ -22,12 +25,38 @@ namespace Business
             userRoleDal = _userRoleDal;
         }
 
+        public async Task<B_User> GetUserById(Guid userId)
+        {
+            return await userDal.FindAsync(d => d.Id == userId);
+        }
+
         public async Task<B_User> GetUserByUserName(string userName)
         {
             return await userDal.FindAsync(d => d.UserName == userName);
         }
 
-        public async Task<bool> AddOrUpdateUserToken(string token)
+        public async Task<PageResult<B_User>> GetUserList(PageSearchModel searchModel,UserSearch search)
+        {
+            if (search == null)
+            {
+                search = new UserSearch();//如果search为空，则new一个，避免写判断
+            }
+
+            var whereLambda = GetExpression<B_User>();
+
+            if (search.UserName.IsNotEmpty())
+            {
+                whereLambda = whereLambda.And(d => d.UserName.Contains(search.UserName));
+            }
+            if (search.UserCnName.IsNotEmpty())
+            {
+                whereLambda = whereLambda.And(d => d.UserCnName.Contains(search.UserCnName));
+            }
+
+            return await userDal.FindPageListAsync(searchModel, whereLambda);
+        }
+
+        public async Task<bool> SaveUserToken(string token)
         {
             var userId = TokenHelp.GetUserIdByToken(token).ToGuid();
             if (userId == null)
@@ -36,7 +65,7 @@ namespace Business
             }
             B_UserToken userToken = new B_UserToken
             {
-                UserId = userId.Value,
+                UserId = userId,
                 Token = token,
                 Expires = TokenHelp.GetExpiresByToken(token) ?? DateTime.Now
             };
@@ -55,6 +84,26 @@ namespace Business
             return await userRoleDal.FindListAsync(d => d.UserId.Equals(userId));
         }
 
+        public async Task<bool> SaveUser(B_User user)
+        {
+            if (user.Id.IsNull())
+            {
+                user.Id = Guid.NewGuid();
+                return await userDal.AddAsync(user);
+            }
+            else
+            {
+                return await userDal.UpdateAsync(user);
+            }
+        }
+
+        public async Task<bool> ResetPassword(Guid userId,string password)
+        {
+            var user = await GetUserById(userId);
+            user.Password = password;
+            return await userDal.UpdateAsync(user);
+        }
+
         public async Task<bool> SaveUserRole(Guid userId,List<B_UserRole> userRoleList)
         {
             var oldList = (await GetUserRoleByUserId(userId)).ToList();
@@ -63,6 +112,11 @@ namespace Business
             await userRoleDal.AddsAsync(userRoleList, false);
 
             return await userRoleDal.SaveChangesAsync();
+        }
+
+        public async Task<bool> DeleteUser(Guid userId)
+        {
+            return await userDal.DeleteByIdAsync(userId);
         }
     }
 }

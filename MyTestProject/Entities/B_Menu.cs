@@ -19,6 +19,7 @@ namespace Entities
         public string Name { get; set; }
         public string Href { get; set; }
         public string IconPath { get; set; }
+        public Nullable<int> Level { get; set; }
         public Nullable<int> Sort { get; set; }
         public bool IsDelete { get; set; }
         public Nullable<System.Guid> CreateBy { get; set; }

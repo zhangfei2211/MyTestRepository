@@ -42,7 +42,6 @@ namespace Utlis
 
         public static T MapTo<T>(this object source)
         {
-            var time1 = DateTime.Now;
             if (source.IsNull())
             {
                 return default(T);

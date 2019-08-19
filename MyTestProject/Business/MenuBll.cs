@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Entities.Model;
 using Entities.Enum;
 using Utlis.Extension;
+using Entities.Model.Common;
 
 namespace Business
 {
@@ -25,17 +26,79 @@ namespace Business
             return (await menuDal.FindListAsync(d => !d.IsDelete)).OrderBy(d => d.Sort);
         }
 
-        public async Task<PagedResult<B_Menu>> PageDemo()
+        /// <summary>
+        /// 获取菜单树（包含所有节点，包括已删除的）
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<TreeModel>> GetMenuTree()
+        {
+            List<TreeModel> treeList = new List<TreeModel>();
+
+            //添加虚拟根节点
+            TreeModel root = new TreeModel
+            {
+                id = Guid.Empty.ToString(),
+                pId = null,
+                name = "菜单",
+                isParent = true,
+                open = true
+            };
+
+            treeList.Add(root);
+
+            var menuList = (await menuDal.FindAllAsync()).OrderBy(d=>d.Sort);
+            //先找根节点
+            var roots = menuList.Where(d => d.ParentId == null || d.ParentId.Value == Guid.Empty);
+
+            foreach (var r in roots)
+            {
+                TreeModel node = new TreeModel
+                {
+                    id = r.Id.ToString(),
+                    pId = root.id,
+                    name = r.Name,
+                    isParent = true,
+                    open = true
+                };
+
+                treeList.Add(node);
+
+                LoadChildMenu(r.Id, menuList, treeList);
+            }
+
+            return treeList;
+        }
+
+        private void LoadChildMenu(Guid parentId, IOrderedQueryable<B_Menu> menuList, List<TreeModel> treeList)
+        {
+            var childNodes = menuList.Where(d => d.ParentId == parentId);
+
+            foreach (var r in childNodes)
+            {
+                TreeModel node = new TreeModel
+                {
+                    id = r.Id.ToString(),
+                    pId = r.ParentId.ToString(),
+                    name = r.Name,
+                    isParent = false,
+                    open = false
+                };
+                treeList.Add(node);
+                LoadChildMenu(r.Id, menuList, treeList);
+            }
+        }
+
+        public async Task<PageResult<B_Menu>> PageDemo()
         {
             PageSearchModel pageModel = new PageSearchModel
             {
                 PageIndex = 1,
                 PageSize = 10,
                 OrderConditions = new List<OrderCondition>
-            {
-                new OrderCondition{ OrderbyField="Sort",SortStatus=SortStatus.Asc },
-                new OrderCondition{ OrderbyField="Id",SortStatus=SortStatus.Desc}
-            }
+                {
+                    new OrderCondition{ OrderbyField="Sort",IsAsc=true },
+                    new OrderCondition{ OrderbyField="Id",IsAsc=false}
+                }
             };
             return await menuDal.FindPageListAsync(pageModel, d => !d.IsDelete);
         }
@@ -49,16 +112,15 @@ namespace Business
         /// 获取新节点排序序号
         /// </summary>
         /// <param name="parentMenuId"></param>
-        /// <param name="parentSort"></param>
         /// <returns></returns>
-        public async Task<int> GetNewMenuItemSort(Guid? parentMenuId, int? parentSort)
+        public async Task<int> GetNewMenuItemSort(Guid parentMenuId)
         {
             var sort = 1;
             //parentMenuId为空，说明是新增根节点
             if (parentMenuId.IsNull())
             {
                 //根节点查找所有根节点元素，从中取最大sort
-                var maxsort = (await menuDal.FindListAsync(d => d.ParentId == null)).Select(d => d.Sort).Max();
+                var maxsort = (await menuDal.FindListAsync(d => d.ParentId == null ||d.ParentId==Guid.Empty)).Select(d => d.Sort).Max();
                 if (maxsort.IsNull())
                 {
                     sort = 1;
@@ -74,8 +136,9 @@ namespace Business
                 var maxChildSort = (await menuDal.FindListAsync(d => d.ParentId == parentMenuId)).Select(d => d.Sort).Max();
                 if (maxChildSort.IsNull())
                 {
+                    var parentMenu = await menuDal.FindAsync(d => d.Id == parentMenuId);
                     //子节点sort为父节点sort*1000+1;
-                    sort = parentSort.Value * 1000 + 1;
+                    sort = parentMenu.Sort.Value * 1000 + 1;
                 }
                 else
                 {

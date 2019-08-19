@@ -1,4 +1,4 @@
-﻿using Entities.Model;
+﻿using Entities.Model.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -94,6 +94,22 @@ namespace IDal
         /// <param name="entity">数据实体</param>
         /// <returns>是否成功</returns>
         Task<bool> DeleteAsync(T entity, bool isSaveChange = true);
+
+        /// <summary>
+        /// 逻辑删除，需要实体有Id,IsDelete字段
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isSaveChange"></param>
+        /// <returns></returns>
+        bool DeleteById(Guid id, bool isSaveChange = true);
+
+        /// <summary>
+        /// 逻辑删除，需要实体有Id,IsDelete字段
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isSaveChange"></param>
+        /// <returns></returns>
+        Task<bool> DeleteByIdAsync(Guid id, bool isSaveChange = true);
 
         /// <summary>
         /// 批量逻辑删除,需要实体有IsDelete字段
@@ -243,7 +259,7 @@ namespace IDal
         /// <param name="pageModel"></param>
         /// <param name="whereLambda"></param>
         /// <returns></returns>
-        PagedResult<T> FindPageList(PageSearchModel pageModel, Expression<Func<T, bool>> whereLambda);
+        PageResult<T> FindPageList(PageSearchModel pageModel, Expression<Func<T, bool>> whereLambda);
 
         /// <summary>
         /// 查询分页数据列表
@@ -251,7 +267,7 @@ namespace IDal
         /// <param name="pageModel"></param>
         /// <param name="whereLambda"></param>
         /// <returns></returns>
-        Task<PagedResult<T>> FindPageListAsync(PageSearchModel pageModel, Expression<Func<T, bool>> whereLambda);
+        Task<PageResult<T>> FindPageListAsync(PageSearchModel pageModel, Expression<Func<T, bool>> whereLambda);
 
         /// <summary>
         /// 提交所有数据库修改，用于多个增删改事务

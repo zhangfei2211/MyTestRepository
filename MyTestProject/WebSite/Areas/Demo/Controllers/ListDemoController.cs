@@ -10,9 +10,9 @@ namespace WebSite.Areas.Demo.Controllers
 {
     public class ListDemoController : Controller
     {
-        private readonly IUserBLL userBLL;
+        private readonly IUserBll userBLL;
 
-        public ListDemoController(IUserBLL _userBLL)
+        public ListDemoController(IUserBll _userBLL)
         {
             userBLL = _userBLL;
         }

@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "用户登录";
-    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    Layout = "~/Views/Shared/_LayoutWithOutNav.cshtml";
 }
 
 <style>
@@ -80,7 +80,7 @@
                 }
                 else {
                     $("#txtPassword").val("");
-                    alert(data.Message);
+                    layer.alert(data.Message, { icon: 2 });
                 }
             }
         });

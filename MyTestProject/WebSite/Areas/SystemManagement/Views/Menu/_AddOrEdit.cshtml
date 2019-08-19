@@ -1,0 +1,68 @@
+﻿@model Entities.B_Menu
+
+@Html.HiddenFor(d => d.Id)
+@Html.HiddenFor(d => d.ParentId)
+@Html.HiddenFor(d => d.CreateBy)
+@Html.HiddenFor(d => d.CreateDate)
+@Html.HiddenFor(d => d.UpdateBy)
+@Html.HiddenFor(d => d.UpdateDate)
+
+<style>
+    .layui-form-label {
+        width: 100px;
+    }
+</style>
+
+<div class="layui-form-item">
+    <label class="layui-form-label">菜单名：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.Name,
+       new Dictionary<string, object> {
+               { "class", "layui-input" },
+               { "placeholder", "请输入菜单名" },
+               { "lay-verify","required"} })
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">菜单链接：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.Href, new { @class = "layui-input" })
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">icon地址：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.IconPath, new { @class = "layui-input" })
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">排序序号：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.Sort,
+       new Dictionary<string, object> {
+               { "class", "layui-input" },
+               { "lay-verify","number"} })
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">是否删除：</label>
+    <div class="layui-input-block">
+        @Html.CheckBoxFor(d => d.IsDelete, new Dictionary<string, object> { { "lay-skin", "primary" } })
+    </div>
+</div>
+<div class="layui-form-item">
+    <div class="layui-input-block">
+        <button type="submit" lay-submit="" class="btn btn-primary">保存</button>
+    </div>
+</div>
+
+<script>
+    function SubmitCheck() {
+        return true;
+    }
+
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>

@@ -69,10 +69,11 @@
       <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Enum\AjaxStatus.cs" />
-    <Compile Include="Enum\SortStatus.cs" />
-    <Compile Include="Model\OrderCondition.cs" />
-    <Compile Include="Model\PagedResult.cs" />
-    <Compile Include="Model\PageSearchModel.cs" />
+    <Compile Include="Model\Common\OrderCondition.cs" />
+    <Compile Include="Model\Common\PageResult.cs" />
+    <Compile Include="Model\Common\PageSearchModel.cs" />
+    <Compile Include="Model\Common\TreeModel.cs" />
+    <Compile Include="Model\Search\UserSearch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ZyfTestDbEntities.Context.cs">
       <AutoGen>True</AutoGen>
@@ -118,5 +119,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

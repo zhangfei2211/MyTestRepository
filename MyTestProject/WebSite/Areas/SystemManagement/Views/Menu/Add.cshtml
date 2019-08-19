@@ -1,0 +1,33 @@
+﻿@model Entities.B_Menu
+@{
+    ViewBag.Title = "增加菜单";
+    //Layout = "~/Views/Shared/_LayoutWithOutNav.cshtml";
+}
+
+@using (Ajax.BeginForm("Save", null,
+    new AjaxOptions
+    {
+        HttpMethod = "Post",
+        InsertionMode = InsertionMode.InsertAfter,
+        UpdateTargetId = "messages",
+        OnComplete = "SaveComplete"
+    },
+    new { @class = "layui-form mt-5" }))
+{
+    if (Model.ParentId == null)
+    {
+        <h3 class="ml-20">新增顶层菜单</h3>
+    }
+    else
+    {
+        <h3 class="ml-20">新增菜单</h3>
+    }
+    @Html.Partial("_AddOrEdit", Model);
+}
+
+<script>
+    function SaveComplete(response) {
+        AjaxBeginformComplete(response, function () { ViewMenu(); });
+    }
+</script>
+

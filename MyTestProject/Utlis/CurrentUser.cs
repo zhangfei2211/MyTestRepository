@@ -20,7 +20,7 @@ namespace Utlis
             set { }
         }
 
-        public Guid UserId;
+        public Guid Id;
 
         public string UserName;
 

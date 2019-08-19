@@ -12,9 +12,10 @@ namespace WebSite.Config
     {
         public static void Register()
         {
-            Mapper.Initialize(d => {
-                d.CreateMap<CurrentUser, B_User>();
-            });
+            //Mapper.Initialize(d => {
+            //    d.CreateMap<B_User, CurrentUser>();
+            //    d.CreateMap<CurrentUser, B_User>();
+            //});
         }
     }
 }

@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <div class="auto-layout" style="width: 100%;" options="{leftWidth: 205, topHeight:100}">
+    <div class="auto-layout" id="layoutMain" style="width: 100%;" options="{leftWidth: 205, topHeight:100}">
         <div position="top" style="height:100px;">
             @Html.Partial("Head")
         </div>
@@ -27,7 +27,7 @@
 
 <script type="text/javascript">
     $(function () {
-        $("div.auto-layout").each(function () {
+        $("#layoutMain").each(function () {
             var options = eval('(' + $(this).attr('options') + ')');
             var opts = $.extend({
                 //height: '98%',

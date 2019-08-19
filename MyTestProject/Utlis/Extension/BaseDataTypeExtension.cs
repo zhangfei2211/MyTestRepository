@@ -18,12 +18,17 @@ namespace Utlis.Extension
             return string.IsNullOrWhiteSpace(s);
         }
 
+        public static bool IsNotEmpty(this string s)
+        {
+            return !string.IsNullOrWhiteSpace(s);
+        }
+
         /// <summary>
         /// 字符串转Guid
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public static Guid? ToGuid(this string s)
+        public static Guid ToGuid(this string s)
         {
             try
             {
@@ -32,7 +37,7 @@ namespace Utlis.Extension
             }
             catch (Exception)
             {
-                return null;
+                return Guid.Empty;
             }
         }
 
@@ -41,8 +46,17 @@ namespace Utlis.Extension
             return obj == null;
         }
 
+        public static bool IsNotNull(this object obj)
+        {
+            return obj != null;
+        }
+
         public static bool IsNull(this Guid guid)
         {
+            if (guid == Guid.Empty)
+            {
+                return true;
+            }
             return false;
         }
     }

@@ -1,0 +1,95 @@
+﻿@using Entities.Enum;
+@{
+    ViewBag.Title = "用户列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mr-5 mt-5">
+    @Html.Partial("Search")
+</div>
+<div class="pl-5 pr-5">
+    <table id="userListTable" lay-filter=""></table>
+</div>
+
+<script type="text/html" id="userBar">
+    <i class="glyphicon glyphicon-edit mr-10" data-placement="bottom" onclick="EditUser('{{d.Id}}')" title="修改"></i>
+    <i class="glyphicon glyphicon-cog mr-10" data-placement="bottom" onclick="EditUserRole('{{d.Id}}')" title="用户角色"></i>
+    <i class="glyphicon glyphicon-repeat mr-10" data-placement="bottom" onclick="ResetUserPassword('{{d.Id}}')" title="重置密码"></i>
+    @*<i class="layui-icon layui-icon-face-smile mr-10" data-trigger= "tooltip" data-placement="bottom" onclick="DeleteUser('{{d.Id}}')" title="停用"></i>*@
+</script>
+
+<script type="text/html" id="isDeleteTpl">
+    {{#  if(d.IsDelete){ }}
+    {{ "是" }}
+    {{#  } else { }}
+    {{ "否" }}
+    {{#  } }}
+</script>
+
+
+<script>
+    var userListTable = LayuiTableRender({
+        elem: '#userListTable',
+        url: '@Url.Action("GetUserList")',
+        searchform: 'userSearchForm',
+        cols: [[
+            { field: 'UserName', title: '用户名', width: 250 },
+            { field: 'UserCnName', title: '用户姓名', width: 250 },
+            { field: 'Phone', title: '电话', width: 200 },
+            { field: 'Age', title: '年龄', width: 100 },
+            { field: 'IsDelete', title: '是否停用', width: 100, templet: '#isDeleteTpl' },
+            { fixed: 'right',title:'操作', align: 'center', toolbar: '#userBar' }
+        ]],
+        done: function () { $("[lay-id=userListTable] i").tooltip(); }
+    });
+
+    function Search() {
+        userListTable.reload({
+            where: GetFormJson("userSearchForm")
+        });
+    }
+
+    function AddUser() {
+        layer.open({
+            title: '新增用户',
+            area: ['400px', '400px'],
+            type: 2,
+            content: '@Url.Action("Add")'
+        });
+    }
+
+    function EditUser(userId) {
+        layer.open({
+            title: '编辑用户',
+            area: ['400px', '400px'],
+            type: 2,
+            content: '@Url.Action("Edit")' + "?userId=" + userId
+        });
+    }
+
+    function EditUserRole(userId) {
+
+    }
+
+    function ResetUserPassword(userId) {
+        $.ajax({
+            url: "@Url.Action("ResetPassword")",
+            type: "post",
+            data: { userId : userId },
+            success: function (data) {
+                AjaxComplete(data);
+            }
+        });
+    }
+
+    function DeleteUser(userId) {
+        $.ajax({
+            url: "@Url.Action("DeleteUser")",
+            type: "post",
+            data: { userId : userId },
+            success: function (data) {
+                AjaxComplete(data);
+            }
+        });
+    }
+</script>

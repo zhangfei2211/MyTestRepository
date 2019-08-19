@@ -25,11 +25,11 @@ namespace Entities
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<B_User> B_User { get; set; }
-        public virtual DbSet<B_UserToken> B_UserToken { get; set; }
         public virtual DbSet<B_Menu> B_Menu { get; set; }
         public virtual DbSet<B_Role> B_Role { get; set; }
         public virtual DbSet<B_RoleMenu> B_RoleMenu { get; set; }
+        public virtual DbSet<B_User> B_User { get; set; }
         public virtual DbSet<B_UserRole> B_UserRole { get; set; }
+        public virtual DbSet<B_UserToken> B_UserToken { get; set; }
     }
 }
