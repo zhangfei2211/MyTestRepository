@@ -10,7 +10,7 @@
     }
 </style>
 
-<form class="layui-form" id="roleTypeSearchForm">
+<form class="layui-form" id="roleSearchForm">
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">角色：</label>
@@ -21,7 +21,10 @@
         <div class="layui-inline">
             <label class="layui-form-label">角色类别：</label>
             <div class="layui-input-block">
-                @Html.DropDownListFor(d => d.RoleTypeId, ViewBag.RoleTypeList as IEnumerable<SelectListItem>, new { @class = "layui-input" })
+                @Html.DropDownListFor(d => d.RoleTypeId, ViewBag.RoleTypeList as IEnumerable<SelectListItem>,
+                    new Dictionary<string, object> {
+                        { "class" , "layui-input" },
+                        { "lay-search" , ""} })
             </div>
         </div>
         <div class="layui-inline">

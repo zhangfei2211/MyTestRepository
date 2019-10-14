@@ -20,6 +20,7 @@
         url: '@Url.Action("GetRoleList")',
         searchform: 'roleSearchForm',
         cols: [[
+            { field: 'RoleCode', title: '角色编码', width: 200 },
             { field: 'RoleName', title: '角色', width: 200 },
             { field: 'RoleTypeName', title: '角色类别', width: 200 },
             { field: 'Description', title: '描述', width: 400 },
@@ -30,7 +31,7 @@
 
     function Search() {
         roleListTable.reload({
-            where: GetFormJson("roleSearchForm")
+            where: $("#roleSearchForm").serializeJson()
         });
     }
 

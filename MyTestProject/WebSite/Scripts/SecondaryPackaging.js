@@ -80,10 +80,10 @@ function LayuiTableRender(options) {
         }
     };
     
-    if (options.searchform) {
-        var whereJson = GetFormJson("userSearchForm");
-        options.where = whereJson;
-    }
+    //if (options.searchform) {
+    //    var whereJson = $("#roleTypeSearchForm").serializeJson();
+    //    options.where = whereJson;
+    //}
 
     $.extend(defaultoptions, options); //合并对象，修改第一个对象
 
@@ -91,22 +91,6 @@ function LayuiTableRender(options) {
 
     return table;
 }
-
-function GetFormJson(formId) {
-    var o = {};
-    var a = $("#" + formId).serializeArray();
-    $.each(a, function () {
-        if (o[this.name]) {
-            if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
-            }
-            o[this.name].push(this.value || '');
-        } else {
-            o[this.name] = this.value || '';
-        }
-    });
-    return o;
-};
 
 (function (window, $) {
     $.fn.serializeJson = function () {

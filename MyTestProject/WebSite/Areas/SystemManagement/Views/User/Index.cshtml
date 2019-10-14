@@ -43,8 +43,6 @@
     });
 
     function Search() {
-        var json = $("#userSearchForm").serializeJson();
-
         userListTable.reload({
             where: $("#userSearchForm").serializeJson()
         });
@@ -69,7 +67,12 @@
     }
 
     function EditUserRole(userId) {
-
+        layer.open({
+            title: '编辑用户角色',
+            area: ['400px', '400px'],
+            type: 2,
+            content: '@Url.Action("Edit")' + "?userId=" + userId
+        });
     }
 
     function ResetUserPassword(userId) {

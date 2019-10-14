@@ -27,6 +27,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RoleCode" Type="nvarchar" MaxLength="50" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="100" />
           <Property Name="RoleTypeId" Type="uniqueidentifier" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
@@ -142,6 +143,7 @@
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="RoleTypeId" Type="Guid" />
           <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="RoleCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="B_RoleMenu">
           <Key>
@@ -224,6 +226,7 @@
           <EntitySetMapping Name="B_Role">
             <EntityTypeMapping TypeName="ZyfTestDbModel.B_Role">
               <MappingFragment StoreEntitySet="B_Role">
+                <ScalarProperty Name="RoleCode" ColumnName="RoleCode" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="RoleTypeId" ColumnName="RoleTypeId" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />

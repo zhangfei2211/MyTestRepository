@@ -23,5 +23,6 @@ namespace Entities
         public Nullable<System.DateTime> UpdateDate { get; set; }
         public Nullable<System.Guid> RoleTypeId { get; set; }
         public bool IsDelete { get; set; }
+        public string RoleCode { get; set; }
     }
 }

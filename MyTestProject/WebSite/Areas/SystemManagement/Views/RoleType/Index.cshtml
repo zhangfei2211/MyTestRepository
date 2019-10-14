@@ -27,7 +27,7 @@
 
     function Search() {
         roleTypeListTable.reload({
-            where: GetFormJson("roleTypeSearchForm")
+            where: $("#roleTypeSearchForm").serializeJson()
         });
     }
 

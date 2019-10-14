@@ -39,7 +39,7 @@ namespace WebSite.Areas.SystemManagement.Controllers
                 PageSize = pageSize,
                 OrderConditions = new List<OrderCondition>
                 {
-                    new OrderCondition{ OrderbyField="RoleName",IsAsc=true }
+                    new OrderCondition{ OrderbyField="RoleCode",IsAsc=true }
                 }
             };
             var result = await roleBll.GetRoleList(pageModel, info);
