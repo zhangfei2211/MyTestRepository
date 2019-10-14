@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "EditRoleMenu";
+    Layout = "~/Views/Shared/_LayoutWithOutNav.cshtml";
+}
+
+<div style="overflow:scroll;height:500px">
+    <div id="roleMenuTree" class="ztree"></div>
+</div>
+<div style="width:100%;text-align:center">
+    <button type="button" lay-submit="" class="btn btn-primary mr-30 mt-10" onclick="SaveRoleMenu()">保存</button>
+</div>
+
+<script>
+    var zTreeObj;
+    var setting = {
+        check: {
+            enable: true
+        },
+        data: {
+            key: {
+                checked: "isChecked"
+            },
+            simpleData: {
+                enable: true
+            }
+        }
+    };
+
+    $(function () {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("GetRoleMenuTree")",
+            dataType: "json",
+            data: { roleId: "@ViewBag.RoleId" },
+            success: function (data) {
+                zTreeObj = $.fn.zTree.init($("#roleMenuTree"), setting, data);
+            }
+        });
+    });
+
+    function SaveRoleMenu() {
+        var checkedNodes = zTreeObj.getCheckedNodes(true);
+
+        var menuIds = "";
+        $(checkedNodes).each(function (index, item) {
+            menuIds += item.id + ",";
+        });
+
+        if (menuIds.length > 0) {
+            menuIds = menuIds.substring(0, menuIds.length - 1);
+        }
+
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("SaveRoleMenu")",
+            dataType: "json",
+            data: { roleId: "@ViewBag.RoleId", menuIds: menuIds },
+            success: function (data) {
+                AjaxComplete(data, function () { window.parent.layer.closeAll(); });
+            }
+        });
+    }
+</script>

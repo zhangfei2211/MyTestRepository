@@ -52,6 +52,10 @@ namespace Business
             {
                 whereLambda = whereLambda.And(d => d.UserCnName.Contains(search.UserCnName));
             }
+            if (search.IsDelete)
+            {
+                whereLambda = whereLambda.And(d => d.IsDelete);
+            }
 
             return await userDal.FindPageListAsync(searchModel, whereLambda);
         }

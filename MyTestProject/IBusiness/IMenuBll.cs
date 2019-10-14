@@ -12,6 +12,8 @@ namespace IBusiness
     {
         Task<IQueryable<B_Menu>> GetCurrentUserMenu();
 
+        Task<List<TreeModel>> GetMenuTreeNoDelete();
+
         Task<List<TreeModel>> GetMenuTree();
 
         Task<PageResult<B_Menu>> PageDemo();

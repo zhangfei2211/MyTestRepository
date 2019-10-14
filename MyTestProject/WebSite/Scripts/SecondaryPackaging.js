@@ -1,4 +1,8 @@
-﻿///使用ajax.beginform提交后，调用此函数，sucfun为ajax成功时执行的函数，failedfun为ajax失败时实行的函数
+﻿$(function () {
+    
+});
+
+///使用ajax.beginform提交后，调用此函数，sucfun为ajax成功时执行的函数，failedfun为ajax失败时实行的函数
 function AjaxBeginformComplete(response, sucfun, failedfun) {
     if (response.status = 200) {
         var result = response.responseJSON
@@ -103,3 +107,53 @@ function GetFormJson(formId) {
     });
     return o;
 };
+
+(function (window, $) {
+    $.fn.serializeJson = function () {
+        var serializeObj = {};
+        var array = this.serializeArray();
+        var str = this.serialize();
+        $(array).each(
+            function () {
+                if (serializeObj[this.name]) {
+                    if ($.isArray(serializeObj[this.name])) {
+                        serializeObj[this.name].push(this.value);
+                    } else {
+                        serializeObj[this.name] = [
+                            serializeObj[this.name], this.value];
+                    }
+                } else {
+                    serializeObj[this.name] = this.value;
+                }
+            });
+
+        //下面代码处理checkboxfor会出来一个同name的hidden元素的问题
+        for (var key in serializeObj) {
+            var ele = serializeObj[key];
+            if (ele.length == 2 && ele[0] == "true" && ele[1] == "false") {
+                if ($("#" + key) && $("#" + key).attr("type") == "checkbox")
+                    serializeObj[key] = "true";
+            }
+        }
+        return serializeObj;
+    };
+})(window, jQuery);
+
+function CreateTips() {
+    var titles = $("[tiptitle]");
+    titles.each(function (index, item) {
+        var tips;
+        $(item).on("mouseover", function () {
+            var title = $(item).attr("tiptitle");
+            tips = layer.tips(title, $(item), {
+                tips: [1, '#3595CC'],
+                time: 0,
+                tipsMore: true
+            });
+        });
+
+        $(item).on("mouseout", function () {
+            layer.close(tips);
+        });
+    });
+}

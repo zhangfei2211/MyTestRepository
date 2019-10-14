@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "角色列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mr-5 mt-5">
+    @Html.Partial("Search")
+</div>
+<div class="pl-5 pr-5">
+    <table id="roleListTable" lay-filter=""></table>
+</div>
+<script type="text/html" id="roleBar">
+    <i class="glyphicon glyphicon-edit mr-10 pointer" onclick="EditRole('{{d.Id}}')" tiptitle="修改"></i>
+    <i class="glyphicon glyphicon-cog mr-10 pointer" onclick="EditRoleMenu('{{d.Id}}')" tiptitle="修改权限"></i>
+</script>
+
+<script>
+    var roleListTable = LayuiTableRender({
+        elem: '#roleListTable',
+        url: '@Url.Action("GetRoleList")',
+        searchform: 'roleSearchForm',
+        cols: [[
+            { field: 'RoleName', title: '角色', width: 200 },
+            { field: 'RoleTypeName', title: '角色类别', width: 200 },
+            { field: 'Description', title: '描述', width: 400 },
+            { fixed: 'right', title: '操作', align: 'center', toolbar: '#roleBar' }
+        ]],
+        done: function () { CreateTips(); }
+    });
+
+    function Search() {
+        roleListTable.reload({
+            where: GetFormJson("roleSearchForm")
+        });
+    }
+
+    function AddRole() {
+        layer.open({
+            title: '新增角色',
+            area: ['400px', '400px'],
+            type: 2,
+            content: '@Url.Action("Add")'
+        });
+    }
+
+    function EditRole(roleId) {
+        layer.open({
+            title: '编辑角色',
+            area: ['400px', '400px'],
+            type: 2,
+            content: '@Url.Action("Edit")' + "?roleId=" + roleId
+        });
+    }
+
+    function EditRoleMenu(roleId) {
+        layer.open({
+            title: '编辑角色权限',
+            area: ['500px', '600px'],
+            type: 2,
+            content: '@Url.Action("EditRoleMenu")' + "?roleId=" + roleId
+        });
+    }
+</script>

@@ -23,7 +23,8 @@ namespace WebSite
                 "~/Scripts/ligerUI/js/core/base.js",
                 "~/Scripts/ligerUI/js/plugins/ligerLayout.js",
                 "~/Scripts/leftNav/leftnav.js",
-                "~/Scripts/SecondaryPackaging.js"));
+                "~/Scripts/SecondaryPackaging.js",
+                "~/Scripts/vue.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

@@ -59,5 +59,14 @@ namespace Utlis.Extension
             }
             return false;
         }
+
+        public static bool IsNotNull(this Guid guid)
+        {
+            if (guid == Guid.Empty)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

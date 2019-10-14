@@ -1,0 +1,54 @@
+﻿@model Entities.B_Role
+
+@Html.HiddenFor(d => d.Id)
+@Html.HiddenFor(d => d.IsDelete)
+@Html.HiddenFor(d => d.CreateBy)
+@Html.HiddenFor(d => d.CreateDate)
+@Html.HiddenFor(d => d.UpdateBy)
+@Html.HiddenFor(d => d.UpdateDate)
+
+<style>
+    .layui-form-label {
+        width: 100px;
+    }
+</style>
+
+<div class="layui-form-item">
+    <label class="layui-form-label">角色：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.RoleName,
+       new Dictionary<string, object> {
+               { "class", "layui-input" },
+               { "placeholder", "请输入角色" },
+               { "lay-verify","required"} })
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">角色类别：</label>
+    <div class="layui-input-block">
+        @Html.DropDownListFor(d => d.RoleTypeId, ViewBag.RoleTypeList as List<SelectListItem>,
+            new Dictionary<string, object> {{ "class", "layui-input" }})
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">描述：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.Description,
+       new Dictionary<string, object> {
+               { "class", "layui-input" },
+               { "placeholder", "请输入角色描述" },
+               { "lay-verify","required"} })
+    </div>
+</div>
+<div class="layui-form-item">
+    <div class="layui-input-block">
+        <button type="submit" lay-submit="" class="btn btn-primary">保存</button>
+    </div>
+</div>
+
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>

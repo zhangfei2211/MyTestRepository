@@ -27,6 +27,50 @@ namespace Business
         }
 
         /// <summary>
+        /// 获取菜单树（不包括已删除的）
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<TreeModel>> GetMenuTreeNoDelete()
+        {
+            List<TreeModel> treeList = new List<TreeModel>();
+
+            //添加虚拟根节点
+            TreeModel root = new TreeModel
+            {
+                id = Guid.Empty.ToString(),
+                pId = null,
+                name = "菜单",
+                isParent = true,
+                open = true,
+                nocheck = true
+            };
+
+            treeList.Add(root);
+
+            var menuList = (await menuDal.FindListAsync(d => !d.IsDelete)).OrderBy(d => d.Sort);
+            //先找根节点
+            var roots = menuList.Where(d => d.ParentId == null || d.ParentId.Value == Guid.Empty);
+
+            foreach (var r in roots)
+            {
+                TreeModel node = new TreeModel
+                {
+                    id = r.Id.ToString(),
+                    pId = root.id,
+                    name = r.Name,
+                    isParent = true,
+                    open = true,
+                };
+
+                treeList.Add(node);
+
+                LoadChildMenu(r.Id, menuList, treeList);
+            }
+
+            return treeList;
+        }
+
+        /// <summary>
         /// 获取菜单树（包含所有节点，包括已删除的）
         /// </summary>
         /// <returns></returns>

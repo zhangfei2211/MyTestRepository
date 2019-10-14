@@ -20,6 +20,8 @@ namespace Business
 
         protected IBaseRepository<B_Role> roleDal;
 
+        protected IBaseRepository<B_RoleType> roleTypeDal;
+
         protected IBaseRepository<B_RoleMenu> roleMenuDal;
 
         protected IBaseRepository<B_UserRole> userRoleDal;

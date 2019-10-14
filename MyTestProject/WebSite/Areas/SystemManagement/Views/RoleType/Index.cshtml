@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "角色类别列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mr-5 mt-5">
+    @Html.Partial("Search")
+</div>
+<div class="pl-5 pr-5">
+    <table id="roleTypeListTable" lay-filter=""></table>
+</div>
+<script type="text/html" id="roleTypeBar">
+    <i class="glyphicon glyphicon-edit mr-10 pointer" onclick="EditRoleType('{{d.Id}}')" tiptitle="修改"></i>
+</script>
+
+<script>
+    var roleTypeListTable = LayuiTableRender({
+        elem: '#roleTypeListTable',
+        url: '@Url.Action("GetRoleTypeList")',
+        searchform: 'roleTypeSearchForm',
+        cols: [[
+            { field: 'RoleTypeName', title: '角色类别', width: 700 },
+            { fixed: 'right', title: '操作', align: 'center', toolbar: '#roleTypeBar' }
+        ]],
+        done: function () { CreateTips(); }
+    });
+
+    function Search() {
+        roleTypeListTable.reload({
+            where: GetFormJson("roleTypeSearchForm")
+        });
+    }
+
+    function AddRoleType() {
+        layer.open({
+            title: '新增角色类别',
+            area: ['400px', '200px'],
+            type: 2,
+            content: '@Url.Action("Add")'
+        });
+    }
+
+    function EditRoleType(roleTypeId) {
+        layer.open({
+            title: '编辑角色类别',
+            area: ['400px', '200px'],
+            type: 2,
+            content: '@Url.Action("Edit")' + "?roleTypeId=" + roleTypeId
+        });
+    }
+</script>

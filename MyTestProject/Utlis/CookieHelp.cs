@@ -33,7 +33,7 @@ namespace Utlis
                     case CookieTimeOutType.Year: cookie.Expires = DateTime.Now.AddYears(cookieTimeOut); break;
                     default: cookie.Expires = DateTime.Now.AddHours(cookieTimeOut); break;
                 }
-
+                
                 HttpContext.Current.Response.Cookies.Add(cookie);
                 return true;
             }

@@ -62,17 +62,50 @@ $.fn.menu = function (menuJson,contentDivId) {
 
 function SelectCurrentMenu(nav) {
     var locHref = location.href.toLocaleLowerCase();
+    var origin = document.location.origin.toLocaleLowerCase();
+
+    locHref = locHref.replace(origin, "");
+
+    var conAct = GetControllerAndAction(locHref);
+    
 
     var aList = $(nav).find('a');
 
     $(aList).each(function (index, item) {
-        var ahref = $(item).attr("href").replace("../", "").toLocaleLowerCase();
-        if (locHref.indexOf(ahref) >= 0) {
+        var ahref = $(item).attr("href").toLocaleLowerCase();
+        var a_conAct = GetControllerAndAction(ahref);
+        if (conAct == a_conAct) {
             var li = $(item).parent();
             li.parent().parent().addClass("open");
             li.parent().show();
             li.addClass('current');
-            return;
+            return false;//跳出循环
         }
     });
+}
+
+function GetControllerAndAction(href) {
+
+    href = href.replace("..", "").replace("~","");//去掉..和~
+
+    var s = "/";
+    var count = 0;
+    var conAct = "";
+    while (href.indexOf(s) != -1) {
+        sindex = href.indexOf(s);
+        conAct += href.substring(0, sindex + 1);
+        href = href.substring(sindex + s.length);
+        count++;
+        if (count == 3) {
+            if (conAct.lastIndexOf(s) == (conAct.length - 1)) {
+                conAct.substring(0, conAct.length - 1);//截掉最后一位
+            }
+            break;
+        }
+    };
+
+    if (count > 0 && count < 3) {
+        conAct += href;
+    }
+    return conAct;
 }

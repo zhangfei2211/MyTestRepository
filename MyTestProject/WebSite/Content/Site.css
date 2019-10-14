@@ -352,6 +352,10 @@ body {
     margin-bottom: 30px;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 /*
 将初始的checkbox的样式改变
 */
