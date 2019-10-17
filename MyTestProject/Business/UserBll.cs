@@ -90,14 +90,21 @@ namespace Business
 
         public async Task<bool> SaveUser(B_User user)
         {
-            if (user.Id.IsNull())
+            try
             {
-                user.Id = Guid.NewGuid();
-                return await userDal.AddAsync(user);
+                if (user.Id.IsNull())
+                {
+                    user.Id = Guid.NewGuid();
+                    return await userDal.AddAsync(user);
+                }
+                else
+                {
+                    return await userDal.UpdateAsync(user);
+                }
             }
-            else
+            catch(Exception ex)
             {
-                return await userDal.UpdateAsync(user);
+                return false;
             }
         }
 

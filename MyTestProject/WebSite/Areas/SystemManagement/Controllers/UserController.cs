@@ -62,7 +62,6 @@ namespace WebSite.Areas.SystemManagement.Controllers
         public async Task<ActionResult> Save(B_User user)
         {
             var result = new AjaxResult();
-
             try
             {
                 var olduser = await userBll.GetUserByUserName(user.UserName);
@@ -73,7 +72,7 @@ namespace WebSite.Areas.SystemManagement.Controllers
                 }
                 else
                 {
-                    //如果是新增，初始化 mima
+                    //如果是新增，初始化密码
                     if (user.Id.IsNull())
                     {
                         user.Password = "1";

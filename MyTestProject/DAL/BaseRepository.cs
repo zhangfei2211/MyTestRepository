@@ -12,6 +12,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Utlis.Extension;
 using Utlis;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 
 namespace Dal
 {
@@ -73,6 +75,7 @@ namespace Dal
         public virtual bool Update(T entity, bool isSaveChange = true)
         {
             SetUpdate(entity);
+            db.DetachOther(entity);
             db.Set<T>().Attach(entity);
             db.Entry<T>(entity).State = EntityState.Modified;
             return SaveChanges(isSaveChange);
@@ -81,6 +84,7 @@ namespace Dal
         public virtual async Task<bool> UpdateAsync(T entity, bool isSaveChange = true)
         {
             SetUpdate(entity);
+            db.DetachOther(entity);
             db.Set<T>().Attach(entity);
             db.Entry<T>(entity).State = EntityState.Modified;
             return await SaveChangesAsync(isSaveChange);
