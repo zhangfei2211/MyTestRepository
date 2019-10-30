@@ -15,7 +15,7 @@ namespace Entities
     public partial class B_UserRole
     {
         public System.Guid Id { get; set; }
-        public Nullable<System.Guid> UserId { get; set; }
-        public Nullable<System.Guid> RoleId { get; set; }
+        public System.Guid UserId { get; set; }
+        public System.Guid RoleId { get; set; }
     }
 }

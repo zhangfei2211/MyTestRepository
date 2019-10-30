@@ -88,6 +88,11 @@ namespace Business
             return await userRoleDal.FindListAsync(d => d.UserId.Equals(userId));
         }
 
+        public async Task<B_UserRole> GetUserRoleByUserIdAndRoleId(Guid userId, Guid roleId)
+        {
+            return await userRoleDal.FindAsync(d => d.UserId.Equals(userId) && d.RoleId.Equals(roleId));
+        }
+
         public async Task<bool> SaveUser(B_User user)
         {
             try
@@ -115,7 +120,7 @@ namespace Business
             return await userDal.UpdateAsync(user);
         }
 
-        public async Task<bool> SaveUserRole(Guid userId,List<B_UserRole> userRoleList)
+        public async Task<bool> SaveUserRoles(Guid userId,List<B_UserRole> userRoleList)
         {
             var oldList = (await GetUserRoleByUserId(userId)).ToList();
 
@@ -123,6 +128,16 @@ namespace Business
             await userRoleDal.AddsAsync(userRoleList, false);
 
             return await userRoleDal.SaveChangesAsync();
+        }
+
+        public async Task<bool> SaveUserRole(B_UserRole userRole)
+        {
+            return await userRoleDal.AddAsync(userRole);
+        }
+
+        public async Task<bool> DeleteUserRole(B_UserRole userRole)
+        {
+            return await userRoleDal.DeletePhysicalDataAsync(userRole);
         }
 
         public async Task<bool> DeleteUser(Guid userId)

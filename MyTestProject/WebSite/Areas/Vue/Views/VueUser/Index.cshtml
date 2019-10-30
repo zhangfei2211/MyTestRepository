@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="app" style="width:100%" class="ml-10 mt-10 mr-10">
+    <template>
+        <Row>
+            <i-Col span="4">用户名</i-Col>
+            <i-Col span="4">用户姓名</i-Col>
+            <i-Col span="4">电话</i-Col>
+            <i-Col span="4">年龄</i-Col>
+            <i-Col span="4">是否停用</i-Col>
+            <i-Col span="4">是否停用</i-Col>
+        </Row>
+        <Row v-for="user in users">
+            <i-Col span="4">{{user.UserName}}</i-Col>
+            <i-Col span="4">{{user.UserCnName}}</i-Col>
+            <i-Col span="4">{{user.Phone}}</i-Col>
+            <i-Col span="4">{{user.Age}}</i-Col>
+            <i-Col span="4">{{user.IsDelete ? "是" : "否"}}</i-Col>
+            <i-Col span="4">
+                <Tooltip content="修改" placement="left">
+                    <Icon type="ios-brush"  style="cursor:pointer"/>
+                </Tooltip>
+                <Tooltip content="用户角色" placement="top">
+                    <Icon type="md-build" style="cursor:pointer"/>
+                </Tooltip>
+                <Tooltip content="重置密码" placement="right">
+                    <Icon type="md-refresh" style="cursor:pointer"/>
+                </Tooltip>
+            </i-Col>
+        </Row>
+    </template>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                users: null
+            }
+        },
+        mounted() {
+            axios
+                .post('@Url.Action("GetUserList")', {
+                    pageIndex: 1,
+                    pageSize: 10,
+                    RoleName: ''
+                })
+                .then(response => (this.users = response.data.Data))
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
+        methods: {
+            change: function (v) {
+                for (var i = 0; i < this.info.length; i++) {
+                    if (this.info[i].RoleTypeName) {
+                        this.info[i].RoleTypeName = this.info[i].RoleTypeName + 1;
+                    }
+                    else {
+                        this.info[i].RoleTypeName = i + 1;
+                    }
+                    Vue.set(this.info, i, this.info[i]);
+                }
+            }
+        }
+    });
+</script>

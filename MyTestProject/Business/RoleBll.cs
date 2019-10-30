@@ -35,6 +35,11 @@ namespace Business
             return await roleDal.FindAsync(d => d.Id == roleId);
         }
 
+        public async Task<IQueryable<B_Role>> GetRoleListAll()
+        {
+            return await roleDal.FindListAsync(d => !d.IsDelete);
+        }
+
         public async Task<PageResult<B_Role>> GetRoleList(PageSearchModel searchModel, RoleSearch search)
         {
             if (search == null)
@@ -55,6 +60,11 @@ namespace Business
             }
 
             return await roleDal.FindPageListAsync(searchModel, whereLambda);
+        }
+
+        public async Task<IQueryable<B_Role>> GetRoleListByRoleIds(List<Guid> roleIds)
+        {
+            return await roleDal.FindListAsync(d => roleIds.Contains(d.Id));
         }
 
         public async Task<PageResult<B_RoleType>> GetRoleTypeList(PageSearchModel searchModel, RoleTypeSearch search)

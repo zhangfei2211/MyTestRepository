@@ -22,11 +22,17 @@ namespace IBusiness
 
         Task<IQueryable<B_UserRole>> GetUserRoleByUserId(Guid userId);
 
+        Task<B_UserRole> GetUserRoleByUserIdAndRoleId(Guid userId, Guid roleId);
+
         Task<bool> SaveUser(B_User user);
 
         Task<bool> ResetPassword(Guid userId, string password);
 
-        Task<bool> SaveUserRole(Guid userId, List<B_UserRole> userRoleList);
+        Task<bool> SaveUserRoles(Guid userId, List<B_UserRole> userRoleList);
+
+        Task<bool> SaveUserRole(B_UserRole userRole);
+
+        Task<bool> DeleteUserRole(B_UserRole userRole);
 
         Task<bool> DeleteUser(Guid userId);
     }

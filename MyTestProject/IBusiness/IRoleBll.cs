@@ -16,7 +16,11 @@ namespace IBusiness
 
         Task<B_Role> GetRoleById(Guid roleId);
 
+        Task<IQueryable<B_Role>> GetRoleListAll();
+
         Task<PageResult<B_Role>> GetRoleList(PageSearchModel searchModel, RoleSearch search);
+
+        Task<IQueryable<B_Role>> GetRoleListByRoleIds(List<Guid> roleIds);
 
         Task<PageResult<B_RoleType>> GetRoleTypeList(PageSearchModel searchModel, RoleTypeSearch search);
 

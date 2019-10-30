@@ -4,9 +4,79 @@
     Layout = "~/Views/Shared/_LayoutWithOutNav.cshtml";
 }
 
-<div style="height:100%;width:100%;overflow:scroll;">
+<div style="width:100%;">
+    <form class="layui-form">
+        <div class="col-xs-4 mt-10">
+            @Html.DropDownList("roleDll", ViewBag.RoleTypeList as IEnumerable<SelectListItem>, new Dictionary<string, object> {
+                            { "class" , "layui-input" },
+                            { "lay-search" , ""} })
+        </div>
+        <div class="col-xs-4 mt-10 pl-20">
+            @Html.DropDownList("roleDll", ViewBag.RoleList as IEnumerable<SelectListItem>, new Dictionary<string, object> {
+                            { "class" , "layui-input" },
+                            { "lay-search" , ""} })
+        </div>
+        <div class="col-xs-4 pl-30">
+            <button type="button" lay-submit="" class="btn btn-primary mr-30 mt-10" onclick="AddUserRole()">添加</button>
+        </div>
+    </form>
+</div>
+<div class="pl-5 pr-5" style="height:510px;width:100%;overflow:auto;">
+    <table id="userRoleListTable" lay-filter=""></table>
+</div>
 
-</div>
-<div style="width:100%;text-align:center">
-    <button type="button" lay-submit="" class="btn btn-primary mr-30 mt-10" onclick="SaveUserRole()">保存</button>
-</div>
+<script type="text/html" id="userBar">
+    <i class="glyphicon glyphicon-remove mr-10 pointer" onclick="DeleteUserRole('{{d.Id}}')" tiptitle="删除"></i>
+</script>
+
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render();
+    });
+
+    var userRoleListTable = LayuiTableRender({
+        elem: '#userRoleListTable',
+        url: '@Url.Action("GetUserRoleList")',
+        where: { userId: '@ViewBag.UserId' },
+        page: false,
+        cols: [[
+            { field: 'RoleCode', title: '角色编号', width: 250 },
+            { field: 'RoleName', title: '角色', width: 250 },
+            { fixed: 'right',title:'操作', align: 'center', toolbar: '#userBar' }
+        ]],
+        done: function () { CreateTips(); }
+    });
+
+    function RoleTypeChange(roleTypeId) {
+
+    }
+
+    function UserRoleListTableReload() {
+        userRoleListTable.reload({});
+    }
+
+    function AddUserRole() {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("AddUserRole")",
+            dataType: "json",
+            data: { userId: '@ViewBag.UserId', roleId: $("#roleDll").val()},
+            success: function (data) {
+                AjaxComplete(data, function () { UserRoleListTableReload(); });
+            }
+        });
+    }
+
+    function DeleteUserRole(roleId) {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("DeleteUserRole")",
+            dataType: "json",
+            data: { userId: '@ViewBag.UserId', roleId: roleId},
+            success: function (data) {
+                AjaxComplete(data, function () { UserRoleListTableReload(); });
+            }
+        });
+    }
+</script>

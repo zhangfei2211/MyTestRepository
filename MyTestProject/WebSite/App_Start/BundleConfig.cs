@@ -24,7 +24,9 @@ namespace WebSite
                 "~/Scripts/ligerUI/js/plugins/ligerLayout.js",
                 "~/Scripts/leftNav/leftnav.js",
                 "~/Scripts/SecondaryPackaging.js",
-                "~/Scripts/vue.js"));
+                "~/Scripts/vue.js",
+                "~/Scripts/axios.min.js",
+                "~/Scripts/IView/iview.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
@@ -32,7 +34,8 @@ namespace WebSite
                       "~/Scripts/layui/css/layui.css",
                       "~/Scripts/ligerUI/skins/Aqua/css/ligerui-layout.css",
                       "~/Scripts/leftNav/leftnav.css",
-                      "~/Scripts/zTree/css/bootstrapStyle/bootstrapStyle.css"));
+                      "~/Scripts/zTree/css/bootstrapStyle/bootstrapStyle.css",
+                      "~/Content/Iview/iview.css"));
         }
     }
 }

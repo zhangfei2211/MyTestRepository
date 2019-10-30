@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="app" style="width:100%">
+    <table style="width:100%" class="ml-10">
+        <tr>
+            <td class="col-lg-3">角色编码</td>
+            <td class="col-lg-3">角色</td>
+            <td class="col-lg-3">角色类别</td>
+            <td class="col-lg-3">描述</td>
+        </tr>
+        <tr v-for="item in info">
+            <td>{{item.RoleCode}}</td>
+            <td>{{item.RoleName}}</td>
+            <td>{{item.RoleTypeName}}</td>
+            <td>{{item.Description}}</td>
+        </tr>
+    </table>
+    <button v-on:click="change('1')" class="btn btn-primary ml-10">角色类别重置</button>
+</div>
+
+
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                info: null
+            }
+        },
+        mounted() {
+            axios
+                .post('@Url.Content("../SystemManagement/Role/GetRoleList")', {
+                    pageIndex: 1,
+                    pageSize: 10,
+                    RoleName: ''
+                })
+                .then(response => (this.info = response.data.Data))
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
+        methods: {
+            change: function (v) {
+                for (var i = 0; i < this.info.length; i++) {
+                    if (this.info[i].RoleTypeName) {
+                        this.info[i].RoleTypeName = this.info[i].RoleTypeName + 1;
+                    }
+                    else {
+                        this.info[i].RoleTypeName = i + 1;
+                    }
+                    Vue.set(this.info, i, this.info[i]);
+                }
+            }
+        }
+    });
+</script>
