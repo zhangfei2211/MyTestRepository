@@ -46,6 +46,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "My.Business", "My.Business"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "My.Dal", "My.Dal", "{542E59E8-90A2-4611-94E1-BDE7E0B35323}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfService", "WcfService\WcfService.csproj", "{AB47B598-DEA4-49CF-84FC-B0036355DD85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,10 @@ Global
 		{E31237A3-0505-4B82-BE1A-E6BFFEB220AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E31237A3-0505-4B82-BE1A-E6BFFEB220AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E31237A3-0505-4B82-BE1A-E6BFFEB220AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB47B598-DEA4-49CF-84FC-B0036355DD85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB47B598-DEA4-49CF-84FC-B0036355DD85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB47B598-DEA4-49CF-84FC-B0036355DD85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB47B598-DEA4-49CF-84FC-B0036355DD85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

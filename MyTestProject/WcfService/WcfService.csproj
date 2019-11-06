@@ -116,6 +116,10 @@
       <Project>{66c09e55-54ab-4ee0-940d-6e235787156b}</Project>
       <Name>Business</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DAL\Dal.csproj">
+      <Project>{60e43213-fc46-47e2-810e-ed6bcdb9796c}</Project>
+      <Name>Dal</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Entities\Entities.csproj">
       <Project>{c630e167-5f35-45f0-b008-1e2f95d3b473}</Project>
       <Name>Entities</Name>
@@ -123,6 +127,10 @@
     <ProjectReference Include="..\IBusiness\IBusiness.csproj">
       <Project>{9e6f3a4b-44ac-4b9c-8ab0-830c6580ee71}</Project>
       <Name>IBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IDal\IDal.csproj">
+      <Project>{28b40ce7-c9bc-4e7d-9139-b75f7774ace8}</Project>
+      <Name>IDal</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utlis\Utlis.csproj">
       <Project>{e31237a3-0505-4b82-be1a-e6bffeb220ae}</Project>
