@@ -171,7 +171,7 @@ namespace WebSite.Areas.SystemManagement.Controllers
                 Value = ""
             });
             ViewBag.RoleList = rrlist;
-            ViewBag.RoleTypeList = GetRoleTypeSelectList();
+            ViewBag.RoleTypeList = await GetRoleTypeSelectList();
             return View();
         }
 
