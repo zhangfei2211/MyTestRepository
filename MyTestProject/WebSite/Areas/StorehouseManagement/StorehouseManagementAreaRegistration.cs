@@ -2,23 +2,23 @@
 
 namespace WebSite.Areas.Demo
 {
-    public class DemoAreaRegistration : AreaRegistration 
+    public class StorehouseManagementAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
         {
             get 
             {
-                return "Demo";
+                return "StorehouseManagement";
             }
         }
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(
-                "Demo_default",
-                "Demo/{controller}/{action}/{id}",
+                "StorehouseManagement_default",
+                "StorehouseManagement/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional },
-                new[] { "WebSite.Areas.Demo.Controllers" }
+                new[] { "WebSite.Areas.StorehouseManagement.Controllers" }
             );
         }
     }

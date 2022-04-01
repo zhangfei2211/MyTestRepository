@@ -142,8 +142,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Demo2\Controllers\ListDemoController.cs" />
     <Compile Include="Areas\Demo2\Demo2AreaRegistration.cs" />
-    <Compile Include="Areas\Demo\Controllers\ListDemoController.cs" />
-    <Compile Include="Areas\Demo\DemoAreaRegistration.cs" />
+    <Compile Include="Areas\StorehouseManagement\Controllers\PutInStorehouseController.cs" />
+    <Compile Include="Areas\StorehouseManagement\Controllers\TakeOutStorehouseController.cs" />
+    <Compile Include="Areas\StorehouseManagement\StorehouseManagementAreaRegistration.cs" />
     <Compile Include="Areas\Home\HomeAreaRegistration.cs" />
     <Compile Include="Areas\SystemManagement\Controllers\MenuController.cs" />
     <Compile Include="Areas\SystemManagement\Controllers\RoleController.cs" />
@@ -773,9 +774,9 @@
     <Content Include="Scripts\zTree\js\jquery.ztree.exedit.js" />
     <Content Include="Scripts\zTree\ztree.html" />
     <Content Include="Views\Login\Index.cshtml" />
-    <Content Include="Areas\Demo\Views\web.config" />
-    <Content Include="Areas\Demo\Views\ListDemo\Index.cshtml" />
-    <Content Include="Areas\Demo\Views\ListDemo\List.cshtml" />
+    <Content Include="Areas\StorehouseManagement\Views\web.config" />
+    <Content Include="Areas\StorehouseManagement\Views\TakeOutStorehouse\Index.cshtml" />
+    <Content Include="Areas\StorehouseManagement\Views\TakeOutStorehouse\List.cshtml" />
     <Content Include="Areas\Demo2\Views\web.config" />
     <Content Include="Areas\Demo2\Views\ListDemo\Index.cshtml" />
     <Content Include="Scripts\esm\popper.min.js.map" />
@@ -852,6 +853,8 @@
     <Content Include="Areas\Vue\Views\VueUser\Index.cshtml" />
     <Content Include="Areas\Vue\Views\VueUser\Edit.cshtml" />
     <Content Include="Areas\Vue\Views\VueUser\Add.cshtml" />
+    <Content Include="Areas\StorehouseManagement\Views\PutInStorehouse\Index.cshtml" />
+    <Content Include="Areas\StorehouseManagement\Views\PutInStorehouse\List.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -898,10 +901,10 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Demo2\Models\" />
     <Folder Include="Areas\Demo2\Views\Shared\" />
-    <Folder Include="Areas\Demo\Models\" />
-    <Folder Include="Areas\Demo\Views\Shared\" />
     <Folder Include="Areas\Home\Models\" />
     <Folder Include="Areas\Home\Views\Shared\" />
+    <Folder Include="Areas\StorehouseManagement\Models\" />
+    <Folder Include="Areas\StorehouseManagement\Views\Shared\" />
     <Folder Include="Areas\SystemManagement\Models\" />
     <Folder Include="Areas\SystemManagement\Views\Shared\" />
     <Folder Include="Areas\Vue\Models\" />
