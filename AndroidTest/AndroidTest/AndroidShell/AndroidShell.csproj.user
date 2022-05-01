@@ -3,8 +3,8 @@
   <PropertyGroup>
     <AndroidDesignerPreferredTheme>AppTheme</AndroidDesignerPreferredTheme>
     <AndroidDesignerPreferredDevice>Nexus 4</AndroidDesignerPreferredDevice>
-    <SelectedDevice>Android Emulator</SelectedDevice>
-    <SelectedPlatformGroup>Emulator</SelectedPlatformGroup>
-    <ActiveDebugProfile>Android Emulator</ActiveDebugProfile>
+    <SelectedDevice>Xiaomi M2012K10C</SelectedDevice>
+    <SelectedPlatformGroup>PhysicalDevice</SelectedPlatformGroup>
+    <ActiveDebugProfile>Xiaomi M2012K10C</ActiveDebugProfile>
   </PropertyGroup>
 </Project>

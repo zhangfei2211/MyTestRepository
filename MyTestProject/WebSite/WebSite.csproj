@@ -140,8 +140,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Areas\Demo2\Controllers\ListDemoController.cs" />
-    <Compile Include="Areas\Demo2\Demo2AreaRegistration.cs" />
     <Compile Include="Areas\StorehouseManagement\Controllers\PutInStorehouseController.cs" />
     <Compile Include="Areas\StorehouseManagement\Controllers\TakeOutStorehouseController.cs" />
     <Compile Include="Areas\StorehouseManagement\StorehouseManagementAreaRegistration.cs" />
@@ -777,8 +775,6 @@
     <Content Include="Areas\StorehouseManagement\Views\web.config" />
     <Content Include="Areas\StorehouseManagement\Views\TakeOutStorehouse\Index.cshtml" />
     <Content Include="Areas\StorehouseManagement\Views\TakeOutStorehouse\List.cshtml" />
-    <Content Include="Areas\Demo2\Views\web.config" />
-    <Content Include="Areas\Demo2\Views\ListDemo\Index.cshtml" />
     <Content Include="Scripts\esm\popper.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
@@ -899,8 +895,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Demo2\Models\" />
-    <Folder Include="Areas\Demo2\Views\Shared\" />
     <Folder Include="Areas\Home\Models\" />
     <Folder Include="Areas\Home\Views\Shared\" />
     <Folder Include="Areas\StorehouseManagement\Models\" />
