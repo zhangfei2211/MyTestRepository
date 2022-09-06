@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "角色列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mr-5 mt-5">
+    @Html.Partial("Search")
+</div>
+<div class="pl-5 pr-5">
+    <table id="customerListTable" lay-filter=""></table>
+</div>
+<script type="text/html" id="customerBar">
+    <button type="button" lay-submit="" class="btn btn-primary" onclick="AddClothYard('{{d.Id}}')">
+        <span class="glyphicon glyphicon-plus"></span>新增码单
+    </button>
+    <button type="button" lay-submit="" class="btn btn-primary" onclick="AddMeterSample('{{d.Id}}')">
+        <span class="glyphicon glyphicon-plus"></span>新增米样单
+    </button>
+    <button type="button" lay-submit="" class="btn btn-primary" onclick="EditCustomer('{{d.Id}}')" tiptitle="修改">
+        <span class="glyphicon glyphicon-edit"></span>修改
+    </button>
+</script>
+
+<script>
+    var customerListTable = LayuiTableRender({
+        elem: '#customerListTable',
+        url: '@Url.Action("GetCustomerList")',
+        searchform: 'customerSearchForm',
+        limit: 10,
+        limits: [10, 20, 50, 100, 200],
+        cols: [[
+            { field: 'CustomerName', title: '客户名', width: 200 },
+            { field: 'Phone', title: '电话号码', width: 200 },
+            { fixed: 'right', title: '操作', align: 'center', toolbar: '#customerBar' }
+        ]],
+        done: function () { CreateTips(); }
+    });
+
+    function Search() {
+        customerListTable.reload({
+            where: $("#customerSearchForm").serializeJson()
+        });
+    }
+
+    function AddCustomer() {
+        layer.open({
+            title: '新增客户',
+            area: ['400px', '400px'],
+            type: 2,
+            content: '@Url.Action("Add")'
+        });
+    }
+
+    function EditCustomer(customerId) {
+        layer.open({
+            title: '编辑客户',
+            area: ['400px', '400px'],
+            type: 2,
+            content: '@Url.Action("Edit")' + "?customerId=" + customerId
+        });
+    }
+
+    function AddClothYard(customerId) {
+        layer.open({
+            title: '新增码单',
+            area: ['100%', '100%'],
+            type: 2,
+            content: '@Url.Action("Add", "ClothYard",new { area= "ClothYardManagement" })' + "?customerId=" + customerId
+        });
+    }
+
+    function AddMeterSample(customerId) {
+        layer.open({
+            title: '新增米样单',
+            area: ['1200px', '100%'],
+            type: 2,
+            content: '@Url.Action("Add", "MeterSample", new { area= "ClothYardManagement" })' + "?customerId=" + customerId
+        });
+    }
+</script>

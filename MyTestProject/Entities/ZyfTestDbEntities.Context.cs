@@ -25,12 +25,21 @@ namespace Entities
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<B_ClothYard> B_ClothYard { get; set; }
+        public virtual DbSet<B_ClothYardPaymentRecord> B_ClothYardPaymentRecord { get; set; }
+        public virtual DbSet<B_ClothYardWeightList> B_ClothYardWeightList { get; set; }
+        public virtual DbSet<B_Customer> B_Customer { get; set; }
+        public virtual DbSet<B_Dictionary> B_Dictionary { get; set; }
+        public virtual DbSet<B_DictionaryType> B_DictionaryType { get; set; }
         public virtual DbSet<B_Menu> B_Menu { get; set; }
+        public virtual DbSet<B_MeterSampleBill> B_MeterSampleBill { get; set; }
         public virtual DbSet<B_Role> B_Role { get; set; }
         public virtual DbSet<B_RoleMenu> B_RoleMenu { get; set; }
+        public virtual DbSet<B_RoleType> B_RoleType { get; set; }
         public virtual DbSet<B_User> B_User { get; set; }
         public virtual DbSet<B_UserRole> B_UserRole { get; set; }
         public virtual DbSet<B_UserToken> B_UserToken { get; set; }
-        public virtual DbSet<B_RoleType> B_RoleType { get; set; }
+        public virtual DbSet<D_BaseCloth> D_BaseCloth { get; set; }
+        public virtual DbSet<D_Factory> D_Factory { get; set; }
     }
 }

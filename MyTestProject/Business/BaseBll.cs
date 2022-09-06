@@ -26,6 +26,23 @@ namespace Business
 
         protected IBaseRepository<B_UserRole> userRoleDal;
 
+        protected IBaseRepository<D_Factory> factoryDal;
+
+        protected IBaseRepository<B_Customer> customerDal;
+
+        protected IBaseRepository<B_Dictionary> dictionaryDal;
+
+        protected IBaseRepository<B_DictionaryType> dictionaryTypeDal;
+
+        protected IBaseRepository<B_ClothYard> clothYardDal;
+
+        protected IBaseRepository<B_ClothYardWeightList> clothYardWeightListDal;
+
+        protected IBaseRepository<B_ClothYardPaymentRecord> clothYardPaymentRecordDal;
+
+        protected IBaseRepository<B_MeterSampleBill> meterSampleDal;
+
+
         /// <summary>
         /// 专用于执行sql
         /// </summary>

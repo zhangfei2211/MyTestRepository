@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "字典列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mr-5 mt-5">
+    @Html.Partial("Search")
+</div>
+<div class="pl-5 pr-5">
+    <table id="dictionaryListTable" lay-filter=""></table>
+</div>
+<script type="text/html" id="dictionaryBar">
+    <i class="glyphicon glyphicon-edit mr-10 pointer" onclick="EditDictionary('{{d.Id}}')" tiptitle="修改"></i>
+</script>
+
+<script>
+    var dictionaryListTable = LayuiTableRender({
+        elem: '#dictionaryListTable',
+        url: '@Url.Action("GetDictionaryList")',
+        searchform: 'dictionarySearchForm',
+        cols: [[
+            { field: 'Code', title: '字典编码', width: 200 },
+            { field: 'DictionaryName', title: '字典', width: 200 },
+            { field: 'DictionaryTypeName', title: '字典类别', width: 200 },
+            { field: 'Description', title: '描述', width: 400 },
+            { fixed: 'right', title: '操作', align: 'center', toolbar: '#dictionaryBar' }
+        ]],
+        done: function () { CreateTips(); }
+    });
+
+    function Search() {
+        dictionaryListTable.reload({
+            where: $("#dictionarySearchForm").serializeJson()
+        });
+    }
+
+    function AddDictionary() {
+        layer.open({
+            title: '新增字典',
+            area: ['400px', '400px'],
+            type: 2,
+            content: '@Url.Action("Add")'
+        });
+    }
+
+    function EditDictionary(dictionaryId) {
+        layer.open({
+            title: '编辑字典',
+            area: ['400px', '400px'],
+            type: 2,
+            content: '@Url.Action("Edit")' + "?dictionaryId=" + dictionaryId
+        });
+    }
+</script>

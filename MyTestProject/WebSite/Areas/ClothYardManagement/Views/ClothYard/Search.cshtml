@@ -1,0 +1,123 @@
+﻿@model Entities.Model.Search.ClothYardSearch
+
+<style>
+    .layui-form-label {
+        width: 100px;
+    }
+
+    .layui-form-item {
+        margin-bottom: 0px;
+    }
+</style>
+
+<div>
+    <form class="layui-form" id="clothYardSearchForm">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">客户：</label>
+                <div class="layui-input-block">
+                    @Html.DropDownListFor(d => d.CustomerId, ViewBag.CustomerList as IEnumerable<SelectListItem>,
+             new Dictionary<string, object> {
+                            { "class" , "layui-input" },
+                            { "lay-search" , ""} })
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">布料类别：</label>
+                <div class="layui-input-block">
+                    @Html.DropDownListFor(d => d.ClothType, ViewBag.ClothTypeList as IEnumerable<SelectListItem>,
+             new Dictionary<string, object> {
+                            { "class" , "layui-input" },
+                            { "lay-search" , ""} })
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">颜色：</label>
+                <div class="layui-input-block">
+                    @Html.TextBoxFor(d => d.Colour, new { @class = "layui-input" })
+                    @*@Html.DropDownListFor(d => d.Colour, ViewBag.ClothColourList as IEnumerable<SelectListItem>,
+                        new Dictionary<string, object> {
+                            { "class" , "layui-input" },
+                            { "lay-search" , ""} })*@
+                </div>
+            </div>
+            <div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">是否发货：</label>
+                    <div class="layui-input-block">
+                        @Html.DropDownListFor(d => d.IsDelivery, ViewBag.IsDeliveryList as IEnumerable<SelectListItem>,
+                 new Dictionary<string, object> {
+                                { "class" , "layui-input" },
+                                { "lay-search" , ""} })
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">是否付款：</label>
+                    <div class="layui-input-block">
+                        @Html.DropDownListFor(d => d.IsPaymentAll, ViewBag.IsPaymentAllList as IEnumerable<SelectListItem>,
+                    new Dictionary<string, object> {
+                        { "class" , "layui-input" },
+                        { "lay-search" , ""} })
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="layui-inline">
+                    @{
+                        DateTime dt = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00");
+                        //获得本月月初时间
+                        var startMonth = dt.AddDays(1 - dt.Day);
+                        //获得本月月末时间
+                        DateTime s = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd") + " 23:59:59");
+                        DateTime ss = s.AddDays(1 - s.Day);
+                        var endMonth = ss.AddMonths(1).AddDays(-1);
+                    }
+                    <label class="layui-form-label">起始报单时间：</label>
+                    <div class="layui-input-block">
+                        <input type="date" class="layui-input" id="StartReportTime" value='@startMonth.ToString("yyyy-MM-dd")' name="StartReportTime" style="height:40px;width:200px;">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">截止报单时间：</label>
+                    <div class="layui-input-block">
+                        <input type="date" class="layui-input" id="EndReportTime" value='@endMonth.ToString("yyyy-MM-dd")' name="EndReportTime" style="height:40px;width:200px;">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">起始发货时间：</label>
+                    <div class="layui-input-block">
+                        <input type="date" class="layui-input" id="StartDeliveryTime" value='' name="StartDeliveryTime" style="height:40px;width:200px;">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">截止发货时间：</label>
+                    <div class="layui-input-block">
+                        <input type="date" class="layui-input" id="EndDeliveryTime" value='' name="EndDeliveryTime" style="height:40px;width:200px;">
+                    </div>
+                </div>
+                <div class="layui-inline" style="margin-left:100px;">
+                    <button type="button" lay-submit="" class="btn btn-primary" onclick="Search()">
+                        <span class="glyphicon glyphicon-search"></span>查询
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="AddClothYard()">
+                        <span class="glyphicon glyphicon-plus"></span>开码单
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="EditClothYards()">
+                        <span class="glyphicon glyphicon-plus"></span>批量编辑码单
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="PrintClothYards()">
+                        <span class="glyphicon glyphicon-plus"></span>打印码单
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>

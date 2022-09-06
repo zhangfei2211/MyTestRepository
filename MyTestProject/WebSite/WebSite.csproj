@@ -138,12 +138,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\BundleTransform.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\ClothProduction\ClothProductionAreaRegistration.cs" />
+    <Compile Include="Areas\ClothProduction\Controllers\BaseClothController.cs" />
+    <Compile Include="Areas\ClothProduction\Controllers\DyeingClothController.cs" />
+    <Compile Include="Areas\ClothProduction\Controllers\GallingClothController.cs" />
+    <Compile Include="Areas\ClothYardManagement\ClothYardManagementAreaRegistration.cs" />
+    <Compile Include="Areas\ClothYardManagement\Controllers\ClothYardController.cs" />
+    <Compile Include="Areas\ClothYardManagement\Controllers\MeterSampleController.cs" />
+    <Compile Include="Areas\ClothYardManagement\Data\ClothYardModel.cs" />
+    <Compile Include="Areas\CustomerManagement\Controllers\CustomerController.cs" />
+    <Compile Include="Areas\CustomerManagement\CustomerManagementAreaRegistration.cs" />
     <Compile Include="Areas\StorehouseManagement\Controllers\PutInStorehouseController.cs" />
     <Compile Include="Areas\StorehouseManagement\Controllers\TakeOutStorehouseController.cs" />
     <Compile Include="Areas\StorehouseManagement\StorehouseManagementAreaRegistration.cs" />
     <Compile Include="Areas\Home\HomeAreaRegistration.cs" />
+    <Compile Include="Areas\SystemManagement\Controllers\DictionaryController.cs" />
+    <Compile Include="Areas\SystemManagement\Controllers\DictionaryTypeController.cs" />
+    <Compile Include="Areas\SystemManagement\Controllers\FactoryController.cs" />
     <Compile Include="Areas\SystemManagement\Controllers\MenuController.cs" />
     <Compile Include="Areas\SystemManagement\Controllers\RoleController.cs" />
     <Compile Include="Areas\SystemManagement\Controllers\RoleTypeController.cs" />
@@ -175,6 +189,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Iview\fonts\ionicons.svg" />
     <Content Include="Content\Iview\iview.css" />
+    <Content Include="default.htm" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -851,6 +866,39 @@
     <Content Include="Areas\Vue\Views\VueUser\Add.cshtml" />
     <Content Include="Areas\StorehouseManagement\Views\PutInStorehouse\Index.cshtml" />
     <Content Include="Areas\StorehouseManagement\Views\PutInStorehouse\List.cshtml" />
+    <Content Include="Areas\ClothProduction\Views\web.config" />
+    <Content Include="Areas\ClothProduction\Views\GallingCloth\Index.cshtml" />
+    <Content Include="Areas\ClothProduction\Views\DyeingCloth\Index.cshtml" />
+    <Content Include="Areas\ClothProduction\Views\BaseCloth\Index.cshtml" />
+    <Content Include="Areas\CustomerManagement\Views\web.config" />
+    <Content Include="Areas\CustomerManagement\Views\Customer\_AddOrEdit.cshtml" />
+    <Content Include="Areas\CustomerManagement\Views\Customer\Add.cshtml" />
+    <Content Include="Areas\CustomerManagement\Views\Customer\Edit.cshtml" />
+    <Content Include="Areas\CustomerManagement\Views\Customer\Index.cshtml" />
+    <Content Include="Areas\CustomerManagement\Views\Customer\Search.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\DictionaryType\_AddOrEdit.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\DictionaryType\Add.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\DictionaryType\Edit.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\DictionaryType\Index.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\DictionaryType\Search.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\Dictionary\_AddOrEdit.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\Dictionary\Add.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\Dictionary\Edit.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\Dictionary\Index.cshtml" />
+    <Content Include="Areas\SystemManagement\Views\Dictionary\Search.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\web.config" />
+    <Content Include="Areas\ClothYardManagement\Views\ClothYard\_AddOrEdit.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ClothYard\Add.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ClothYard\Edit.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ClothYard\Index.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ClothYard\Search.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\MeterSample\_AddOrEdit.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\MeterSample\Add.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\MeterSample\Edit.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\MeterSample\Index.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\MeterSample\Search.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ClothYard\Deliver.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ClothYard\PrintClothYards.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -865,12 +913,15 @@
     <Content Include="Nav.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Nav.cshtml" />
@@ -895,17 +946,24 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\ClothProduction\Data\" />
+    <Folder Include="Areas\ClothProduction\Views\Shared\" />
+    <Folder Include="Areas\ClothYardManagement\Views\Shared\" />
+    <Folder Include="Areas\CustomerManagement\Models\" />
+    <Folder Include="Areas\CustomerManagement\Views\Shared\" />
     <Folder Include="Areas\Home\Models\" />
     <Folder Include="Areas\Home\Views\Shared\" />
     <Folder Include="Areas\StorehouseManagement\Models\" />
     <Folder Include="Areas\StorehouseManagement\Views\Shared\" />
     <Folder Include="Areas\SystemManagement\Models\" />
+    <Folder Include="Areas\SystemManagement\Views\Factory\" />
     <Folder Include="Areas\SystemManagement\Views\Shared\" />
     <Folder Include="Areas\Vue\Models\" />
     <Folder Include="Areas\Vue\Views\Shared\" />
     <Folder Include="Areas\Vue\Views\VueMenu\" />
     <Folder Include="Areas\Vue\Views\VueRoleType\" />
     <Folder Include="Areas\Vue\Views\VueRole\" />
+    <Folder Include="Views\GreyCloth\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

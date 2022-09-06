@@ -11,19 +11,31 @@ using Entities.Model;
 using Entities.Enum;
 using Utlis.Extension;
 using Entities.Model.Common;
+using Utlis;
 
 namespace Business
 {
     public class MenuBll : BaseBll,IMenuBll
     {
-        public MenuBll(IBaseRepository<B_Menu> _menuDal)
+        public MenuBll(IBaseRepository<B_Menu> _menuDal,
+            IBaseRepository<B_UserRole> _userRoleDal,
+            IBaseRepository<B_RoleMenu> _roleMenuDal)
         {
             menuDal = _menuDal;
+            userRoleDal = _userRoleDal;
+            roleMenuDal = _roleMenuDal;
         }
 
         public async Task<IQueryable<B_Menu>> GetCurrentUserMenu()
         {
-            return (await menuDal.FindListAsync(d => !d.IsDelete)).OrderBy(d => d.Sort);
+            var userRoleList = await userRoleDal.FindListAsync(d => d.UserId == CurrentUser.User.Id);
+            var roleMenuList = await roleMenuDal.FindAllAsync();
+            var um = from u in userRoleList
+                      join r in roleMenuList
+                      on u.RoleId equals r.RoleId
+                     select r.MenuId;
+
+            return (await menuDal.FindListAsync(d => !d.IsDelete && um.Contains(d.Id))).OrderBy(d => d.Sort);
         }
 
         /// <summary>

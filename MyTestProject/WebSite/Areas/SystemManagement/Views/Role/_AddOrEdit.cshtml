@@ -9,22 +9,26 @@
 
 <style>
     .layui-form-label {
-        width: 100px;
+        width: 150px;
+    }
+
+    .layui-input-block {
+        margin-left: 160px;
     }
 </style>
 
 <div class="layui-form-item">
-    <label class="layui-form-label">角色编码：</label>
+    <label class="layui-form-label"><span style="color:red">*</span>角色编码：</label>
     <div class="layui-input-block">
         @Html.TextBoxFor(d => d.RoleCode,
        new Dictionary<string, object> {
                { "class", "layui-input" },
                { "placeholder", "请输入角色编码" },
-               { "lay-verify","required"} })
+               { "lay-verify","required"} })        
     </div>
 </div>
 <div class="layui-form-item">
-    <label class="layui-form-label">角色：</label>
+    <label class="layui-form-label"><span style="color:red">*</span>角色：</label>
     <div class="layui-input-block">
         @Html.TextBoxFor(d => d.RoleName,
        new Dictionary<string, object> {
@@ -34,10 +38,10 @@
     </div>
 </div>
 <div class="layui-form-item">
-    <label class="layui-form-label">角色类别：</label>
+    <label class="layui-form-label"><span style="color:red">*</span>角色类别：</label>
     <div class="layui-input-block">
         @Html.DropDownListFor(d => d.RoleTypeId, ViewBag.RoleTypeList as List<SelectListItem>,
-            new Dictionary<string, object> {{ "class", "layui-input" }})
+            new Dictionary<string, object> {{ "class", "layui-input" }, { "lay-search", "" }, { "lay-verify", "required" } })
     </div>
 </div>
 <div class="layui-form-item">

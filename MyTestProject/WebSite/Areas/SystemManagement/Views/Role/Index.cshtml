@@ -38,7 +38,7 @@
     function AddRole() {
         layer.open({
             title: '新增角色',
-            area: ['400px', '400px'],
+            area: ['600px', '400px'],
             type: 2,
             content: '@Url.Action("Add")'
         });
@@ -47,7 +47,7 @@
     function EditRole(roleId) {
         layer.open({
             title: '编辑角色',
-            area: ['400px', '400px'],
+            area: ['600px', '400px'],
             type: 2,
             content: '@Url.Action("Edit")' + "?roleId=" + roleId
         });

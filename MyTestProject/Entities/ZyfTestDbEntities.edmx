@@ -5,6 +5,104 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ZyfTestDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="B_ClothYard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ClothType" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ClothTypeName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ColourId" Type="uniqueidentifier" />
+          <Property Name="Colour" Type="nvarchar" MaxLength="100" />
+          <Property Name="UnitPrice" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Width" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="GramWeight" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="WeightList" Type="text" />
+          <Property Name="TotalWeight" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="TotalPrice" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="ReportTime" Type="datetime" />
+          <Property Name="DeliveryTime" Type="datetime" />
+          <Property Name="HasPaymentMoney" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="IsDelivery" Type="bit" Nullable="false" />
+          <Property Name="IsPaymentAll" Type="bit" Nullable="false" />
+          <Property Name="Remark" Type="text" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="CreateBy" Type="uniqueidentifier" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="uniqueidentifier" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="B_ClothYardPaymentRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PaymentMoney" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PaymentDate" Type="datetime" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="CreateBy" Type="uniqueidentifier" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="uniqueidentifier" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="B_ClothYardWeightList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ClothYardId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Weight" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="CreateBy" Type="uniqueidentifier" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="uniqueidentifier" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="B_Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="CreateBy" Type="uniqueidentifier" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="uniqueidentifier" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="B_Dictionary">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DictionaryTypeCode" Type="nvarchar" MaxLength="100" />
+          <Property Name="DictionaryTypeName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Code" Type="nvarchar" MaxLength="100" />
+          <Property Name="DictionaryName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Description" Type="text" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="CreateBy" Type="uniqueidentifier" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="uniqueidentifier" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="B_DictionaryType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DictionaryTypeCode" Type="nvarchar" MaxLength="100" />
+          <Property Name="DictionaryTypeName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Description" Type="text" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="CreateBy" Type="uniqueidentifier" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="uniqueidentifier" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="B_Menu">
           <Key>
             <PropertyRef Name="Id" />
@@ -22,6 +120,31 @@
           <Property Name="UpdateBy" Type="uniqueidentifier" />
           <Property Name="UpdateDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="B_MeterSampleBill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ClothType" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ClothTypeName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ColourId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Colour" Type="nvarchar" MaxLength="100" />
+          <Property Name="UnitPrice" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Width" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="GramWeight" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="Length" Type="numeric" Precision="18" Scale="1" Nullable="false" />
+          <Property Name="TotalPrice" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="DeliveryTime" Type="datetime" />
+          <Property Name="IsPayment" Type="bit" Nullable="false" />
+          <Property Name="Remark" Type="text" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="CreateBy" Type="uniqueidentifier" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="uniqueidentifier" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="B_Role">
           <Key>
             <PropertyRef Name="Id" />
@@ -30,6 +153,7 @@
           <Property Name="RoleCode" Type="nvarchar" MaxLength="50" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="100" />
           <Property Name="RoleTypeId" Type="uniqueidentifier" />
+          <Property Name="RoleTypeName" Type="nvarchar" MaxLength="100" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" />
           <Property Name="IsDelete" Type="bit" Nullable="false" />
           <Property Name="CreateBy" Type="uniqueidentifier" />
@@ -91,28 +215,180 @@
           <Property Name="CreateBy" Type="uniqueidentifier" />
           <Property Name="CreateDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="D_BaseCloth">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BaseClothFactoryId" Type="uniqueidentifier" />
+          <Property Name="ClothId" Type="uniqueidentifier" />
+          <Property Name="Width" Type="nvarchar" MaxLength="50" />
+          <Property Name="GramWeight" Type="int" />
+          <Property Name="Number" Type="int" />
+          <Property Name="ColorId" Type="uniqueidentifier" />
+          <Property Name="TotalWeight" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="UnitPrice" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="remarks" Type="ntext" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="CreateBy" Type="uniqueidentifier" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="uniqueidentifier" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="D_Factory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FactoryName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" />
+          <Property Name="ProducRange" Type="text" />
+          <Property Name="FactoryType" Type="uniqueidentifier" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="CreateBy" Type="uniqueidentifier" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="uniqueidentifier" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
         <EntityContainer Name="ZyfTestDbModelStoreContainer">
+          <EntitySet Name="B_ClothYard" EntityType="Self.B_ClothYard" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_ClothYardPaymentRecord" EntityType="Self.B_ClothYardPaymentRecord" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_ClothYardWeightList" EntityType="Self.B_ClothYardWeightList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_Customer" EntityType="Self.B_Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_Dictionary" EntityType="Self.B_Dictionary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_DictionaryType" EntityType="Self.B_DictionaryType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="B_Menu" EntityType="Self.B_Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_MeterSampleBill" EntityType="Self.B_MeterSampleBill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="B_Role" EntityType="Self.B_Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="B_RoleMenu" EntityType="Self.B_RoleMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="B_RoleType" EntityType="Self.B_RoleType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="B_User" EntityType="Self.B_User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="B_UserRole" EntityType="Self.B_UserRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="B_UserToken" EntityType="Self.B_UserToken" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="D_BaseCloth" EntityType="Self.D_BaseCloth" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="D_Factory" EntityType="Self.D_Factory" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ZyfTestDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ZyfTestDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="B_ClothYard" EntityType="ZyfTestDbModel.B_ClothYard" />
+          <EntitySet Name="B_ClothYardPaymentRecord" EntityType="ZyfTestDbModel.B_ClothYardPaymentRecord" />
+          <EntitySet Name="B_ClothYardWeightList" EntityType="ZyfTestDbModel.B_ClothYardWeightList" />
+          <EntitySet Name="B_Customer" EntityType="ZyfTestDbModel.B_Customer" />
+          <EntitySet Name="B_Dictionary" EntityType="ZyfTestDbModel.B_Dictionary" />
+          <EntitySet Name="B_DictionaryType" EntityType="ZyfTestDbModel.B_DictionaryType" />
           <EntitySet Name="B_Menu" EntityType="ZyfTestDbModel.B_Menu" />
+          <EntitySet Name="B_MeterSampleBill" EntityType="ZyfTestDbModel.B_MeterSampleBill" />
           <EntitySet Name="B_Role" EntityType="ZyfTestDbModel.B_Role" />
           <EntitySet Name="B_RoleMenu" EntityType="ZyfTestDbModel.B_RoleMenu" />
+          <EntitySet Name="B_RoleType" EntityType="ZyfTestDbModel.B_RoleType" />
           <EntitySet Name="B_User" EntityType="ZyfTestDbModel.B_User" />
           <EntitySet Name="B_UserRole" EntityType="ZyfTestDbModel.B_UserRole" />
           <EntitySet Name="B_UserToken" EntityType="ZyfTestDbModel.B_UserToken" />
-          <EntitySet Name="B_RoleType" EntityType="ZyfTestDbModel.B_RoleType" />
+          <EntitySet Name="D_BaseCloth" EntityType="ZyfTestDbModel.D_BaseCloth" />
+          <EntitySet Name="D_Factory" EntityType="ZyfTestDbModel.D_Factory" />
         </EntityContainer>
+        <EntityType Name="B_ClothYard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CustomerId" Type="Guid" Nullable="false" />
+          <Property Name="CustomerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ClothType" Type="Guid" Nullable="false" />
+          <Property Name="ClothTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ColourId" Type="Guid" />
+          <Property Name="Colour" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Width" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="GramWeight" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="WeightList" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TotalWeight" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ReportTime" Type="DateTime" Precision="3" />
+          <Property Name="DeliveryTime" Type="DateTime" Precision="3" />
+          <Property Name="HasPaymentMoney" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IsPaymentAll" Type="Boolean" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="CreateBy" Type="Guid" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Guid" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="IsDelivery" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="B_ClothYardPaymentRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="PaymentMoney" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="3" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="CreateBy" Type="Guid" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Guid" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="B_ClothYardWeightList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="ClothYardId" Type="Guid" Nullable="false" />
+          <Property Name="Weight" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="CreateBy" Type="Guid" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Guid" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="B_Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CustomerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="CreateBy" Type="Guid" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Guid" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="B_Dictionary">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="DictionaryTypeCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DictionaryTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DictionaryName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="CreateBy" Type="Guid" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Guid" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="B_DictionaryType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="DictionaryTypeCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DictionaryTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="CreateBy" Type="Guid" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Guid" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityType Name="B_Menu">
           <Key>
             <PropertyRef Name="Id" />
@@ -130,20 +406,46 @@
           <Property Name="UpdateBy" Type="Guid" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="B_MeterSampleBill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CustomerId" Type="Guid" Nullable="false" />
+          <Property Name="CustomerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ClothType" Type="Guid" Nullable="false" />
+          <Property Name="ClothTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ColourId" Type="Guid" Nullable="false" />
+          <Property Name="Colour" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Width" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="GramWeight" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Length" Type="Decimal" Nullable="false" Precision="18" Scale="1" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DeliveryTime" Type="DateTime" Precision="3" />
+          <Property Name="IsPayment" Type="Boolean" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="CreateBy" Type="Guid" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Guid" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityType Name="B_Role">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="RoleCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RoleTypeId" Type="Guid" />
+          <Property Name="RoleTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
           <Property Name="CreateBy" Type="Guid" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateBy" Type="Guid" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
-          <Property Name="RoleTypeId" Type="Guid" />
-          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
-          <Property Name="RoleCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="B_RoleMenu">
           <Key>
@@ -152,6 +454,18 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="RoleId" Type="Guid" />
           <Property Name="MenuId" Type="Guid" />
+        </EntityType>
+        <EntityType Name="B_RoleType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="RoleTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="CreateBy" Type="Guid" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Guid" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="B_User">
           <Key>
@@ -187,17 +501,41 @@
           <Property Name="CreateBy" Type="Guid" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="B_RoleType">
+        <EntityType Name="D_BaseCloth">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="RoleTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BaseClothFactoryId" Type="Guid" />
+          <Property Name="ClothId" Type="Guid" />
+          <Property Name="Width" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GramWeight" Type="Int32" />
+          <Property Name="Number" Type="Int32" />
+          <Property Name="ColorId" Type="Guid" />
+          <Property Name="TotalWeight" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
           <Property Name="CreateBy" Type="Guid" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateBy" Type="Guid" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="D_Factory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="FactoryName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProducRange" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FactoryType" Type="Guid" />
           <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="CreateBy" Type="Guid" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Guid" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -205,6 +543,110 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ZyfTestDbModelStoreContainer" CdmEntityContainer="ZyfTestDbEntities">
+          <EntitySetMapping Name="B_ClothYard">
+            <EntityTypeMapping TypeName="ZyfTestDbModel.B_ClothYard">
+              <MappingFragment StoreEntitySet="B_ClothYard">
+                <ScalarProperty Name="IsDelivery" ColumnName="IsDelivery" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsPaymentAll" ColumnName="IsPaymentAll" />
+                <ScalarProperty Name="HasPaymentMoney" ColumnName="HasPaymentMoney" />
+                <ScalarProperty Name="DeliveryTime" ColumnName="DeliveryTime" />
+                <ScalarProperty Name="ReportTime" ColumnName="ReportTime" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="TotalWeight" ColumnName="TotalWeight" />
+                <ScalarProperty Name="WeightList" ColumnName="WeightList" />
+                <ScalarProperty Name="GramWeight" ColumnName="GramWeight" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Colour" ColumnName="Colour" />
+                <ScalarProperty Name="ColourId" ColumnName="ColourId" />
+                <ScalarProperty Name="ClothTypeName" ColumnName="ClothTypeName" />
+                <ScalarProperty Name="ClothType" ColumnName="ClothType" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_ClothYardPaymentRecord">
+            <EntityTypeMapping TypeName="ZyfTestDbModel.B_ClothYardPaymentRecord">
+              <MappingFragment StoreEntitySet="B_ClothYardPaymentRecord">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="PaymentMoney" ColumnName="PaymentMoney" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_ClothYardWeightList">
+            <EntityTypeMapping TypeName="ZyfTestDbModel.B_ClothYardWeightList">
+              <MappingFragment StoreEntitySet="B_ClothYardWeightList">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="ClothYardId" ColumnName="ClothYardId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_Customer">
+            <EntityTypeMapping TypeName="ZyfTestDbModel.B_Customer">
+              <MappingFragment StoreEntitySet="B_Customer">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_Dictionary">
+            <EntityTypeMapping TypeName="ZyfTestDbModel.B_Dictionary">
+              <MappingFragment StoreEntitySet="B_Dictionary">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DictionaryName" ColumnName="DictionaryName" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="DictionaryTypeName" ColumnName="DictionaryTypeName" />
+                <ScalarProperty Name="DictionaryTypeCode" ColumnName="DictionaryTypeCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_DictionaryType">
+            <EntityTypeMapping TypeName="ZyfTestDbModel.B_DictionaryType">
+              <MappingFragment StoreEntitySet="B_DictionaryType">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DictionaryTypeName" ColumnName="DictionaryTypeName" />
+                <ScalarProperty Name="DictionaryTypeCode" ColumnName="DictionaryTypeCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="B_Menu">
             <EntityTypeMapping TypeName="ZyfTestDbModel.B_Menu">
               <MappingFragment StoreEntitySet="B_Menu">
@@ -223,18 +665,45 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="B_Role">
-            <EntityTypeMapping TypeName="ZyfTestDbModel.B_Role">
-              <MappingFragment StoreEntitySet="B_Role">
-                <ScalarProperty Name="RoleCode" ColumnName="RoleCode" />
-                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
-                <ScalarProperty Name="RoleTypeId" ColumnName="RoleTypeId" />
+          <EntitySetMapping Name="B_MeterSampleBill">
+            <EntityTypeMapping TypeName="ZyfTestDbModel.B_MeterSampleBill">
+              <MappingFragment StoreEntitySet="B_MeterSampleBill">
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsPayment" ColumnName="IsPayment" />
+                <ScalarProperty Name="DeliveryTime" ColumnName="DeliveryTime" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="GramWeight" ColumnName="GramWeight" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Colour" ColumnName="Colour" />
+                <ScalarProperty Name="ColourId" ColumnName="ColourId" />
+                <ScalarProperty Name="ClothTypeName" ColumnName="ClothTypeName" />
+                <ScalarProperty Name="ClothType" ColumnName="ClothType" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_Role">
+            <EntityTypeMapping TypeName="ZyfTestDbModel.B_Role">
+              <MappingFragment StoreEntitySet="B_Role">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="RoleTypeName" ColumnName="RoleTypeName" />
+                <ScalarProperty Name="RoleTypeId" ColumnName="RoleTypeId" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleCode" ColumnName="RoleCode" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -244,6 +713,19 @@
               <MappingFragment StoreEntitySet="B_RoleMenu">
                 <ScalarProperty Name="MenuId" ColumnName="MenuId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_RoleType">
+            <EntityTypeMapping TypeName="ZyfTestDbModel.B_RoleType">
+              <MappingFragment StoreEntitySet="B_RoleType">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="RoleTypeName" ColumnName="RoleTypeName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -285,15 +767,40 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="B_RoleType">
-            <EntityTypeMapping TypeName="ZyfTestDbModel.B_RoleType">
-              <MappingFragment StoreEntitySet="B_RoleType">
-                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <EntitySetMapping Name="D_BaseCloth">
+            <EntityTypeMapping TypeName="ZyfTestDbModel.D_BaseCloth">
+              <MappingFragment StoreEntitySet="D_BaseCloth">
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="RoleTypeName" ColumnName="RoleTypeName" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="TotalWeight" ColumnName="TotalWeight" />
+                <ScalarProperty Name="ColorId" ColumnName="ColorId" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="GramWeight" ColumnName="GramWeight" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="ClothId" ColumnName="ClothId" />
+                <ScalarProperty Name="BaseClothFactoryId" ColumnName="BaseClothFactoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="D_Factory">
+            <EntityTypeMapping TypeName="ZyfTestDbModel.D_Factory">
+              <MappingFragment StoreEntitySet="D_Factory">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="FactoryType" ColumnName="FactoryType" />
+                <ScalarProperty Name="ProducRange" ColumnName="ProducRange" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="FactoryName" ColumnName="FactoryName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

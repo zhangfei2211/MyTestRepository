@@ -1,0 +1,42 @@
+﻿@model Entities.Model.Search.CustomerSearch
+
+<style>
+    .layui-form-label {
+        width: 100px;
+    }
+
+    .layui-form-item {
+        margin-bottom: 0px;
+    }
+</style>
+
+<form class="layui-form" id="customerSearchForm">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">客户名：</label>
+            <div class="layui-input-block">
+                @Html.TextBoxFor(d => d.CustomerName, new { @class = "layui-input" })
+            </div>
+        </div>
+        <div class="layui-inline">
+            <div class="layui-input-block" style="margin-left:0">
+                <button type="button" lay-submit="" class="btn btn-primary" onclick="Search()">
+                    <span class="glyphicon glyphicon-search"></span>查询
+                </button>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <div class="layui-input-block" style="margin-left:50px">
+                <button type="button" class="btn btn-primary" onclick="AddCustomer()">
+                    <span class="glyphicon glyphicon-plus"></span>新增客户
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>

@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "米样单列表";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+
+<div class="mr-5 mt-5">
+    @Html.Partial("Search")
+</div>
+<div class="pl-5 pr-5">
+    <table id="meterSampleListTable" lay-filter=""></table>
+</div>
+<script type="text/html" id="meterSampleBar">
+    <div class="layui-input-block" style="margin-left:0px;">
+        <button type="button" class="btn btn-primary" onclick="EditMeterSample('{{d.Id}}')" tiptitle="修改米样单">
+            <span class="glyphicon glyphicon-edit"></span>
+        </button>
+        <button type="button" class="btn btn-primary" onclick="Payment('{{d.Id}}')" tiptitle="付款/取消付款">
+            <span class="glyphicon glyphicon-paperclip"></span>
+        </button>
+        <button type="button" class="btn btn-primary" onclick="DeleteMeterSample('{{d.Id}}')" tiptitle="删除">
+            <span class="glyphicon glyphicon-remove"></span>
+        </button>
+    </div>
+</script>
+
+<script>
+    var meterSampleListTable = LayuiTableRender({
+        elem: '#meterSampleListTable',
+        url: '@Url.Action("GetMeterSampleList")',
+        searchform: 'meterSampleSearchForm',
+        totalRow: true,
+        cols: [[
+            { type: 'checkbox', width: 50 },
+            { title: '', align: 'center', toolbar: '#clothYardWeightListBar', width: 50 },
+            { field: 'CustomerName', title: '客户名', width: 150 },
+            {
+                field: 'DeliveryTime', title: '发货日期', width: 105, templet: '<div>{{ FormDate(d.DeliveryTime, "yyyy-MM-dd") }}</div>'
+            },
+            { field: 'ClothTypeName', title: '品名', width: 150 },
+            { field: 'Colour', title: '颜色', width: 100 },
+            { field: 'UnitPrice', title: '单价', width: 100 },
+            { field: 'Width', title: '幅宽', width: 100 },
+            { field: 'GramWeight', title: '克重', width: 100 },
+            { field: 'Length', title: '长度', width: 150 },
+            { field: 'TotalPrice', title: '总价', width: 150, totalRow: true },
+            { field: 'IsPayment', title: '已付款', width: 80 },
+            /*{ field: 'Remark', title: '备注', width: 100 },*/
+            { title: '操作', align: 'center', toolbar: '#meterSampleBar' }
+        ]],
+        done: function (res, curr, count) {
+            //如果是异步请求数据方式，res即为你接口返回的信息。
+            //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+            //console.log(res);
+            //得到当前页码
+            //console.log(curr);
+            //得到数据总量
+            //console.log(count);
+            $("[data-field='IsPayment']").children().each(function () {
+                if ($(this).text() == 'true') {
+                    $(this).text("是")
+                } else if ($(this).text() == 'false') {
+                    $(this).text("否")
+                }
+            });
+            CreateTips();
+        }
+    });
+
+    function Search() {
+        meterSampleListTable.reload({
+            where: $("#meterSampleSearchForm").serializeJson()
+        });
+    }
+
+    function AddMeterSample() {
+        layer.open({
+            title: '新增米样单',
+            area: ['1200px', '800px'],
+            type: 2,
+            content: '@Url.Action("Add")'
+        });
+    }
+
+    function EditMeterSample(meterSampleId) {
+        layer.open({
+            title: '编辑米样单',
+            area: ['1200px', '800px'],
+            type: 2,
+            content: '@Url.Action("Edit")' + "?meterSampleId=" + meterSampleId
+        });
+    }
+
+    function Payment(meterSampleId) {
+        layer.confirm('确认要付款/取消付款吗？', {
+            btn: ['确定', '取消']//按钮
+        }, function (index) {
+
+            layer.close(index);
+
+            $.ajax({
+                url: "@Url.Action("Payment")",
+                type: "post",
+                dataType: "json",
+                data: { meterSampleId: meterSampleId },
+                success: function (result) {
+                    AjaxComplete(result);
+                }
+            });
+        });
+    }
+
+    function DeleteMeterSample(meterSampleId) {
+        $.ajax({
+            url: "@Url.Action("Delete")",
+            type: "post",
+            dataType: "json",
+            data: { meterSampleId: meterSampleId },
+            success: function (result) {
+                AjaxComplete(result);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,105 @@
+﻿@model Entities.B_MeterSampleBill
+
+@Html.HiddenFor(d => d.Id)
+@Html.HiddenFor(d => d.IsPayment)
+@Html.HiddenFor(d => d.IsDelete)
+@Html.HiddenFor(d => d.CreateBy)
+@Html.HiddenFor(d => d.CreateDate)
+@Html.HiddenFor(d => d.UpdateBy)
+@Html.HiddenFor(d => d.UpdateDate)
+
+<style>
+    .layui-form-label {
+        width: 150px;
+    }
+
+    .layui-input-block {
+        margin-left: 160px;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+</style>
+
+<div class="layui-form-item">
+    <label class="layui-form-label"><span style="color:red">*</span>客户：</label>
+    <div class="layui-input-block">
+        @Html.DropDownListFor(d => d.CustomerId, ViewBag.CustomerList as List<SelectListItem>,
+         new Dictionary<string, object> { { "class", "layui-input" }, { "lay-search", "" }, { "lay-verify", "required" } })
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span style="color:red">*</span>发货时间：</label>
+    <div class="layui-input-block">
+        <input type="date" class="layui-input" lay-verify="required" id="DeliveryTime" value='@Model.DeliveryTime' name="DeliveryTime" style="height:30px;width:180px;">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span style="color:red">*</span>布匹类型：</label>
+    <div class="layui-input-block">
+        @Html.DropDownListFor(d => d.ClothType, ViewBag.ClothTypeList as List<SelectListItem>,
+         new Dictionary<string, object> { { "class", "layui-input" }, { "lay-search", "" }, { "lay-verify", "required" } })
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span style="color:red">*</span>颜色：</label>
+    <div class="layui-input-block">
+        @Html.DropDownListFor(d => d.ColourId, ViewBag.ClothColourList as List<SelectListItem>,
+         new Dictionary<string, object> { { "class", "layui-input" }, { "lay-search", "" }, { "lay-verify", "required" } })
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span style="color:red">*</span>单价：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.UnitPrice, new Dictionary<string, object> {
+               { "class", "layui-input" },{ "placeholder", "请输入单价" }, { "type","number"} })
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span style="color:red">*</span>长度：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.Length, new Dictionary<string, object> {
+               { "class", "layui-input" },{ "placeholder", "请输入长度" }, { "type","number"} ,{ "lay-verify", "required" }})
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">总价：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.TotalPrice, new Dictionary<string, object> {
+               { "class", "layui-input" },{ "placeholder", "请输入总价" }, { "type","number"} })
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">门幅：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.Width, new Dictionary<string, object> {
+               { "class", "layui-input" },{ "placeholder", "请输入门幅" }, { "type","number"} })
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">克重：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.GramWeight, new Dictionary<string, object> {
+               { "class", "layui-input" },{ "placeholder", "请输入克重" }, { "type","number"} })
+    </div>
+</div>
+
+
+<div class="layui-form-item">
+    <div class="layui-input-block">
+        <button type="submit" lay-submit="" class="btn btn-primary">保存</button>
+    </div>
+</div>
+
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>

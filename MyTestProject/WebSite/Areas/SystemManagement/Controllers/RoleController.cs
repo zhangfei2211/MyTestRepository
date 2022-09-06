@@ -43,6 +43,11 @@ namespace WebSite.Areas.SystemManagement.Controllers
                 }
             };
             var result = await roleBll.GetRoleList(pageModel, info);
+            var roleTypeList = await roleBll.GetRoleTypeAll();
+            foreach (var r in result.Data)
+            {
+                r.RoleTypeName = roleTypeList.FirstOrDefault(d => d.Id == r.RoleTypeId).RoleTypeName;
+            }
             return Json(result);
         }
 

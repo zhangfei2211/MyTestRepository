@@ -42,7 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IClothYardBll.cs" />
+    <Compile Include="ICustomerBll.cs" />
+    <Compile Include="IDictionaryBll.cs" />
     <Compile Include="IMenuBll.cs" />
+    <Compile Include="IMeterSampleBll.cs" />
     <Compile Include="IRoleBll.cs" />
     <Compile Include="IUserBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

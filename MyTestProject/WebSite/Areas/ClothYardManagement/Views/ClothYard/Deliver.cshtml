@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "确认发货";
+    Layout = "~/Views/Shared/_LayoutWithOutNav.cshtml";
+}
+
+<div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label" style="width:100px">发货时间：</label>
+        <div class="layui-input-block">
+            <input type="date" class="layui-input" lay-verify="required" id="DeliveryTime" value='@DateTime.Now.ToString("yyyy-MM-dd")' name="DeliveryTime" style="height:30px;width:180px;">
+        </div>
+    </div>
+</div>
+<div class="layui-form-item" style="text-align: center;">
+    <div class="layui-input-block">
+        <button type="button" class="btn btn-primary" onclick="Delivery('@ViewBag.ClothYardId')">保存</button>
+    </div>
+</div>
+
+<script>
+    function Delivery(clothYardId) {
+        $.ajax({
+            url: "@Url.Action("Deliver")",
+            type: "post",
+            dataType: "json",
+            data: { clothYardId: clothYardId, deliverTime: $("#DeliveryTime").val() },
+            success: function (result) {
+                AjaxComplete(result, function () { window.parent.layer.closeAll(); });
+            }
+        });
+    }
+</script>
+

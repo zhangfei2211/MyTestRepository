@@ -1,0 +1,72 @@
+﻿@model Entities.Model.Search.MeterSampleSearch
+
+<style>
+    .layui-form-label {
+        width: 100px;
+    }
+
+    .layui-form-item {
+        margin-bottom: 0px;
+    }
+</style>
+
+<form class="layui-form" id="clothYardSearchForm">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">客户：</label>
+            <div class="layui-input-block">
+                @Html.DropDownListFor(d => d.CustomerId, ViewBag.CustomerList as IEnumerable<SelectListItem>,
+                    new Dictionary<string, object> {
+                        { "class" , "layui-input" },
+                        { "lay-search" , ""} })
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">布料类别：</label>
+            <div class="layui-input-block">
+                @Html.DropDownListFor(d => d.ClothType, ViewBag.ClothTypeList as IEnumerable<SelectListItem>,
+                    new Dictionary<string, object> {
+                        { "class" , "layui-input" },
+                        { "lay-search" , ""} })
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">颜色：</label>
+            <div class="layui-input-block">
+                @Html.DropDownListFor(d => d.Colour, ViewBag.ClothColourList as IEnumerable<SelectListItem>,
+                    new Dictionary<string, object> {
+                        { "class" , "layui-input" },
+                        { "lay-search" , ""} })
+            </div>
+        </div>
+        <div>
+            <div class="layui-inline">
+                <label class="layui-form-label">起始发货时间：</label>
+                <div class="layui-input-block">
+                    <input type="date" class="layui-input" lay-verify="required" id="StartDeliveryTimeTime" value='@DateTime.Now.ToString("yyyy-MM-dd")' name="StartDeliveryTimeTime" style="height:40px;width:200px;">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">截止发货时间：</label>
+                <div class="layui-input-block">
+                    <input type="date" class="layui-input" lay-verify="required" id="EndDeliveryTimeTime" value='@DateTime.Now.ToString("yyyy-MM-dd")' name="EndDeliveryTimeTime" style="height:40px;width:200px;">
+                </div>
+            </div>
+            <div class="layui-inline" style="margin-left:100px">
+                <button type="button" lay-submit="" class="btn btn-primary" onclick="Search()">
+                    <span class="glyphicon glyphicon-search"></span>查询
+                </button>
+                <button type="button" class="btn btn-primary" onclick="AddMeterSample()">
+                    <span class="glyphicon glyphicon-plus"></span>新增米样单
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>

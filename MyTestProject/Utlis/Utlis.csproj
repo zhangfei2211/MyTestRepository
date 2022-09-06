@@ -54,6 +54,7 @@
     <Compile Include="CookieHelp.cs" />
     <Compile Include="CurrentUser.cs" />
     <Compile Include="DESHelp.cs" />
+    <Compile Include="Dictionary\DictionaryType.cs" />
     <Compile Include="Extension\BaseDataTypeExtension.cs" />
     <Compile Include="Extension\ExpressionExtension.cs" />
     <Compile Include="Extension\IEnumerableExtension.cs" />

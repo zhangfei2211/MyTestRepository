@@ -51,7 +51,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="B_ClothYard.cs">
+      <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="B_ClothYardPaymentRecord.cs">
+      <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="B_ClothYardWeightList.cs">
+      <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="B_Customer.cs">
+      <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="B_Dictionary.cs">
+      <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="B_DictionaryType.cs">
+      <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="B_Menu.cs">
+      <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="B_MeterSampleBill.cs">
       <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="B_Role.cs">
@@ -72,11 +93,22 @@
     <Compile Include="B_UserToken.cs">
       <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="D_BaseCloth.cs">
+      <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="D_Factory.cs">
+      <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Enum\AjaxStatus.cs" />
     <Compile Include="Model\Common\OrderCondition.cs" />
     <Compile Include="Model\Common\PageResult.cs" />
     <Compile Include="Model\Common\PageSearchModel.cs" />
     <Compile Include="Model\Common\TreeModel.cs" />
+    <Compile Include="Model\Search\ClothYardSearch.cs" />
+    <Compile Include="Model\Search\CustomerSearch.cs" />
+    <Compile Include="Model\Search\DictionarySearch.cs" />
+    <Compile Include="Model\Search\DictionaryTypeSearch.cs" />
+    <Compile Include="Model\Search\MeterSampleSearch.cs" />
     <Compile Include="Model\Search\RoleSearch.cs" />
     <Compile Include="Model\Search\RoleTypeSearch.cs" />
     <Compile Include="Model\Search\UserSearch.cs" />

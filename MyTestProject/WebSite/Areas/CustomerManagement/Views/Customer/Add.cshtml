@@ -1,0 +1,25 @@
+﻿@model Entities.B_Customer
+@{
+    ViewBag.Title = "新增客户";
+    Layout = "~/Views/Shared/_LayoutWithOutNav.cshtml";
+}
+
+@using (Ajax.BeginForm("Save", null,
+    new AjaxOptions
+    {
+        HttpMethod = "Post",
+        InsertionMode = InsertionMode.InsertAfter,
+        UpdateTargetId = "messages",
+        OnComplete = "SaveComplete"
+    },
+    new { @class = "layui-form pt-10 pl-10" }))
+{
+    @Html.Partial("_AddOrEdit", Model);
+}
+
+<script>
+    function SaveComplete(response) {
+        AjaxBeginformComplete(response, function () { window.parent.layer.closeAll(); });
+    }
+</script>
+

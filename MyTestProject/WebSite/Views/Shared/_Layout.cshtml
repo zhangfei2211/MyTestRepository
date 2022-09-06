@@ -6,7 +6,6 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/js")
 </head>
-
 <body>
     <div class="auto-layout" id="layoutMain" style="width: 100%;" options="{leftWidth: 205, topHeight:50}">
         <div position="top" style="height:50px;">
@@ -24,6 +23,21 @@
     </div>
 </body>
 </html>
+
+<style>
+    .layui-table {
+        overflow-x: scroll;
+    }
+
+    .layui-table-body {
+        
+    }
+
+    .layui-table-cell {
+        height: auto;
+        line-height: 45px;
+    }
+</style>
 
 <script type="text/javascript">
     $(function () {

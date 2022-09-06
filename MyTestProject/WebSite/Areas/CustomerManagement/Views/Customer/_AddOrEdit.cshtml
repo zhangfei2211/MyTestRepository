@@ -1,0 +1,46 @@
+﻿@model Entities.B_Customer
+
+@Html.HiddenFor(d => d.Id)
+@Html.HiddenFor(d => d.IsDelete)
+@Html.HiddenFor(d => d.CreateBy)
+@Html.HiddenFor(d => d.CreateDate)
+@Html.HiddenFor(d => d.UpdateBy)
+@Html.HiddenFor(d => d.UpdateDate)
+
+<style>
+    .layui-form-label {
+        width: 100px;
+    }
+</style>
+
+<div class="layui-form-item">
+    <label class="layui-form-label">客户名：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.CustomerName,
+       new Dictionary<string, object> {
+               { "class", "layui-input" },
+               { "placeholder", "请输入客户名" },
+               { "lay-verify","required"} })
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">联系电话：</label>
+    <div class="layui-input-block">
+        @Html.TextBoxFor(d => d.Phone,
+       new Dictionary<string, object> {
+               { "class", "layui-input" },
+               { "placeholder", "请输入客户联系电话" } })
+    </div>
+</div>
+<div class="layui-form-item">
+    <div class="layui-input-block">
+        <button type="submit" lay-submit="" class="btn btn-primary">保存</button>
+    </div>
+</div>
+
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>

@@ -15,14 +15,15 @@ namespace Entities
     public partial class B_Role
     {
         public System.Guid Id { get; set; }
+        public string RoleCode { get; set; }
         public string RoleName { get; set; }
+        public Nullable<System.Guid> RoleTypeId { get; set; }
+        public string RoleTypeName { get; set; }
         public string Description { get; set; }
+        public bool IsDelete { get; set; }
         public Nullable<System.Guid> CreateBy { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.Guid> UpdateBy { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
-        public Nullable<System.Guid> RoleTypeId { get; set; }
-        public bool IsDelete { get; set; }
-        public string RoleCode { get; set; }
     }
 }

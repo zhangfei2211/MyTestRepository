@@ -16,10 +16,10 @@ namespace Entities
     {
         public System.Guid Id { get; set; }
         public string RoleTypeName { get; set; }
+        public bool IsDelete { get; set; }
         public Nullable<System.Guid> CreateBy { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.Guid> UpdateBy { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
-        public bool IsDelete { get; set; }
     }
 }

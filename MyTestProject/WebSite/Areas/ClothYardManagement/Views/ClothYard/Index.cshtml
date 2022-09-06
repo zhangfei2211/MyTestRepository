@@ -1,0 +1,254 @@
+﻿@{
+    ViewBag.Title = "码单列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mr-5 mt-5" id="clothYardSearchDiv">
+    @Html.Partial("Search")
+</div>
+<div class="pl-5 pr-5" id="contentDiv">
+    <table id="clothYardListTable" lay-filter=""></table>
+</div>
+<script type="text/html" id="clothYardBar">
+    @*<i class="glyphicon glyphicon-edit mr-10 pointer" onclick="EditClothYard('{{d.Id}}')" tiptitle="修改码单"></i>
+    <i class="glyphicon glyphicon-edit mr-10 pointer" onclick="Payment('{{d.Id}}')" tiptitle="付款/取消付款"></i>
+    <i class="glyphicon glyphicon-remove mr-10 pointer" onclick="DeleteClothYard('{{d.Id}}')" tiptitle="删除"></i>*@
+    <div class="layui-input-block" style="margin-left:0px;">
+        <button type="button" class="btn btn-primary" onclick="EditClothYard('{{d.Id}}')" tiptitle="修改码单">
+            <span class="glyphicon glyphicon-edit"></span>
+        </button>
+        <button type="button" class="btn btn-primary" onclick="Payment('{{d.Id}}')" tiptitle="付款/取消付款">
+            <span class="glyphicon glyphicon-paperclip"></span>
+        </button>
+        <button type="button" class="btn btn-primary" onclick="OpenDeliver('{{d.Id}}')" tiptitle="发货">
+            <span class="glyphicon glyphicon-ok"></span>
+        </button>
+        <button type="button" class="btn btn-primary" onclick="DeleteClothYard('{{d.Id}}')" tiptitle="删除">
+            <span class="glyphicon glyphicon-remove"></span>
+        </button>
+    </div>
+</script>
+
+<script type="text/html" id="clothYardWeightListBar">
+    <i class="glyphicon glyphicon-plus pointer" onclick="ShowClothYardWeightList('{{d.Id}}', '{{d.WeightList}}',this)" tiptitle="查看明细"></i>
+</script>
+
+<script>
+    var tableHeight = $(window).height() - $("#clothYardSearchDiv").height() - 120;
+    if (tableHeight < 500) {
+        tableHeight = 500;
+    }
+
+    var clothYardListTable = LayuiTableRender({
+        elem: '#clothYardListTable',
+        url: '@Url.Action("GetClothYardList")',
+        searchform: 'clothYardSearchForm',
+        id: 'clothYardListLayerTable',
+        totalRow: true,
+        limit: 10,
+        limits: [10, 50, 100, 200, 1000],
+        height: tableHeight,
+        cols: [[
+            { type: 'checkbox', width: 50 },
+            { title: '', align: 'center', toolbar: '#clothYardWeightListBar', width: 50 },
+            { field: 'CustomerName', title: '客户名', width: 120 },
+            {
+                field: 'ReportTime', title: '报单日期', width: 105, templet: '<div>{{ FormDate(d.ReportTime, "yyyy-MM-dd") }}</div>'
+            },
+            {
+                field: 'DeliveryTime', title: '发货日期', width: 105, templet: '<div>{{ FormDate(d.DeliveryTime, "yyyy-MM-dd") }}</div>'
+            },
+            { field: 'ClothTypeName', title: '品名', width: 120 },
+            { field: 'Colour', title: '颜色', width: 100 },
+            { field: 'UnitPrice', title: '单价', width: 80 },
+            { field: 'Width', title: '幅宽', width: 60 },
+            { field: 'GramWeight', title: '克总', width: 60 },
+            { field: 'TotalWeight', title: '总重', width: 150, totalRow: true},
+            { field: 'TotalPrice', title: '总价', width: 150, totalRow: true },
+            { field: 'IsDelivery', title: '已发货', width: 75 },
+            { field: 'IsPaymentAll', title: '已付款', width: 75 },
+            { field: 'Remark', title: '备注', width: 100 },
+            { title: '操作', align: 'center',width:240, toolbar: '#clothYardBar' }
+        ]],
+        done: function (res, curr, count) {
+            //如果是异步请求数据方式，res即为你接口返回的信息。
+            //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+            //console.log(res);
+            //得到当前页码
+            //console.log(curr);
+            //得到数据总量
+            //console.log(count);
+            $("[data-field='IsDelivery']").children().each(function () {
+                if ($(this).text() == 'true') {
+                    $(this).text("是")
+                } else if ($(this).text() == 'false') {
+                    $(this).text("否")
+                }
+            });
+
+            $("[data-field='IsPaymentAll']").children().each(function () {
+                if ($(this).text() == 'true') {
+                    $(this).text("是")
+                } else if ($(this).text() == 'false') {
+                    $(this).text("否")
+                }
+            });
+
+            CreateTips();
+        }
+    });
+
+    function Search() {
+        clothYardListTable.reload({
+            where: $("#clothYardSearchForm").serializeJson()
+        });
+    }
+
+    function AddClothYard() {
+        layer.open({
+            title: '新增码单',
+            area: ['100%', '100%'],
+            type: 2,
+            content: '@Url.Action("Add")'
+        });
+    }
+
+    //单个修改
+    function EditClothYard(clothYardId) {
+        layer.open({
+            title: '修改码单',
+            area: ['100%', '100%'],
+            type: 2,
+            content: '@Url.Action("Edit")' + "?clothYardIds=" + clothYardId
+        });
+    }
+
+    //批量修改
+    function EditClothYards() {
+        var selectData = layui.table.checkStatus('clothYardListLayerTable').data;
+        if (selectData.length == 0 || selectData.length > 10) {
+            ErrorMsg("必须选择一条码单且最多只能选择10条码单");
+            return;
+        }
+        else {
+            var isSameCustomerAndSameReportTime = true;
+            var customer = selectData[0].CustomerId;
+            var reportTime = FormDate(selectData[0].ReportTime, "yyyy-MM-dd");
+            var clothYardIds = "";
+            for (var i = 0; i < selectData.length; i++) {
+                var date = FormDate(selectData[i].ReportTime, "yyyy-MM-dd");
+                if (customer != selectData[i].CustomerId || reportTime != date) {
+                    isSameCustomerAndSameReportTime = false;
+                    break;
+                }
+                clothYardIds += selectData[i].Id + ",";
+            }
+            clothYardIds = clothYardIds.substr(0, clothYardIds.length - 1);
+            if (isSameCustomerAndSameReportTime) {
+                layer.open({
+                    title: '修改码单',
+                    area: ['100%', '100%'],
+                    type: 2,
+                    content: '@Url.Action("Edit")' + "?clothYardIds=" + clothYardIds
+                });
+            }
+            else {
+                ErrorMsg("必须是同一个客户同一天报单的码单");
+            }
+        }
+    }
+
+    function PrintClothYards() {
+        var selectData = layui.table.checkStatus('clothYardListLayerTable').data;
+        if (selectData.length == 0 || selectData.length > 10) {
+            ErrorMsg("必须选择一条码单且最多只能选择10条码单");
+            return;
+        }
+        else {
+            var isSameCustomerAndSameReportTime = true;
+            var customer = selectData[0].CustomerId;
+            var reportTime = FormDate(selectData[0].ReportTime, "yyyy-MM-dd");
+            var clothYardIds = "";
+            for (var i = 0; i < selectData.length; i++) {
+                var date = FormDate(selectData[i].ReportTime, "yyyy-MM-dd");
+                if (customer != selectData[i].CustomerId || reportTime != date) {
+                    isSameCustomerAndSameReportTime = false;
+                    break;
+                }
+                clothYardIds += selectData[i].Id + ",";
+            }
+            clothYardIds = clothYardIds.substr(0, clothYardIds.length - 1);
+            if (isSameCustomerAndSameReportTime) {
+                layer.open({
+                    title: '码单',
+                    area: ['100%', '100%'],
+                    type: 2,
+                    content: '@Url.Action("PrintClothYards")' + "?clothYardIds=" + clothYardIds
+                });
+            }
+            else {
+                ErrorMsg("必须是同一个客户同一天报单的码单");
+            }
+        }
+    }
+
+    function Payment(clothYardId) {
+        layer.confirm('确认要付款/取消付款吗？', {
+            btn: ['确定', '取消']//按钮
+        }, function (index) {
+
+            layer.close(index);
+
+            $.ajax({
+                url: "@Url.Action("Payment")",
+                type: "post",
+                dataType: "json",
+                data: { clothYardId: clothYardId },
+                success: function (result) {
+                    AjaxComplete(result);
+                }
+            });
+        });
+    }
+
+    function OpenDeliver(clothYardIds) {
+        layer.open({
+            title: '确认发货时间',
+            area: ['400px', '400px'],
+            type: 2,
+            content: '@Url.Action("Deliver")' + "?clothYardIds=" + clothYardIds
+        });
+    }
+
+    function DeleteClothYard(clothYardId) {
+        layer.confirm('确认要删除吗？', {
+            btn: ['确定', '取消']//按钮
+        }, function (index) {
+
+            layer.close(index);
+
+            $.ajax({
+                url: "@Url.Action("Delete")",
+                type: "post",
+                dataType: "json",
+                data: { clothYardId: clothYardId },
+                success: function (result) {
+                    AjaxComplete(result);
+                }
+            });
+        });
+    }
+
+    function ShowClothYardWeightList(clothYardId, weightList, button) {
+        var presentTr = $(button).parent().parent().parent();
+        var weightTr = $("#weightList_" + clothYardId);
+        if (weightTr.length <= 0) {
+            presentTr.after("<tr id=weightList_" + clothYardId + "><td colspan='13'>码单明细：<div style='padding-left:50px;height:50px;font-size:20pt;'>" + weightList + "</div><td/><tr/>");
+            $(button).attr("class", "glyphicon glyphicon-minus pointer");
+        }
+        else {
+            weightTr.remove();
+            $(button).attr("class", "glyphicon glyphicon-plus pointer");
+        }
+    }
+</script>

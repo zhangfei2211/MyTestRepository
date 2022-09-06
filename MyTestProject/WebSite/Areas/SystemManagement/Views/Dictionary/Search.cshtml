@@ -1,0 +1,51 @@
+﻿@model Entities.Model.Search.DictionarySearch
+
+<style>
+    .layui-form-label {
+        width: 100px;
+    }
+
+    .layui-form-item {
+        margin-bottom: 0px;
+    }
+</style>
+
+<form class="layui-form" id="dictionarySearchForm">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">字典名：</label>
+            <div class="layui-input-block">
+                @Html.TextBoxFor(d => d.DictionaryName, new { @class = "layui-input" })
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">字典类别：</label>
+            <div class="layui-input-block">
+                @Html.DropDownListFor(d => d.DictionaryTypeCode, ViewBag.DictionaryTypeList as IEnumerable<SelectListItem>,
+                    new Dictionary<string, object> {
+                        { "class" , "layui-input" },
+                        { "lay-search" , ""} })
+            </div>
+        </div>
+        <div class="layui-inline">
+            <div class="layui-input-block" style="margin-left:0">
+                <button type="button" lay-submit="" class="btn btn-primary" onclick="Search()">
+                    <span class="glyphicon glyphicon-search"></span>查询
+                </button>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <div class="layui-input-block" style="margin-left:50px">
+                <button type="button" class="btn btn-primary" onclick="AddDictionary()">
+                    <span class="glyphicon glyphicon-plus"></span>新增字典
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>
