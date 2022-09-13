@@ -68,6 +68,7 @@
 
     function Search() {
         meterSampleListTable.reload({
+            page: { curr: 1 },
             where: $("#meterSampleSearchForm").serializeJson()
         });
     }

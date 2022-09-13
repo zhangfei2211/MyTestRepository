@@ -38,5 +38,6 @@ namespace Entities
         public Nullable<System.Guid> UpdateBy { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
         public bool IsDelivery { get; set; }
+        public Nullable<int> Sort { get; set; }
     }
 }

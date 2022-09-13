@@ -30,6 +30,7 @@
 
     function Search() {
         dictionaryListTable.reload({
+            page: { curr: 1 },
             where: $("#dictionarySearchForm").serializeJson()
         });
     }

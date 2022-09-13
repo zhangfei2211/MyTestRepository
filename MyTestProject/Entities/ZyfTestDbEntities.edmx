@@ -28,6 +28,7 @@
           <Property Name="IsDelivery" Type="bit" Nullable="false" />
           <Property Name="IsPaymentAll" Type="bit" Nullable="false" />
           <Property Name="Remark" Type="text" />
+          <Property Name="Sort" Type="int" />
           <Property Name="IsDelete" Type="bit" Nullable="false" />
           <Property Name="CreateBy" Type="uniqueidentifier" />
           <Property Name="CreateDate" Type="datetime" />
@@ -319,6 +320,7 @@
           <Property Name="UpdateBy" Type="Guid" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="IsDelivery" Type="Boolean" Nullable="false" />
+          <Property Name="Sort" Type="Int32" />
         </EntityType>
         <EntityType Name="B_ClothYardPaymentRecord">
           <Key>
@@ -546,6 +548,7 @@
           <EntitySetMapping Name="B_ClothYard">
             <EntityTypeMapping TypeName="ZyfTestDbModel.B_ClothYard">
               <MappingFragment StoreEntitySet="B_ClothYard">
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
                 <ScalarProperty Name="IsDelivery" ColumnName="IsDelivery" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />

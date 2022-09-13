@@ -94,6 +94,8 @@ function LayuiTableRender(options) {
         method: "post",
         contentType: "application/json",
         page: true,
+        limit: 10,
+        limits: [10, 50, 100, 200, 1000],
         request: {
             pageName: 'pageIndex', //页码的参数名称，默认：page
             limitName: 'pageSize' //每页数据量的参数名，默认：limit

@@ -29,6 +29,7 @@
 
     function Search() {
         dictionaryTypeListTable.reload({
+            page: { curr: 1 },
             where: $("#dictionaryTypeSearchForm").serializeJson()
         });
     }

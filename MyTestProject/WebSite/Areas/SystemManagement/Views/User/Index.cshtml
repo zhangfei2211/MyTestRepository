@@ -43,6 +43,7 @@
 
     function Search() {
         userListTable.reload({
+            page: { curr: 1 },
             where: $("#userSearchForm").serializeJson()
         });
     }

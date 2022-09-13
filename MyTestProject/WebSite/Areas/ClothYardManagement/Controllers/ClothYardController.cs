@@ -66,7 +66,7 @@ namespace WebSite.Areas.ClothYardManagement.Controllers
                     new OrderCondition{ OrderbyField="IsDelivery",IsAsc=true },
                     new OrderCondition{ OrderbyField="IsPaymentAll",IsAsc=true },
                     new OrderCondition{ OrderbyField="CreateDate",IsAsc=true },
-                    new OrderCondition{ OrderbyField="Id",IsAsc=false }
+                    new OrderCondition{ OrderbyField="Sort",IsAsc=true }
                 }
             };
 

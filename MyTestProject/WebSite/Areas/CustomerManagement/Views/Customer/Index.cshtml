@@ -38,6 +38,7 @@
 
     function Search() {
         customerListTable.reload({
+            page: { curr: 1 },
             where: $("#customerSearchForm").serializeJson()
         });
     }

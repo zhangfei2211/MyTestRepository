@@ -100,6 +100,7 @@
 
     function Search() {
         clothYardListTable.reload({
+            page: { curr: 1 },
             where: $("#clothYardSearchForm").serializeJson()
         });
     }

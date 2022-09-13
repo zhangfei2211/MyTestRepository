@@ -31,6 +31,7 @@
 
     function Search() {
         roleListTable.reload({
+            page: { curr: 1 },
             where: $("#roleSearchForm").serializeJson()
         });
     }

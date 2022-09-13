@@ -93,6 +93,7 @@
                         <input type="text" name="UpdateBy" value="@Model.ClothYardList[i].UpdateBy" />
                         <input type="text" name="UpdateDate" value="@Model.ClothYardList[i].UpdateDate" />
                         <input type="text" name="DeliveryTime" value="@Model.ClothYardList[i].DeliveryTime" />
+                        <input type="text" name="Sort" value="@(i+1)" />
                     </td>
                     <td>
                         @{
@@ -104,7 +105,7 @@
                             }
                         }
                         @Html.DropDownList("ClothTypeId", clothTypeList,
-                        new Dictionary<string, object> { { "class", "layui-input" }, { "lay-search", "" } })
+                        new Dictionary<string, object> { { "class", "layui-input" }})
                     </td>
                     @*<td>
                         @{
@@ -180,6 +181,7 @@
                         <input type="text" name="UpdateBy" value="" />
                         <input type="text" name="UpdateDate" value="" />
                         <input type="text" name="DeliveryTime" value="" />
+                        <input type="text" name="Sort" value="@(i+1)" />
                     </td>
                     <td>
                         @{
@@ -198,7 +200,7 @@
                         else
                         {
                             @Html.DropDownList("ClothTypeId", clothTypeList,
-                              new Dictionary<string, object> { { "class", "layui-input" }, { "lay-search", "" } })
+                              new Dictionary<string, object> { { "class", "layui-input" } })
                         }
                     </td>
                     @*<td>
@@ -326,6 +328,7 @@
             row.CustomerId = $("#CustomerId").val();
             row.ClothType = $(trList[i]).find("[name=ClothTypeId]").val();
             row.Remark = $(trList[i]).find("[name=Remark]").val();
+            row.Sort = $(trList[i]).find("[name=Sort]").val();
 
             //有未选规格行中断
             if (row.ClothType == "") break;
