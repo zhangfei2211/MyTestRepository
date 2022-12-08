@@ -19,14 +19,23 @@ namespace Business
 {
     internal class MeterSampleBll : BaseBll, IMeterSampleBll
     {
-        public MeterSampleBll(IBaseRepository<B_MeterSampleBill> _meterSampleDal)
+        public MeterSampleBll(IBaseRepository<B_MeterSampleBill> _meterSampleDal,
+            IBaseRepository<B_MeterSampleList> _meterSampleListDal,
+            IBaseRepository<B_SN> _snDal)
         {
             meterSampleDal = _meterSampleDal;
+            meterSampleListDal = _meterSampleListDal;
+            snDal = _snDal;
         }
 
         public async Task<B_MeterSampleBill> GetMeterSampleById(Guid meterSampleId) 
         {
             return await meterSampleDal.FindAsync(d => d.Id == meterSampleId);
+        }
+
+        public async Task<IQueryable<B_MeterSampleList>> GetMeterSampleChildListById(Guid meterSampleId)
+        {
+            return await meterSampleListDal.FindListAsync(d => d.MeterSampleBillId == meterSampleId && !d.IsDelete);
         }
 
         public async Task<PageResult<B_MeterSampleBill>> GetMeterSampleList(PageSearchModel searchModel, MeterSampleSearch search)
@@ -43,16 +52,6 @@ namespace Business
             if (search.CustomerId.IsNotNull())
             {
                 whereLambda = whereLambda.And(d => d.CustomerId == search.CustomerId);
-            }
-
-            if (search.ClothType.IsNotNull())
-            {
-                whereLambda = whereLambda.And(d => d.ClothType == search.ClothType);
-            }
-
-            if (search.Colour.IsNotNull())
-            {
-                whereLambda = whereLambda.And(d => d.ColourId == search.Colour);
             }
 
             if (search.StartDeliveryTimeTime.IsNotNull())
@@ -72,23 +71,93 @@ namespace Business
             return await meterSampleDal.FindPageListAsync(searchModel, whereLambda);
         }
 
-        public async Task<bool> SaveMeterSample(B_MeterSampleBill meterSample)
+        public async Task<bool> SaveMeterSample(B_MeterSampleBill meterSample, List<B_MeterSampleList> list)
         {
-            if (meterSample.Id.IsNull())
+            try
             {
-                meterSample.Id = Guid.NewGuid();
-                return await meterSampleDal.AddAsync(meterSample);
+                decimal totalPrice = 0;
+                if (meterSample.Id.IsNull())
+                {
+                    meterSample.Id = Guid.NewGuid();
+                    meterSample.SN = await GetSN();
+                    foreach (var l in list)
+                    {
+                        l.MeterSampleBillId = meterSample.Id;
+                        totalPrice += l.UnitPrice * l.Length;
+                        await meterSampleListDal.AddAsync(l, false);
+                    }
+                    meterSample.TotalPrice = totalPrice;
+                    await meterSampleDal.AddAsync(meterSample, false);
+                }
+                else
+                {
+                    //先删除原米样明细
+                    var meterSampleListOld = await meterSampleListDal.FindListAsync(d => d.MeterSampleBillId == meterSample.Id);
+                    foreach (var old in meterSampleListOld)
+                    {
+                        await meterSampleListDal.DeletePhysicalDataAsync(old, false);
+                    }
+
+                    foreach (var l in list)
+                    {
+                        l.MeterSampleBillId = meterSample.Id;
+                        totalPrice += l.UnitPrice * l.Length;
+
+                        await meterSampleListDal.AddAsync(l, false);
+                    }
+
+                    meterSample.TotalPrice = totalPrice;
+
+                    await meterSampleDal.UpdateAsync(meterSample, false);
+                }
+
+                return await meterSampleDal.SaveChangesAsync();
             }
-            else
+            catch (Exception ex)
             {
-                return await meterSampleDal.UpdateAsync(meterSample);
+                return false;
             }
+        }
+
+
+        public async Task<bool> PaymentMeterSample(B_MeterSampleBill meterSample)
+        {
+            return await meterSampleDal.UpdateAsync(meterSample);
         }
 
         public async Task<bool> DeleteMeterSample(Guid meterSampleId)
         {
             var meterSample = await meterSampleDal.FindAsync(d => d.Id == meterSampleId);
             return await meterSampleDal.DeleteAsync(meterSample);
+        }
+
+        private async Task<string> GetSN()
+        {
+            int year = DateTime.Now.Year;
+            int month = DateTime.Now.Month;
+            var sn = await snDal.FindAsync(d => d.Year == year && d.Month == month && d.Type == "MeterSample");
+            if (sn.IsNull())
+            {
+                sn = new B_SN
+                {
+                    Id = Guid.NewGuid(),
+                    Year = year,
+                    Month = month,
+                    Number = 1,
+                    Type = "MeterSample",
+                    CreateDate = DateTime.Now
+                };
+
+                await snDal.AddAsync(sn, false);
+            }
+            else
+            {
+                sn.Number++;
+
+                await snDal.UpdateAsync(sn, false);
+            }
+
+            return sn.Year.ToString() + sn.Month.ToString().PadLeft(2, '0') + sn.Number.ToString().PadLeft(4, '0');
         }
     }
 }

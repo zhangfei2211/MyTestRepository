@@ -15,6 +15,7 @@ namespace Entities
     public partial class B_ClothYard
     {
         public System.Guid Id { get; set; }
+        public string SN { get; set; }
         public System.Guid CustomerId { get; set; }
         public string CustomerName { get; set; }
         public System.Guid ClothType { get; set; }
@@ -25,19 +26,20 @@ namespace Entities
         public Nullable<decimal> Width { get; set; }
         public Nullable<decimal> GramWeight { get; set; }
         public string WeightList { get; set; }
+        public Nullable<int> Count { get; set; }
         public Nullable<decimal> TotalWeight { get; set; }
         public Nullable<decimal> TotalPrice { get; set; }
         public Nullable<System.DateTime> ReportTime { get; set; }
         public Nullable<System.DateTime> DeliveryTime { get; set; }
         public Nullable<decimal> HasPaymentMoney { get; set; }
+        public bool IsDelivery { get; set; }
         public bool IsPaymentAll { get; set; }
         public string Remark { get; set; }
+        public Nullable<int> Sort { get; set; }
         public bool IsDelete { get; set; }
         public Nullable<System.Guid> CreateBy { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.Guid> UpdateBy { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
-        public bool IsDelivery { get; set; }
-        public Nullable<int> Sort { get; set; }
     }
 }

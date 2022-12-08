@@ -13,6 +13,7 @@ using Utlis.Extension;
 using Entities.Model.Common;
 using Utlis;
 using Entities.Model.Search;
+using Entities.Model.Business;
 
 namespace Business
 {
@@ -20,11 +21,15 @@ namespace Business
     {
         public ClothYardBll(IBaseRepository<B_ClothYard> _clothYardDal,
             IBaseRepository<B_ClothYardWeightList> _clothYardWeightListDal,
-            IBaseRepository<B_ClothYardPaymentRecord> _clothYardPaymentRecordDal)
+            IBaseRepository<B_ClothYardPaymentRecord> _clothYardPaymentRecordDal,
+            IBaseRepository<B_SN> _snDal,
+            IBaseRepositoryForSql _sqlDal)
         {
             clothYardDal = _clothYardDal;
             clothYardWeightListDal = _clothYardWeightListDal;
             clothYardPaymentRecordDal = _clothYardPaymentRecordDal;
+            snDal = _snDal;
+            sqlDal = _sqlDal;
         }
 
         /// <summary>
@@ -77,7 +82,7 @@ namespace Business
                 whereLambda = whereLambda.And(d => d.ReportTime <= enddate);
             }
 
-            if (search.IsDelivery.IsNotNull()) 
+            if (search.IsDelivery.IsNotNull())
             {
                 whereLambda = whereLambda.And(d => d.IsDelivery == search.IsDelivery.Value);
             }
@@ -87,7 +92,7 @@ namespace Business
                 whereLambda = whereLambda.And(d => d.IsPaymentAll == search.IsPaymentAll.Value);
             }
 
-            if (search.StartDeliveryTime.IsNotNull()) 
+            if (search.StartDeliveryTime.IsNotNull())
             {
                 var date = search.StartDeliveryTime.Value.ToString("yyyy-MM-dd") + " 00:00:00";
                 var startdate = Convert.ToDateTime(date);
@@ -102,6 +107,47 @@ namespace Business
             }
 
             return await clothYardDal.FindPageListAsync(searchModel, whereLambda);
+        }
+
+        public async Task<IQueryable<ClothYardUnitPrice>> GetClothYardUnitPriceByCustomerId(string customerId)
+        {
+            var sql = @"select distinct top(20) b.DictionaryName as ClothTypeName, a.ReportTime, a.Colour,a.UnitPrice from B_ClothYard a
+                        left join B_Dictionary b on a.ClothType=b.Id
+                      where CustomerId = '" + customerId + @"'
+                      order by ReportTime desc,ClothTypeName,Colour,UnitPrice";
+            return await sqlDal.FindListBySQLAsync<ClothYardUnitPrice>(sql);
+        }
+
+        public async Task<PageResult<ClothYardMainReport>> GetClothYardMainReport(PageSearchModel searchModel, ClothYardMainReportSearch search)
+        {
+            string whereString = " where a.IsDelete='false' and b.IsDelete='false' ";
+
+            if (search.CustomerId.IsNotNull())
+            {
+                whereString += " and a.CustomerId='" + search.CustomerId.ToString() + "' ";
+            }
+
+            if (search.StartReportTime.IsNotNull())
+            {
+                var date = search.StartReportTime.Value.ToString("yyyy-MM-dd") + " 00:00:00";
+                whereString += " and a.ReportTime >='" + date + "' ";
+            }
+
+            if (search.EndReportTime.IsNotNull())
+            {
+                var date = search.EndReportTime.Value.ToString("yyyy-MM-dd") + " 23:59:59";
+                whereString += " and a.ReportTime <='" + date + "' ";
+            }
+
+            var sql = @"select  b.Id,b.CustomerName,Sum(a.[Count]) as TotalCount,SUM(a.TotalPrice) as TotalPrice from 
+                                B_ClothYard a
+                                left join B_Customer b on a.CustomerId=b.Id" + whereString +
+                                @"group by b.Id,b.CustomerName";
+
+            //用于分页的排序字段
+            searchModel.OrderBy= " TotalCount desc,Id";
+
+            return await sqlDal.FindPageListBySQLAsync<ClothYardMainReport>(sql,searchModel);
         }
 
         public async Task<IQueryable<B_ClothYardWeightList>> GetClothYardWeightListByClothYardId(Guid clothYardId)
@@ -128,10 +174,12 @@ namespace Business
         {
             foreach (var clothYard in clothYardList)
             {
+                
                 if (clothYardDal.Find(d => d.Id == clothYard.Id) == null)
                 {
                     clothYard.Id = Guid.NewGuid();
 
+                    clothYard.SN = await GetSN();
                     //用lothYard列存储，删除行存储
                     //foreach (var c in clothYardWeightList)
                     //{
@@ -139,11 +187,11 @@ namespace Business
                     //    c.ClothYardId = clothYard.Id;
                     //    await clothYardWeightListDal.AddAsync(c, false);
                     //}
-                    await clothYardDal.AddAsync(clothYard,false);
+                    await clothYardDal.AddAsync(clothYard, false);
                 }
                 else
                 {
-                    await clothYardDal.UpdateAsync(clothYard,false);
+                    await clothYardDal.UpdateAsync(clothYard, false);
 
                     ////先删除原码单明细
                     //var clothYardWeightListOld = await clothYardWeightListDal.FindListAsync(d => d.ClothYardId == clothYard.Id);
@@ -178,6 +226,35 @@ namespace Business
         public async Task<bool> DeleteClothYardPaymentRecord(Guid roleTypeId)
         {
             return await roleTypeDal.DeleteByIdAsync(roleTypeId);
+        }
+
+        private async Task<string> GetSN()
+        {
+            int year = DateTime.Now.Year;
+            int month = DateTime.Now.Month;
+            var sn = await snDal.FindAsync(d => d.Year == year && d.Month == month && d.Type == "ClothYard");
+            if (sn.IsNull())
+            {
+                sn = new B_SN
+                {
+                    Id = Guid.NewGuid(),
+                    Year = year,
+                    Month = month,
+                    Number = 1,
+                    Type = "ClothYard",
+                    CreateDate= DateTime.Now
+                };
+
+                await snDal.AddAsync(sn, false);
+            }
+            else
+            {
+                sn.Number++;
+
+                await snDal.UpdateAsync(sn, false);
+            }
+
+            return sn.Year.ToString() + sn.Month.ToString().PadLeft(2, '0') + sn.Number.ToString().PadLeft(4, '0');
         }
     }
 }

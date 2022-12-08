@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Entities.Model.Business;
 using Entities.Model.Common;
 using Entities.Model.Search;
 using System;
@@ -14,6 +15,10 @@ namespace IBusiness
         Task<B_ClothYard> GetClothYardById(Guid clothYardId);
 
         Task<PageResult<B_ClothYard>> GetClothYardList(PageSearchModel searchModel, ClothYardSearch search);
+
+         Task<IQueryable<ClothYardUnitPrice>> GetClothYardUnitPriceByCustomerId(string customerId);
+
+        Task<PageResult<ClothYardMainReport>> GetClothYardMainReport(PageSearchModel searchModel, ClothYardMainReportSearch search);
 
         Task<IQueryable<B_ClothYardWeightList>> GetClothYardWeightListByClothYardId(Guid clothYardId);
 

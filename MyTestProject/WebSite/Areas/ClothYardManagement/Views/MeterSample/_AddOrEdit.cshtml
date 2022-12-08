@@ -1,20 +1,33 @@
-﻿@model Entities.B_MeterSampleBill
-
-@Html.HiddenFor(d => d.Id)
-@Html.HiddenFor(d => d.IsPayment)
-@Html.HiddenFor(d => d.IsDelete)
-@Html.HiddenFor(d => d.CreateBy)
-@Html.HiddenFor(d => d.CreateDate)
-@Html.HiddenFor(d => d.UpdateBy)
-@Html.HiddenFor(d => d.UpdateDate)
+﻿@model WebSite.Areas.ClothYardManagement.Data.MeterSampleModel
 
 <style>
-    .layui-form-label {
-        width: 150px;
+    table tr {
+        height: 40px;
     }
 
-    .layui-input-block {
-        margin-left: 160px;
+    table td {
+        width: 80px;
+    }
+
+    .priceTable, .priceTable td {
+        border: solid 1px black;
+    }
+
+    .layui-form-label {
+        width: 80px;
+    }
+
+    input:focus {
+        background-color: yellow;
+    }
+
+    .inputWidth {
+        border: 1px solid black;
+        width: 100px;
+    }
+
+    .blackinput {
+        border: 1px solid black;
     }
 
     input::-webkit-outer-spin-button,
@@ -25,76 +38,220 @@
     input[type="number"] {
         -moz-appearance: textfield;
     }
+
+    .list {
+        display: block;
+        cursor: pointer;
+        height: 30px;
+        line-height: 30px;
+        vertical-align: middle;
+        font-size: 12pt;
+        min-width: 80px;
+    }
+
+        .list:hover {
+            background-color: yellow;
+        }
 </style>
 
 <div class="layui-form-item">
-    <label class="layui-form-label"><span style="color:red">*</span>客户：</label>
-    <div class="layui-input-block">
-        @Html.DropDownListFor(d => d.CustomerId, ViewBag.CustomerList as List<SelectListItem>,
-         new Dictionary<string, object> { { "class", "layui-input" }, { "lay-search", "" }, { "lay-verify", "required" } })
+    <div class="layui-inline">
+        <label class="layui-form-label"><span style="color:red">*</span>客户：</label>
+        <div class="layui-input-block">
+            @Html.DropDownListFor(d => d.CustomerId, Model.CustomerList as List<SelectListItem>,
+            new Dictionary<string, object> { { "class", "layui-input" }, { "lay-search", "" }, { "lay-verify", "required" } })
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label" style="width:120px"><span style="color:red">*</span>发货时间：</label>
+        <div class="layui-input-block">
+            <input type="date" class="layui-input" lay-verify="required" id="DeliveryTime" value='@Model.DeliveryTime' name="DeliveryTime" style="height:30px;width:180px;">
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">总价：</label>
+        <label class="layui-form-label">@(Model.MeterSampleBill==null?0:Model.MeterSampleBill.TotalPrice)</label>
     </div>
 </div>
-<div class="layui-form-item">
-    <label class="layui-form-label"><span style="color:red">*</span>发货时间：</label>
-    <div class="layui-input-block">
-        <input type="date" class="layui-input" lay-verify="required" id="DeliveryTime" value='@Model.DeliveryTime' name="DeliveryTime" style="height:30px;width:180px;">
-    </div>
+<div style="display:none">
+    <input type="text" id="MeterSampleBillId" name="MeterSampleBillId" value="@Model.MeterSampleBill.Id" />
+    <input type="text" id="SN" name="SN" value="@Model.MeterSampleBill.SN" />
+    <input type="text" id="IsPayment" name="IsPayment" value="@(Model.MeterSampleBill.IsPayment ? "true" : "false")" />
+    <input type="text" id="IsDelete" name="IsDelete" value="@(Model.MeterSampleBill.IsDelete ? "true" : "false")" />
+    <input type="text" id="CreateBy" name="CreateBy" value="@Model.MeterSampleBill.CreateBy" />
+    <input type="text" id="CreateDate" name="CreateDate" value="@Model.MeterSampleBill.CreateDate" />
+    <input type="text" id="UpdateBy" name="UpdateBy" value="@Model.MeterSampleBill.UpdateBy" />
+    <input type="text" id="UpdateDate" name="UpdateDate" value="@Model.MeterSampleBill.UpdateDate" />
 </div>
-<div class="layui-form-item">
-    <label class="layui-form-label"><span style="color:red">*</span>布匹类型：</label>
-    <div class="layui-input-block">
-        @Html.DropDownListFor(d => d.ClothType, ViewBag.ClothTypeList as List<SelectListItem>,
-         new Dictionary<string, object> { { "class", "layui-input" }, { "lay-search", "" }, { "lay-verify", "required" } })
-    </div>
+<div class="layui-form-item" style="width:100%;" id="meterSampleListDiv">
+    <table class="table-bordered" style="overflow-x: scroll; height: 500px; position: absolute">
+        <tr>
+            <td style="display:none"></td>
+            <td>品名</td>
+            <td>颜色</td>
+            <td>门幅</td>
+            <td>克重</td>
+            <td>单价</td>
+            <td>长度</td>
+        </tr>
+        @{int i = 0; }
+        @for (i = 0; i < 10; i++)
+        {
+            if (Model.MeterSampleList != null && Model.MeterSampleList.Count > i)
+            {
+                <tr>
+                    <td style="display:none">
+                        <input type="text" name="MeterSampleListId" value="@Model.MeterSampleList[i].Id" />
+                        <input type="text" name="MeterSampleBillId" value="@Model.MeterSampleList[i].MeterSampleBillId" />
+                        <input type="text" name="IsDelete" value="@(Model.MeterSampleList[i].IsDelete ? "true" : "false")" />
+                        <input type="text" name="CreateBy" value="@Model.MeterSampleList[i].CreateBy" />
+                        <input type="text" name="CreateDate" value="@Model.MeterSampleList[i].CreateDate" />
+                        <input type="text" name="UpdateBy" value="@Model.MeterSampleList[i].UpdateBy" />
+                        <input type="text" name="UpdateDate" value="@Model.MeterSampleList[i].UpdateDate" />
+                    </td>
+                    <td>
+                        @{
+                            var clothTypeList = Model.ClothTypeList as List<SelectListItem>;
+                            var clothType = clothTypeList.Where(d => d.Value == Model.MeterSampleList[i].ClothType.ToString()).FirstOrDefault();
+                            if (clothType != null)
+                            {
+                                clothType.Selected = true;
+                            }
+
+                            @Html.DropDownList("ClothTypeId", clothTypeList,
+                                                      new Dictionary<string, object> { { "class", "layui-input" } })
+
+                            //赋值完恢复原样，避免影响其他行
+                            if (clothType != null)
+                            {
+                                clothType.Selected = false;
+                            }
+                        }
+                    </td>
+                    <td>
+                        <div style="position: relative;">
+                            <input class="layui-input inputWidth" id="@("Colour" + i)" name="Colour" value="@Model.MeterSampleList[i].Colour" onclick="ShowList(@i,'Colour')">
+                            <div id="@("Colour_i" + i)" style="position: fixed; z-index: 99999; background: #ffffff; overflow-y: auto; height: 400px; display: none"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="position: relative;">
+                            <input class="layui-input inputWidth" id="@("Width" + i)" name="Width" type="number" value="@Model.MeterSampleList[i].Width" onclick="ShowList(@i,'Width')">
+                            <div id="@("Width_i" + i)" style="position: fixed; z-index: 99999; background: #ffffff; overflow-y: auto; height: 400px; display: none"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="position: relative;">
+                            <input class="layui-input inputWidth" id="@("GramWeight" + i)" name="GramWeight" type="number" value="@Model.MeterSampleList[i].GramWeight" onclick="ShowList(@i,'GramWeight')">
+                            <div id="@("GramWeight_i" + i)" style="position: fixed; z-index: 99999; background: #ffffff; overflow-y: auto; height: 400px; display: none"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <input class="layui-input inputWidth" name="UnitPrice" type="number" value="@Model.MeterSampleList[i].UnitPrice">
+                    </td>
+                    <td>
+                        <input class="layui-input inputWidth" name="Length" type="number" value="@Model.MeterSampleList[i].Length">
+                    </td>
+                    <td>
+                        @if (i != 0)
+                        {
+                            <button type="button" lay-submit="" class="btn btn-primary" onclick="CopyPrevProperty(this)">规格同上</button>
+                        }
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td style="display:none">
+                        <input type="text" name="MeterSampleListId" value="@Guid.NewGuid()" />
+                        <input type="text" name="MeterSampleBillId" value="@Model.MeterSampleBill.Id" />
+                        <input type="text" name="IsDelete" value="" />
+                        <input type="text" name="CreateBy" value="" />
+                        <input type="text" name="CreateDate" value="" />
+                        <input type="text" name="UpdateBy" value="" />
+                        <input type="text" name="UpdateDate" value="" />
+                    </td>
+                    <td>
+                        @{
+                            var clothTypeList = Model.ClothTypeList as List<SelectListItem>;
+                            var clothType = clothTypeList.Where(d => d.Selected).FirstOrDefault();
+                            if (clothType != null)
+                            {
+                                clothType.Selected = false;
+                            }
+                        }
+                        @Html.DropDownList("ClothTypeId", clothTypeList,
+                            new Dictionary<string, object> { { "class", "layui-input" } })
+                    </td>
+                    <td>
+                        <div style="position: relative;">
+                            <input class="layui-input inputWidth" id="@("Colour" + i)" name="Colour" value="" onclick="ShowList(@i,'Colour')">
+                            <div id="@("Colour_i" + i)" style="position: fixed; z-index: 99999; background: #ffffff; overflow-y: auto; height: 400px; display: none"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="position: relative;">
+                            <input class="layui-input inputWidth" id="@("Width" + i)" name="Width" type="number" value="" onclick="ShowList(@i,'Width')">
+                            <div id="@("Width_i" + i)" style="position: fixed; z-index: 99999; background: #ffffff; overflow-y: auto; height: 400px; display: none"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="position: relative;">
+                            <input class="layui-input inputWidth" id="@("GramWeight" + i)" name="GramWeight" type="number" value="" onclick="ShowList(@i,'GramWeight')">
+                            <div id="@("GramWeight_i" + i)" style="position: fixed; z-index: 99999; background: #ffffff; overflow-y: auto; height: 400px; display: none"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <input class="layui-input inputWidth" name="UnitPrice" type="number" value="">
+                    </td>
+                    <td>
+                        <input class="layui-input inputWidth" name="Length" type="number" value="">
+                    </td>
+                    <td>
+                        @if (i != 0)
+                        {
+                            <button type="button" lay-submit="" class="btn btn-primary" onclick="CopyPrevProperty(this)">规格同上</button>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </table>
 </div>
-<div class="layui-form-item">
-    <label class="layui-form-label"><span style="color:red">*</span>颜色：</label>
+
+<div class="layui-form-item" style="margin-top: 550px; margin-left: 300px; text-align: center;">
     <div class="layui-input-block">
-        @Html.DropDownListFor(d => d.ColourId, ViewBag.ClothColourList as List<SelectListItem>,
-         new Dictionary<string, object> { { "class", "layui-input" }, { "lay-search", "" }, { "lay-verify", "required" } })
-    </div>
-</div>
-<div class="layui-form-item">
-    <label class="layui-form-label"><span style="color:red">*</span>单价：</label>
-    <div class="layui-input-block">
-        @Html.TextBoxFor(d => d.UnitPrice, new Dictionary<string, object> {
-               { "class", "layui-input" },{ "placeholder", "请输入单价" }, { "type","number"} })
-    </div>
-</div>
-<div class="layui-form-item">
-    <label class="layui-form-label"><span style="color:red">*</span>长度：</label>
-    <div class="layui-input-block">
-        @Html.TextBoxFor(d => d.Length, new Dictionary<string, object> {
-               { "class", "layui-input" },{ "placeholder", "请输入长度" }, { "type","number"} ,{ "lay-verify", "required" }})
-    </div>
-</div>
-<div class="layui-form-item">
-    <label class="layui-form-label">总价：</label>
-    <div class="layui-input-block">
-        @Html.TextBoxFor(d => d.TotalPrice, new Dictionary<string, object> {
-               { "class", "layui-input" },{ "placeholder", "请输入总价" }, { "type","number"} })
-    </div>
-</div>
-<div class="layui-form-item">
-    <label class="layui-form-label">门幅：</label>
-    <div class="layui-input-block">
-        @Html.TextBoxFor(d => d.Width, new Dictionary<string, object> {
-               { "class", "layui-input" },{ "placeholder", "请输入门幅" }, { "type","number"} })
-    </div>
-</div>
-<div class="layui-form-item">
-    <label class="layui-form-label">克重：</label>
-    <div class="layui-input-block">
-        @Html.TextBoxFor(d => d.GramWeight, new Dictionary<string, object> {
-               { "class", "layui-input" },{ "placeholder", "请输入克重" }, { "type","number"} })
+        <button type="button" class="btn btn-primary" onclick="Save()">保存</button>
     </div>
 </div>
 
+<input type="hidden" id="hdTableIndex" value="0" />
+<div style="display:none" id="ColourListDiv">
+    <dl>
+        @foreach (var colour in Model.ClothColourList)
+        {
+            <dd class="list" onclick="GetText('@colour.Text','Colour')">@colour.Text</dd>
+        }
+    </dl>
+</div>
 
-<div class="layui-form-item">
-    <div class="layui-input-block">
-        <button type="submit" lay-submit="" class="btn btn-primary">保存</button>
-    </div>
+<div style="display:none" id="WidthListDiv">
+    <dl>
+        @foreach (var width in Model.ClothWidthList)
+        {
+            <dd class="list" onclick="GetText('@width.Text','Width')">@width.Text</dd>
+        }
+    </dl>
+</div>
+
+<div style="display:none" id="GramWeightListDiv">
+    <dl>
+        @foreach (var gramWeight in Model.ClothGramWeightList)
+        {
+            <dd class="list" onclick="GetText('@gramWeight.Text','GramWeight')">@gramWeight.Text</dd>
+        }
+    </dl>
 </div>
 
 <script>
@@ -102,4 +259,130 @@
         var form = layui.form;
         form.render();
     });
+
+    function Save() {
+        var meterSampleBill = {};
+        var meterSampleList = [];
+        var trList = $("#meterSampleListDiv").find("table").find("tr");
+
+        if ($("#CustomerId").val() == "") {
+            ErrorMsg("请选择客户");
+            return;
+        }
+
+        if ($("#DeliveryTime").val() == "") {
+            ErrorMsg("请选择发货日期");
+            return;
+        }
+
+        if ($(trList[1]).find("[name=ClothTypeId]").val().length <= 0 || $(trList[1]).find("[name=Colour]").val().length <= 0) {
+            ErrorMsg("请从第一行开始填写布匹类型、颜色");
+            return;
+        }
+        meterSampleBill.Id = $("#MeterSampleBillId").val();
+        meterSampleBill.SN = $("#SN").val();
+        meterSampleBill.CustomerId = $("#CustomerId").val();
+        meterSampleBill.DeliveryTime = $("#DeliveryTime").val();
+        meterSampleBill.IsPayment = $("#IsPayment").val() == "true" ? "true " : "false";
+        meterSampleBill.IsDelete = $("#IsDelete").val() == "true" ? "true " : "false";
+        meterSampleBill.CreateBy = $("#CreateBy").val();
+        meterSampleBill.CreateDate = $("#CreateDate").val();
+        meterSampleBill.UpdateBy = $("#UpdateBy").val();
+        meterSampleBill.UpdateDate = $("#UpdateDate").val();
+
+        //第一行是表头，从第二行开始
+        for (var i = 1; i < 11; i++) {
+            var row = {};
+            row.Id = $(trList[i]).find("input[name=MeterSampleListId]").val();
+            row.MeterSampleBillId = $(trList[i]).find("input[name=MeterSampleBillId]").val();
+            row.IsDelete = $(trList[i]).find("input[name=IsDelete]").val() == "true" ? "true " : "false";
+            row.CreateBy = $(trList[i]).find("input[name=CreateBy]").val();
+            row.CreateDate = $(trList[i]).find("input[name=CreateDate]").val();
+            row.UpdateBy = $(trList[i]).find("input[name=UpdateBy]").val();
+            row.UpdateDate = $(trList[i]).find("input[name=UpdateDate]").val();
+
+            row.ClothType = $(trList[i]).find("[name=ClothTypeId]").val();
+            //有未选规格行中断
+            if (row.ClothType == "") break;
+            row.Colour = $(trList[i]).find("[name=Colour]").val();
+
+            row.Width = $(trList[i]).find("[name=Width]").val();
+            row.GramWeight = $(trList[i]).find("[name=GramWeight]").val();
+            row.UnitPrice = $(trList[i]).find("[name=UnitPrice]").val();
+            row.Length = $(trList[i]).find("[name=Length]").val();
+            if (row.UnitPrice == "") {
+                row.UnitPrice = 0;
+            }
+
+            if (row.Length == "") {
+                ErrorMsg("请填写第" + i + "行长度");
+                return;
+            }
+
+            meterSampleList.push(row);
+        }
+        //var aa = JSON.stringify(meterSampleList);
+
+        $.ajax({
+            url: "@Url.Action("Save")",
+            type: "post",
+            dataType: "json",
+            data: { meterSampleBill: meterSampleBill, meterSampleList: JSON.stringify(meterSampleList) },
+            success: function (result) {
+                AjaxComplete(result, function () { window.parent.layer.closeAll(); });
+            }
+        });
+    }
+
+    function CopyPrevProperty(ele) {
+        var prevTr = $(ele).parent().parent().prev();
+        var thisTr = $(ele).parent().parent();
+        var prevClothTypeId = $(prevTr).find("[name=ClothTypeId]").val();
+        //var prevColour = $(prevTr).find("[name=Colour]").val();
+        $(thisTr).find("[name=ClothTypeId]").val(prevClothTypeId);
+        $(thisTr).find("[name=ClothTypeId]").next().find("input").click();
+        $(thisTr).find("[name=ClothTypeId]").next().find("input").click();
+        //$(thisTr).find("[name=Colour]").val(prevColour);
+        //$(thisTr).find("[name=Colour]").next().find("input").click();
+        //$(thisTr).find("[name=Colour]").next().find("input").click();
+        $(thisTr).find("[name=Colour]").val($(prevTr).find("[name=Colour]").val());
+        $(thisTr).find("[name=Width]").val($(prevTr).find("[name=Width]").val());
+        $(thisTr).find("[name=GramWeight]").val($(prevTr).find("[name=GramWeight]").val());
+        $(thisTr).find("[name=UnitPrice]").val($(prevTr).find("[name=UnitPrice]").val());
+    }
+
+    function ShowList(index, type) {
+        //点击时隐藏其他列的下拉
+        var types = ["Colour", "Width", "GramWeight"];
+        for (var i = 0; i < types.length; i++) {
+            if (type == types[i]) {
+                continue;
+            }
+            else {
+                $("#" + types[i] + "_i" + $("#hdTableIndex").val()).hide();
+            }
+        }
+
+        $("#hdTableIndex").val(index);
+        var div = $("#" + type + "_i" + $("#hdTableIndex").val());
+        $(div).html($("#" + type + "ListDiv").html());
+
+        $(div).toggle();
+
+        var divId = "#" + type + "_i" + $("#hdTableIndex").val();
+
+        $(document).bind('click', function () {
+            $(div).hide();
+        });
+
+        $(div).parent().bind('click', function (e) {
+            event.stopPropagation(e);//调用停止冒泡方法,阻止document方法的执行
+        });
+    }
+
+    function GetText(text, type) {
+        event.stopPropagation();
+        $("#" + type + $("#hdTableIndex").val()).val(text);
+        $("#" + type + "_i" + $("#hdTableIndex").val()).html("");
+    }
 </script>

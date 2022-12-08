@@ -13,5 +13,8 @@ namespace Entities.Model.Common
         public int PageIndex;
 
         public List<OrderCondition> OrderConditions;
+
+        //排序字段，用于sql分页查询
+        public string OrderBy;
     }
 }

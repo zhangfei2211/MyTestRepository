@@ -15,16 +15,9 @@ namespace Entities
     public partial class B_MeterSampleBill
     {
         public System.Guid Id { get; set; }
+        public string SN { get; set; }
         public System.Guid CustomerId { get; set; }
         public string CustomerName { get; set; }
-        public System.Guid ClothType { get; set; }
-        public string ClothTypeName { get; set; }
-        public System.Guid ColourId { get; set; }
-        public string Colour { get; set; }
-        public Nullable<decimal> UnitPrice { get; set; }
-        public Nullable<decimal> Width { get; set; }
-        public Nullable<decimal> GramWeight { get; set; }
-        public decimal Length { get; set; }
         public Nullable<decimal> TotalPrice { get; set; }
         public Nullable<System.DateTime> DeliveryTime { get; set; }
         public bool IsPayment { get; set; }

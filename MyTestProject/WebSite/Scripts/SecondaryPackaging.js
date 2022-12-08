@@ -190,6 +190,19 @@ function FormDate(str, fmt) { //str: 日期字符串；fmt:格式类型
     return fmt;
 }
 
-function test() {
-    
+//json转url参数
+function paramsToUrlQuery(params) {
+    let types = Object.prototype.toString.call(params).slice(8, -1);
+    if (types === 'Object') {
+        let tempArr = [];
+        for (let i in params) {
+            let key = encodeURIComponent(i);
+            let value = encodeURIComponent(params[i]);
+            tempArr.push(key + '=' + value);
+        }
+        let urlParamsStr = tempArr.join('&');
+        return urlParamsStr;
+    } else {
+        throw 'model is not object';
+    }
 }

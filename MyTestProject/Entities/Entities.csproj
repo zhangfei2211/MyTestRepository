@@ -75,6 +75,9 @@
     <Compile Include="B_MeterSampleBill.cs">
       <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="B_MeterSampleList.cs">
+      <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="B_Role.cs">
       <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
     </Compile>
@@ -82,6 +85,9 @@
       <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="B_RoleType.cs">
+      <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="B_SN.cs">
       <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="B_User.cs">
@@ -100,10 +106,13 @@
       <DependentUpon>ZyfTestDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Enum\AjaxStatus.cs" />
+    <Compile Include="Model\Business\ClothYardMainReport.cs" />
+    <Compile Include="Model\Business\ClothYardUnitPrice.cs" />
     <Compile Include="Model\Common\OrderCondition.cs" />
     <Compile Include="Model\Common\PageResult.cs" />
     <Compile Include="Model\Common\PageSearchModel.cs" />
     <Compile Include="Model\Common\TreeModel.cs" />
+    <Compile Include="Model\Search\ClothYardMainReportSearch.cs" />
     <Compile Include="Model\Search\ClothYardSearch.cs" />
     <Compile Include="Model\Search\CustomerSearch.cs" />
     <Compile Include="Model\Search\DictionarySearch.cs" />

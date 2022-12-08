@@ -42,6 +42,9 @@ namespace Business
 
         protected IBaseRepository<B_MeterSampleBill> meterSampleDal;
 
+        protected IBaseRepository<B_MeterSampleList> meterSampleListDal;
+
+        protected IBaseRepository<B_SN> snDal;
 
         /// <summary>
         /// 专用于执行sql

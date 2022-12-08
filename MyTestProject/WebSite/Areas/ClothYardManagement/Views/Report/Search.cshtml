@@ -1,0 +1,54 @@
+﻿@model Entities.Model.Search.ClothYardMainReportSearch
+
+<style>
+    .layui-form-label {
+        width: 100px;
+    }
+
+    .layui-form-item {
+        margin-bottom: 0px;
+    }
+</style>
+
+<form class="layui-form" id="reportTableSearchForm">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">客户：</label>
+            <div class="layui-input-block">
+                @Html.DropDownListFor(d => d.CustomerId, ViewBag.CustomerList as IEnumerable<SelectListItem>,
+         new Dictionary<string, object> {
+                        { "class" , "layui-input" },
+                        { "lay-search" , ""} })
+            </div>
+        </div>
+        <div>
+            <div class="layui-inline">
+                <label class="layui-form-label">起始报单时间：</label>
+                <div class="layui-input-block">
+                    @{ 
+                        DateTime startTime = new DateTime(DateTime.Now.Year, 1, 1);
+                    }
+                    <input type="date" class="layui-input" lay-verify="required" id="StartReportTime" value='@startTime.ToString("yyyy-MM-dd")' name="StartReportTime" style="height:40px;width:200px;">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">截止报单时间：</label>
+                <div class="layui-input-block">
+                    <input type="date" class="layui-input" lay-verify="required" id="EndReportTime" value='@DateTime.Now.ToString("yyyy-MM-dd")' name="EndReportTime" style="height:40px;width:200px;">
+                </div>
+            </div>
+            <div class="layui-inline" style="margin-left:100px">
+                <button type="button" lay-submit="" class="btn btn-primary" onclick="Search()">
+                    <span class="glyphicon glyphicon-search"></span>查询
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>

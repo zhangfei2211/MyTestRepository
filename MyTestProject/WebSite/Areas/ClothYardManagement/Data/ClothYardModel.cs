@@ -21,9 +21,13 @@ namespace WebSite.Areas.ClothYardManagement.Data
 
         public IEnumerable<SelectListItem> CustomerList { get; set; }
 
-        public IEnumerable<SelectListItem> ClothTypeList { get; set; }
-
+        public IEnumerable<SelectListItem> ClothTypeList { get; set;}
+        
         public IEnumerable<SelectListItem> ClothColourList { get; set; }
+
+        public IEnumerable<SelectListItem> ClothWidthList { get; set; }
+
+        public IEnumerable<SelectListItem> ClothGramWeightList { get; set; }
 
         public bool IsEdit { get; set; }
     }

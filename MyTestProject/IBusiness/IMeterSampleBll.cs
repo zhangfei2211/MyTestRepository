@@ -14,9 +14,13 @@ namespace IBusiness
     {
         Task<B_MeterSampleBill> GetMeterSampleById(Guid meterSampleId);
 
+        Task<IQueryable<B_MeterSampleList>> GetMeterSampleChildListById(Guid meterSampleId);
+
         Task<PageResult<B_MeterSampleBill>> GetMeterSampleList(PageSearchModel searchModel, MeterSampleSearch search);
 
-        Task<bool> SaveMeterSample(B_MeterSampleBill meterSample);
+        Task<bool> SaveMeterSample(B_MeterSampleBill meterSample, List<B_MeterSampleList> list);
+
+        Task<bool> PaymentMeterSample(B_MeterSampleBill meterSample);
 
         Task<bool> DeleteMeterSample(Guid meterSampleId);
     }

@@ -24,7 +24,7 @@ namespace WebSite.Common
 
         protected IMeterSampleBll meterSampleBll;
 
-        public static IEnumerable<SelectListItem> GetSelectList<T>(List<T> list, string textName, string valueName, string orderName, string order = "asc")
+        public static IEnumerable<SelectListItem> GetSelectList<T>(List<T> list, string textName, string valueName, string orderName, string order = "asc",bool isInsertSelect=true)
         {
             List<T> newList = (List<T>)list;
 
@@ -58,11 +58,14 @@ namespace WebSite.Common
                 Value = d.GetType().GetProperty(valueName).GetValue(d, null) != null ? d.GetType().GetProperty(valueName).GetValue(d, null).ToString() : null,
             }) .ToList();
 
-            slist.Insert(0, new SelectListItem
+            if (isInsertSelect)
             {
-                Text = "请选择",
-                Value = ""
-            });
+                slist.Insert(0, new SelectListItem
+                {
+                    Text = "请选择",
+                    Value = ""
+                });
+            }
 
             return slist;
         }

@@ -3,6 +3,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .red{
+        background-color:red;
+        color:white;
+    }
+    .green {
+        background-color: green;
+        color: white;
+    }
+</style>
+
 <div class="mr-5 mt-5" id="clothYardSearchDiv">
     @Html.Partial("Search")
 </div>
@@ -47,29 +58,32 @@
         totalRow: true,
         limit: 10,
         limits: [10, 50, 100, 200, 1000],
-        height: tableHeight,
+        //height: tableHeight,
         cols: [[
             { type: 'checkbox', width: 50 },
             { title: '', align: 'center', toolbar: '#clothYardWeightListBar', width: 50 },
-            { field: 'CustomerName', title: '客户名', width: 120 },
+            { field: 'SN', title: 'SN', width: 110 },
+            { field: 'CustomerName', title: '客户名', width: 100 },
             {
                 field: 'ReportTime', title: '报单日期', width: 105, templet: '<div>{{ FormDate(d.ReportTime, "yyyy-MM-dd") }}</div>'
             },
             {
                 field: 'DeliveryTime', title: '发货日期', width: 105, templet: '<div>{{ FormDate(d.DeliveryTime, "yyyy-MM-dd") }}</div>'
             },
-            { field: 'ClothTypeName', title: '品名', width: 120 },
+            { field: 'ClothTypeName', title: '品名', width: 100 },
             { field: 'Colour', title: '颜色', width: 100 },
-            { field: 'UnitPrice', title: '单价', width: 80 },
+            { field: 'UnitPrice', title: '单价', width: 60 },
             { field: 'Width', title: '幅宽', width: 60 },
             { field: 'GramWeight', title: '克总', width: 60 },
-            { field: 'TotalWeight', title: '总重', width: 150, totalRow: true},
-            { field: 'TotalPrice', title: '总价', width: 150, totalRow: true },
+            { field: 'Count', title: '匹数', width: 60, totalRow: true },
+            { field: 'TotalWeight', title: '总重', width: 90, totalRow: true},
+            { field: 'TotalPrice', title: '总价', width: 110, totalRow: true },
             { field: 'IsDelivery', title: '已发货', width: 75 },
             { field: 'IsPaymentAll', title: '已付款', width: 75 },
             { field: 'Remark', title: '备注', width: 100 },
             { title: '操作', align: 'center',width:240, toolbar: '#clothYardBar' }
         ]],
+        where: $("#clothYardSearchForm").serializeJson(),
         done: function (res, curr, count) {
             //如果是异步请求数据方式，res即为你接口返回的信息。
             //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
@@ -80,22 +94,46 @@
             //console.log(count);
             $("[data-field='IsDelivery']").children().each(function () {
                 if ($(this).text() == 'true') {
+                    $(this).parent().addClass("green");
                     $(this).text("是")
                 } else if ($(this).text() == 'false') {
+                    $(this).parent().addClass("red");
                     $(this).text("否")
                 }
             });
 
             $("[data-field='IsPaymentAll']").children().each(function () {
                 if ($(this).text() == 'true') {
+                    $(this).parent().addClass("green");
                     $(this).text("是")
                 } else if ($(this).text() == 'false') {
+                    $(this).parent().addClass("red");
                     $(this).text("否")
                 }
             });
 
             CreateTips();
         }
+    });
+
+    $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+        var index = $(this).attr('data-index');
+        var tableBox = $(this).parents('.layui-table-box');
+        //存在固定列
+        var tableDiv;
+        if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+            tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+        } else {
+            tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+        }
+        var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+        if (checkCell.length > 0) {
+            checkCell.click();
+        }
+    });
+    //对td的单击事件进行拦截停止，防止事件冒泡
+    $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+        e.stopPropagation();
     });
 
     function Search() {
@@ -116,6 +154,7 @@
 
     //单个修改
     function EditClothYard(clothYardId) {
+        event.stopPropagation();
         layer.open({
             title: '修改码单',
             area: ['100%', '100%'],
@@ -180,12 +219,13 @@
             }
             clothYardIds = clothYardIds.substr(0, clothYardIds.length - 1);
             if (isSameCustomerAndSameReportTime) {
-                layer.open({
+                window.open('@Url.Action("PrintClothYards")' + "?clothYardIds=" + clothYardIds);
+                @*layer.open({
                     title: '码单',
                     area: ['100%', '100%'],
                     type: 2,
                     content: '@Url.Action("PrintClothYards")' + "?clothYardIds=" + clothYardIds
-                });
+                });*@
             }
             else {
                 ErrorMsg("必须是同一个客户同一天报单的码单");
@@ -193,7 +233,18 @@
         }
     }
 
+    function PrintStatement() {
+        var param = paramsToUrlQuery($("#clothYardSearchForm").serializeJson());
+        window.open('@Url.Action("PrintStatement")' + "?" + param);
+    }
+
+        function PrintStatement2() {
+        var param = paramsToUrlQuery($("#clothYardSearchForm").serializeJson());
+        window.open('@Url.Action("PrintStatement2")' + "?" + param);
+    }
+
     function Payment(clothYardId) {
+        event.stopPropagation();
         layer.confirm('确认要付款/取消付款吗？', {
             btn: ['确定', '取消']//按钮
         }, function (index) {
@@ -212,7 +263,59 @@
         });
     }
 
+    function Payments() {
+        event.stopPropagation();
+
+        var selectData = layui.table.checkStatus('clothYardListLayerTable').data;
+
+        if (selectData.length == 0) {
+            ErrorMsg("必须至少选择一条码单");
+            return;
+        }
+
+        layer.confirm('确认要批量付款吗？', {
+            btn: ['确定', '取消']//按钮
+        }, function (index) {
+
+            layer.close(index);
+
+            var clothYardIds = '';
+
+            for (var i = 0; i < selectData.length; i++) {
+                clothYardIds += selectData[i].Id + ",";
+            }
+            clothYardIds = clothYardIds.substr(0, clothYardIds.length - 1);
+
+            $.ajax({
+                url: "@Url.Action("Payments")",
+                type: "post",
+                dataType: "json",
+                data: { clothYardIds: clothYardIds },
+                success: function (result) {
+                    AjaxComplete(result);
+                }
+            });
+        });
+    }
+
     function OpenDeliver(clothYardIds) {
+        event.stopPropagation();
+
+        if (clothYardIds = '0') {
+            clothYardIds = '';
+            var selectData = layui.table.checkStatus('clothYardListLayerTable').data;
+
+            if (selectData.length == 0) {
+                ErrorMsg("必须至少选择一条码单");
+                return;
+            }
+
+            for (var i = 0; i < selectData.length; i++) {
+                clothYardIds += selectData[i].Id + ",";
+            }
+            clothYardIds = clothYardIds.substr(0, clothYardIds.length - 1);
+        }
+
         layer.open({
             title: '确认发货时间',
             area: ['400px', '400px'],
@@ -222,6 +325,7 @@
     }
 
     function DeleteClothYard(clothYardId) {
+        event.stopPropagation();
         layer.confirm('确认要删除吗？', {
             btn: ['确定', '取消']//按钮
         }, function (index) {
@@ -241,10 +345,11 @@
     }
 
     function ShowClothYardWeightList(clothYardId, weightList, button) {
+        event.stopPropagation();
         var presentTr = $(button).parent().parent().parent();
         var weightTr = $("#weightList_" + clothYardId);
         if (weightTr.length <= 0) {
-            presentTr.after("<tr id=weightList_" + clothYardId + "><td colspan='13'>码单明细：<div style='padding-left:50px;height:50px;font-size:20pt;'>" + weightList + "</div><td/><tr/>");
+            presentTr.after("<tr id=weightList_" + clothYardId + "><td colspan='16'>码单明细：<div style='padding-left:50px;height:50px;font-size:20pt;'>" + weightList + "</div><td/><tr/>");
             $(button).attr("class", "glyphicon glyphicon-minus pointer");
         }
         else {

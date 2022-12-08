@@ -32,16 +32,17 @@
         cols: [[
             { type: 'checkbox', width: 50 },
             { title: '', align: 'center', toolbar: '#clothYardWeightListBar', width: 50 },
+            { field: 'SN', title: 'SN', width: 110 },
             { field: 'CustomerName', title: '客户名', width: 150 },
             {
                 field: 'DeliveryTime', title: '发货日期', width: 105, templet: '<div>{{ FormDate(d.DeliveryTime, "yyyy-MM-dd") }}</div>'
             },
-            { field: 'ClothTypeName', title: '品名', width: 150 },
-            { field: 'Colour', title: '颜色', width: 100 },
-            { field: 'UnitPrice', title: '单价', width: 100 },
-            { field: 'Width', title: '幅宽', width: 100 },
-            { field: 'GramWeight', title: '克重', width: 100 },
-            { field: 'Length', title: '长度', width: 150 },
+            //{ field: 'ClothTypeName', title: '品名', width: 150 },
+            //{ field: 'Colour', title: '颜色', width: 100 },
+            //{ field: 'UnitPrice', title: '单价', width: 100 },
+            //{ field: 'Width', title: '幅宽', width: 100 },
+            //{ field: 'GramWeight', title: '克重', width: 100 },
+            //{ field: 'Length', title: '长度', width: 150 },
             { field: 'TotalPrice', title: '总价', width: 150, totalRow: true },
             { field: 'IsPayment', title: '已付款', width: 80 },
             /*{ field: 'Remark', title: '备注', width: 100 },*/
@@ -66,6 +67,26 @@
         }
     });
 
+    $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+        var index = $(this).attr('data-index');
+        var tableBox = $(this).parents('.layui-table-box');
+        //存在固定列
+        var tableDiv;
+        if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+            tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+        } else {
+            tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+        }
+        var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+        if (checkCell.length > 0) {
+            checkCell.click();
+        }
+    });
+    //对td的单击事件进行拦截停止，防止事件冒泡
+    $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+        e.stopPropagation();
+    });
+
     function Search() {
         meterSampleListTable.reload({
             page: { curr: 1 },
@@ -76,7 +97,7 @@
     function AddMeterSample() {
         layer.open({
             title: '新增米样单',
-            area: ['1200px', '800px'],
+            area: ['100%', '100%'],
             type: 2,
             content: '@Url.Action("Add")'
         });
@@ -85,7 +106,7 @@
     function EditMeterSample(meterSampleId) {
         layer.open({
             title: '编辑米样单',
-            area: ['1200px', '800px'],
+            area: ['100%', '100%'],
             type: 2,
             content: '@Url.Action("Edit")' + "?meterSampleId=" + meterSampleId
         });
@@ -108,6 +129,18 @@
                 }
             });
         });
+    }
+
+    function PrintMeterSample() {
+        var selectData = layui.table.checkStatus('meterSampleListTable').data;
+        if (selectData.length != 1) {
+            ErrorMsg("必须选择一条米样单且最多只能选择1条米样单");
+            return;
+        }
+        else {
+            var meterSampleId = selectData[0].Id;
+            window.open('@Url.Action("PrintMeterSample")' + "?meterSampleId=" + meterSampleId);
+        }
     }
 
     function DeleteMeterSample(meterSampleId) {

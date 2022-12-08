@@ -33,9 +33,11 @@ namespace Entities
         public virtual DbSet<B_DictionaryType> B_DictionaryType { get; set; }
         public virtual DbSet<B_Menu> B_Menu { get; set; }
         public virtual DbSet<B_MeterSampleBill> B_MeterSampleBill { get; set; }
+        public virtual DbSet<B_MeterSampleList> B_MeterSampleList { get; set; }
         public virtual DbSet<B_Role> B_Role { get; set; }
         public virtual DbSet<B_RoleMenu> B_RoleMenu { get; set; }
         public virtual DbSet<B_RoleType> B_RoleType { get; set; }
+        public virtual DbSet<B_SN> B_SN { get; set; }
         public virtual DbSet<B_User> B_User { get; set; }
         public virtual DbSet<B_UserRole> B_UserRole { get; set; }
         public virtual DbSet<B_UserToken> B_UserToken { get; set; }

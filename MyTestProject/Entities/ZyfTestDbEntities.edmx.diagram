@@ -13,14 +13,16 @@
         <EntityTypeShape EntityType="ZyfTestDbModel.B_DictionaryType" Width="1.5" PointX="6.75" PointY="0.75" />
         <EntityTypeShape EntityType="ZyfTestDbModel.B_Menu" Width="1.5" PointX="6.75" PointY="4.75" />
         <EntityTypeShape EntityType="ZyfTestDbModel.B_MeterSampleBill" Width="1.5" PointX="8.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ZyfTestDbModel.B_Role" Width="1.5" PointX="0.75" PointY="8.75" />
-        <EntityTypeShape EntityType="ZyfTestDbModel.B_RoleMenu" Width="1.5" PointX="2.75" PointY="8.75" />
-        <EntityTypeShape EntityType="ZyfTestDbModel.B_RoleType" Width="1.5" PointX="4.75" PointY="8.75" />
-        <EntityTypeShape EntityType="ZyfTestDbModel.B_User" Width="1.5" PointX="8.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ZyfTestDbModel.B_MeterSampleList" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ZyfTestDbModel.B_Role" Width="1.5" PointX="2.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ZyfTestDbModel.B_RoleMenu" Width="1.5" PointX="4.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ZyfTestDbModel.B_RoleType" Width="1.5" PointX="8.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ZyfTestDbModel.B_SN" Width="1.5" PointX="6.75" PointY="9.75" />
+        <EntityTypeShape EntityType="ZyfTestDbModel.B_User" Width="1.5" PointX="8.75" PointY="9.75" />
         <EntityTypeShape EntityType="ZyfTestDbModel.B_UserRole" Width="1.5" PointX="10.75" PointY="0.75" />
         <EntityTypeShape EntityType="ZyfTestDbModel.B_UserToken" Width="1.5" PointX="10.75" PointY="3.75" />
         <EntityTypeShape EntityType="ZyfTestDbModel.D_BaseCloth" Width="1.5" PointX="10.75" PointY="6.75" />
-        <EntityTypeShape EntityType="ZyfTestDbModel.D_Factory" Width="1.5" PointX="6.75" PointY="10.75" />
+        <EntityTypeShape EntityType="ZyfTestDbModel.D_Factory" Width="1.5" PointX="10.75" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

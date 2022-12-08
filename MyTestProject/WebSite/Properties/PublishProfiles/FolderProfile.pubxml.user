@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>D:\WebSite</_PublishTargetUrl>
-    <History>True|2022-09-13T09:54:02.9783769Z;True|2022-09-07T16:48:13.5760567+08:00;True|2022-09-06T16:07:48.9310361+08:00;True|2022-09-05T15:57:22.9276487+08:00;False|2022-09-05T10:42:38.2890431+08:00;True|2022-09-05T10:13:37.9971013+08:00;True|2022-09-04T16:52:53.2564127+08:00;True|2022-09-04T16:50:39.2440090+08:00;False|2022-09-04T16:39:08.1252892+08:00;False|2022-09-04T16:38:24.3045015+08:00;False|2022-09-04T16:37:29.4873322+08:00;False|2022-09-04T16:36:57.8188352+08:00;True|2022-09-04T14:18:05.3858178+08:00;True|2022-09-04T12:58:37.2360408+08:00;True|2022-08-24T16:06:11.1319781+08:00;True|2022-08-24T14:55:26.3587172+08:00;True|2022-08-24T14:39:22.2413504+08:00;True|2022-08-24T13:34:07.0309176+08:00;True|2022-08-24T00:08:50.7892941+08:00;</History>
+    <History>True|2022-12-08T05:19:44.6379895Z;True|2022-12-07T23:32:05.3594844+08:00;True|2022-12-06T23:15:05.9569639+08:00;True|2022-12-06T16:01:11.1038162+08:00;True|2022-10-29T22:10:40.0002056+08:00;True|2022-10-29T00:30:30.6146106+08:00;True|2022-10-20T12:42:13.8819831+08:00;True|2022-09-15T21:54:07.6994996+08:00;True|2022-09-13T17:54:02.9783769+08:00;True|2022-09-07T16:48:13.5760567+08:00;True|2022-09-06T16:07:48.9310361+08:00;True|2022-09-05T15:57:22.9276487+08:00;False|2022-09-05T10:42:38.2890431+08:00;True|2022-09-05T10:13:37.9971013+08:00;True|2022-09-04T16:52:53.2564127+08:00;True|2022-09-04T16:50:39.2440090+08:00;False|2022-09-04T16:39:08.1252892+08:00;False|2022-09-04T16:38:24.3045015+08:00;False|2022-09-04T16:37:29.4873322+08:00;False|2022-09-04T16:36:57.8188352+08:00;True|2022-09-04T14:18:05.3858178+08:00;True|2022-09-04T12:58:37.2360408+08:00;True|2022-08-24T16:06:11.1319781+08:00;True|2022-08-24T14:55:26.3587172+08:00;True|2022-08-24T14:39:22.2413504+08:00;True|2022-08-24T13:34:07.0309176+08:00;True|2022-08-24T00:08:50.7892941+08:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/ClothProduction/Views/BaseCloth/Index.cshtml">
@@ -24,37 +24,58 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/19/2022 23:00:40</publishTime>
     </File>
     <File Include="Areas/ClothYardManagement/Views/ClothYard/Deliver.cshtml">
-      <publishTime>08/20/2022 00:03:21</publishTime>
+      <publishTime>10/27/2022 21:00:01</publishTime>
     </File>
     <File Include="Areas/ClothYardManagement/Views/ClothYard/Edit.cshtml">
       <publishTime>08/02/2022 21:09:53</publishTime>
     </File>
     <File Include="Areas/ClothYardManagement/Views/ClothYard/Index.cshtml">
-      <publishTime>09/13/2022 17:40:25</publishTime>
+      <publishTime>12/06/2022 15:17:21</publishTime>
     </File>
     <File Include="Areas/ClothYardManagement/Views/ClothYard/PrintClothYards.cshtml">
-      <publishTime>09/05/2022 11:45:56</publishTime>
+      <publishTime>10/28/2022 23:23:39</publishTime>
+    </File>
+    <File Include="Areas/ClothYardManagement/Views/ClothYard/PrintStatement.cshtml">
+      <publishTime>10/29/2022 00:23:36</publishTime>
+    </File>
+    <File Include="Areas/ClothYardManagement/Views/ClothYard/PrintStatement2.cshtml">
+      <publishTime>12/06/2022 15:48:19</publishTime>
     </File>
     <File Include="Areas/ClothYardManagement/Views/ClothYard/Search.cshtml">
-      <publishTime>09/04/2022 18:28:54</publishTime>
+      <publishTime>12/06/2022 15:16:58</publishTime>
     </File>
     <File Include="Areas/ClothYardManagement/Views/ClothYard/_AddOrEdit.cshtml">
-      <publishTime>09/07/2022 21:53:44</publishTime>
+      <publishTime>12/04/2022 21:20:33</publishTime>
     </File>
     <File Include="Areas/ClothYardManagement/Views/MeterSample/Add.cshtml">
-      <publishTime>08/07/2022 15:32:20</publishTime>
+      <publishTime>12/04/2022 22:56:30</publishTime>
     </File>
     <File Include="Areas/ClothYardManagement/Views/MeterSample/Edit.cshtml">
-      <publishTime>08/07/2022 17:34:09</publishTime>
+      <publishTime>12/04/2022 22:56:31</publishTime>
     </File>
     <File Include="Areas/ClothYardManagement/Views/MeterSample/Index.cshtml">
-      <publishTime>08/08/2022 20:44:38</publishTime>
+      <publishTime>12/07/2022 20:53:16</publishTime>
+    </File>
+    <File Include="Areas/ClothYardManagement/Views/MeterSample/PrintClothYards.cshtml">
+      <publishTime>12/04/2022 19:45:18</publishTime>
+    </File>
+    <File Include="Areas/ClothYardManagement/Views/MeterSample/PrintMeterSample.cshtml">
+      <publishTime>12/07/2022 21:02:17</publishTime>
+    </File>
+    <File Include="Areas/ClothYardManagement/Views/MeterSample/PrintStatement.cshtml">
+      <publishTime>12/04/2022 19:45:18</publishTime>
     </File>
     <File Include="Areas/ClothYardManagement/Views/MeterSample/Search.cshtml">
-      <publishTime>08/19/2022 21:48:00</publishTime>
+      <publishTime>12/04/2022 22:28:37</publishTime>
     </File>
     <File Include="Areas/ClothYardManagement/Views/MeterSample/_AddOrEdit.cshtml">
-      <publishTime>08/08/2022 20:46:46</publishTime>
+      <publishTime>12/07/2022 20:35:24</publishTime>
+    </File>
+    <File Include="Areas/ClothYardManagement/Views/Report/Index.cshtml">
+      <publishTime>12/08/2022 12:57:44</publishTime>
+    </File>
+    <File Include="Areas/ClothYardManagement/Views/Report/Search.cshtml">
+      <publishTime>12/08/2022 13:01:02</publishTime>
     </File>
     <File Include="Areas/ClothYardManagement/Views/web.config">
       <publishTime>07/27/2022 20:59:47</publishTime>
@@ -234,31 +255,31 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/28/2022 16:16:15</publishTime>
     </File>
     <File Include="bin/Business.dll">
-      <publishTime>09/13/2022 17:54:00</publishTime>
+      <publishTime>12/08/2022 13:19:42</publishTime>
     </File>
     <File Include="bin/Business.dll.config">
       <publishTime>04/28/2022 16:16:13</publishTime>
     </File>
     <File Include="bin/Business.pdb">
-      <publishTime>09/13/2022 17:54:00</publishTime>
+      <publishTime>12/08/2022 13:19:42</publishTime>
     </File>
     <File Include="bin/Dal.dll">
-      <publishTime>09/13/2022 17:54:00</publishTime>
+      <publishTime>12/08/2022 13:19:42</publishTime>
     </File>
     <File Include="bin/Dal.dll.config">
       <publishTime>04/28/2022 16:16:13</publishTime>
     </File>
     <File Include="bin/Dal.pdb">
-      <publishTime>09/13/2022 17:54:00</publishTime>
+      <publishTime>12/08/2022 13:19:42</publishTime>
     </File>
     <File Include="bin/Entities.dll">
-      <publishTime>09/07/2022 16:48:11</publishTime>
+      <publishTime>12/08/2022 13:19:41</publishTime>
     </File>
     <File Include="bin/Entities.dll.config">
       <publishTime>04/28/2022 16:16:13</publishTime>
     </File>
     <File Include="bin/Entities.pdb">
-      <publishTime>09/07/2022 16:48:11</publishTime>
+      <publishTime>12/08/2022 13:19:41</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>04/28/2022 16:16:16</publishTime>
@@ -267,16 +288,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/28/2022 16:16:16</publishTime>
     </File>
     <File Include="bin/IBusiness.dll">
-      <publishTime>09/13/2022 17:54:00</publishTime>
+      <publishTime>12/08/2022 13:19:42</publishTime>
     </File>
     <File Include="bin/IBusiness.pdb">
-      <publishTime>09/13/2022 17:54:00</publishTime>
+      <publishTime>12/08/2022 13:19:42</publishTime>
     </File>
     <File Include="bin/IDal.dll">
-      <publishTime>09/13/2022 17:54:00</publishTime>
+      <publishTime>12/08/2022 13:19:42</publishTime>
     </File>
     <File Include="bin/IDal.pdb">
-      <publishTime>09/13/2022 17:54:00</publishTime>
+      <publishTime>12/08/2022 13:19:42</publishTime>
     </File>
     <File Include="bin/log4net.dll">
       <publishTime>04/28/2022 16:16:18</publishTime>
@@ -450,10 +471,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/28/2022 16:16:16</publishTime>
     </File>
     <File Include="bin/Utlis.dll">
-      <publishTime>08/24/2022 00:08:46</publishTime>
+      <publishTime>10/20/2022 12:42:11</publishTime>
     </File>
     <File Include="bin/Utlis.pdb">
-      <publishTime>08/24/2022 00:08:46</publishTime>
+      <publishTime>10/20/2022 12:42:11</publishTime>
     </File>
     <File Include="bin/Web.config">
       <publishTime>09/05/2022 10:52:59</publishTime>
@@ -468,10 +489,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/28/2022 16:16:18</publishTime>
     </File>
     <File Include="bin/WebSite.dll">
-      <publishTime>09/13/2022 17:54:01</publishTime>
+      <publishTime>12/08/2022 13:19:43</publishTime>
     </File>
     <File Include="bin/WebSite.pdb">
-      <publishTime>09/13/2022 17:54:01</publishTime>
+      <publishTime>12/08/2022 13:19:43</publishTime>
     </File>
     <File Include="bin/zh-Hans/EntityFramework.resources.dll">
       <publishTime>04/28/2022 16:16:16</publishTime>
@@ -2466,7 +2487,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/28/2022 16:16:14</publishTime>
     </File>
     <File Include="Scripts/SecondaryPackaging.js">
-      <publishTime>09/13/2022 17:52:30</publishTime>
+      <publishTime>10/28/2022 23:40:42</publishTime>
     </File>
     <File Include="Scripts/umd/popper-utils.js">
       <publishTime>04/28/2022 16:16:15</publishTime>

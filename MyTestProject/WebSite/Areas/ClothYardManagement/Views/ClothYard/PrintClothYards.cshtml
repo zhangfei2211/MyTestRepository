@@ -10,9 +10,9 @@
         height: 40px;
     }
 
-    table td {
+/*    table td {
         width: 80px;
-    }
+    }*/
 
     .tableborder {
         border: 1px solid black;
@@ -33,26 +33,32 @@
 
     .headDiv {
         float: left;
-        vertical-align:bottom;
+        vertical-align: bottom;
         height: 50px;
-        line-height:50px;
+        line-height: 50px;
     }
 
     .layui-form-item {
-        height:30px;
-        line-height:30px;
+        height: 30px;
+        line-height: 30px;
     }
 
     .h20 {
-        height:20px;
-        line-height:20px;
+        height: 20px;
+        line-height: 20px;
     }
 </style>
-<div class="ml-30">
+
+<div style="text-align:right;margin-right:200px" class="mt-20" id="noprint">
+    <button class="btn btn-primary btn-lg" onclick="prints()">打印</button>
+    <button class="btn btn-primary btn-lg" onclick="window.close();">关闭</button>
+</div>
+
+<div class="ml-20" id="printDiv">
     <div class="layui-form-item mt-20" style="text-align:center;">
         <div class="headDiv" style="font-size: xx-large;padding-left:600px" ondblclick="ShowFactoryNameEdit()">
             <label id="lblFactoryName">睿锦纺织</label>
-            <input type="text" id="txtFactoryName" value="睿锦纺织" style="display:none" onfocus="this.select();" onblur="ShowFactoryNameLabel()"/>
+            <input type="text" id="txtFactoryName" value="睿锦纺织" style="display:none" onfocus="this.select();" onblur="ShowFactoryNameLabel()" />
         </div>
         <div class="headDiv" style="font-size: large; padding-left:50px">销售码单</div>
     </div>
@@ -74,23 +80,23 @@
         <table class="tableborder table-bordered" style="height: 500px; position: absolute">
             <tr>
                 <td style="width:100px"><label>品名</label></td>
-                <td><label>颜色</label></td>
-                <td><label>门幅</label></td>
-                <td><label>克重</label></td>
-                <td><label>1</label></td>
-                <td><label>2</label></td>
-                <td><label>3</label></td>
-                <td><label>4</label></td>
-                <td><label>5</label></td>
-                <td><label>6</label></td>
-                <td><label>7</label></td>
-                <td><label>8</label></td>
-                <td><label>9</label></td>
-                <td><label>10</label></td>
-                <td><label>单位</label></td>
-                <td><label>总重</label></td>
-                <td><label>单价</label></td>
-                <td><label>金额</label></td>
+                <td style="width:80px"><label>颜色</label></td>
+                <td style="width:60px"><label>门幅</label></td>
+                <td style="width:60px"><label>克重</label></td>
+                <td style="width:60px"><label>1</label></td>
+                <td style="width:60px"><label>2</label></td>
+                <td style="width:60px"><label>3</label></td>
+                <td style="width:60px"><label>4</label></td>
+                <td style="width:60px"><label>5</label></td>
+                <td style="width:60px"><label>6</label></td>
+                <td style="width:60px"><label>7</label></td>
+                <td style="width:60px"><label>8</label></td>
+                <td style="width:60px"><label>9</label></td>
+                <td style="width:60px"><label>10</label></td>
+                <td style="width:50px"><label>单位</label></td>
+                <td style="width:80px"><label>总重</label></td>
+                <td style="width:80px"><label>单价</label></td>
+                <td style="width:80px"><label>金额</label></td>
             </tr>
             @{
                 var totalCountAll = 0;
@@ -214,6 +220,15 @@
         $("#lblFactoryName").html($("#txtFactoryName").val());
         $("#lblFactoryName").show();
         $("#txtFactoryName").hide();
+    }
+
+    function prints() {
+        $("#noprint").hide();
+        //var printElement = document.getElementById("printDiv");
+        document.getElementsByTagName('body')[0].style.zoom = 0.85;
+        window.print();
+        document.getElementsByTagName('body')[0].style.zoom = 1.0;
+        $("#noprint").show();
     }
 </script>
 

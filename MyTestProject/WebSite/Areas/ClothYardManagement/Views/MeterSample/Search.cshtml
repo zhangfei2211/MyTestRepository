@@ -21,24 +21,6 @@
                         { "lay-search" , ""} })
             </div>
         </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">布料类别：</label>
-            <div class="layui-input-block">
-                @Html.DropDownListFor(d => d.ClothType, ViewBag.ClothTypeList as IEnumerable<SelectListItem>,
-                    new Dictionary<string, object> {
-                        { "class" , "layui-input" },
-                        { "lay-search" , ""} })
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">颜色：</label>
-            <div class="layui-input-block">
-                @Html.DropDownListFor(d => d.Colour, ViewBag.ClothColourList as IEnumerable<SelectListItem>,
-                    new Dictionary<string, object> {
-                        { "class" , "layui-input" },
-                        { "lay-search" , ""} })
-            </div>
-        </div>
         <div>
             <div class="layui-inline">
                 <label class="layui-form-label">起始发货时间：</label>
@@ -58,6 +40,12 @@
                 </button>
                 <button type="button" class="btn btn-primary" onclick="AddMeterSample()">
                     <span class="glyphicon glyphicon-plus"></span>新增米样单
+                </button>
+                <button type="button" class="btn btn-primary" onclick="PrintStatement()">
+                    <span class="glyphicon glyphicon-plus"></span>打印对账单
+                </button>
+                <button type="button" class="btn btn-primary" onclick="PrintMeterSample()">
+                    <span class="glyphicon glyphicon-plus"></span>打印码单
                 </button>
             </div>
         </div>

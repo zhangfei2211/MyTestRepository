@@ -1,0 +1,134 @@
+﻿@model List<WebSite.Areas.ClothYardManagement.Data.PrintStatement2Model>
+
+@{
+    ViewBag.Title = "PrintStatement2";
+    Layout = "~/Views/Shared/_LayoutWithOutNav.cshtml";
+}
+
+<style>
+    table tr {
+        height: 40px;
+    }
+
+    table td {
+        padding-left: 5px;
+        border: 1px solid black;
+    }
+
+/*    .tableborder {
+        border: 1px solid black;
+    }*/
+
+    .layui-form-label {
+        width: 80px;
+    }
+</style>
+
+<div style="text-align:right;margin-right:200px" class="mt-20" id="noprint">
+    <button class="btn btn-primary btn-lg" onclick="prints()">打印</button>
+    <button class="btn btn-primary btn-lg" onclick="window.close();">关闭</button>
+</div>
+
+<div>
+    <table class="tableborder ml-15" style="font-size:medium;text-align:left" cellpadding="0" cellspacing="0">
+        <thead>
+            <tr style="text-align:center">
+                <td style="width:120px;padding-left:0px">客户</td>
+                <td style="width: 120px; padding-left: 0px">报单日期</td>
+                <td style="width: 120px; padding-left: 0px">发货日期</td>
+                <td style="width: 100px; padding-left: 0px">品名</td>
+                <td style="width: 110px; padding-left: 0px">颜色</td>
+                <td style="width: 80px; padding-left: 0px">幅宽</td>
+                <td style="width: 80px; padding-left: 0px">克重</td>
+                <td style="width: 80px; padding-left: 0px">匹数</td>
+                <td style="width: 100px; padding-left: 0px">总重</td>
+                <td style="width: 100px; padding-left: 0px">单价</td>
+                <td style="width: 100px; padding-left: 0px">总价</td>
+            </tr>
+        </thead>
+        @{
+            var totalCountAll = 0;
+            decimal totalWeightAll = 0;
+            decimal totalPriceAll = 0;
+        }
+    <tbody>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td>
+                    <label>@Model[i].CustomerName</label>
+                </td>
+                <td>
+                    <label>@(Model[i].ReportTime != null ? Model[i].ReportTime.Value.ToString("yyyy-MM-dd"):"")</label>
+                </td>
+                <td>
+                    <label>@(Model[i].DeliveryTime != null ? Model[i].DeliveryTime.Value.ToString("yyyy-MM-dd"):"")</label>
+                </td>
+                <td>
+                    <label>@Model[i].ClothTypeName</label>
+                </td>
+                <td>
+                    <label>@Model[i].Colour</label>
+                </td>
+                <td>
+                    <label>@Model[i].Width</label>
+                </td>
+                <td>
+                    <label>@Model[i].GramWeight</label>
+                </td>
+                <td>
+                    <label>@Model[i].Count</label>
+                </td>
+                <td>
+                    <label>@Model[i].TotalWeight</label>
+                </td>
+                <td>
+                    <label>@Model[i].UnitPrice</label>
+                </td>
+                <td>
+                    <label>@Model[i].TotalPrice</label>
+                </td>
+            </tr>
+            totalCountAll = totalCountAll + (Model[i].Count == null ? 0 : Model[i].Count.Value);
+            totalWeightAll = totalWeightAll + (Model[i].TotalWeight == null ? 0 : Model[i].TotalWeight.Value);
+            totalPriceAll = totalPriceAll + (Model[i].TotalPrice == null ? 0 : Model[i].TotalPrice.Value);
+        }
+        <tr>
+            <td>合计</td>
+            <td colspan="4">
+                <div class="headDiv" style="font-size: xx-large;" ondblclick="ShowFactoryNameEdit()">
+                    已付款：<label id="lblFactoryName">0</label>元
+                    <input type="text" id="txtFactoryName" value="0" style="display:none" onfocus="this.select();" onblur="ShowFactoryNameLabel()" />
+                </div>
+            </td>
+            <td colspan="2">共计：<label>@totalCountAll</label> 匹</td>
+            <td colspan="2">总重：<label>@totalWeightAll KG</label></td>
+            <td colspan="2">总价：<label>@totalPriceAll 元</label></td>
+        </tr>
+    </tbody>
+    </table>
+</div>
+
+
+<script>
+    function prints() {
+        $("#noprint").hide();
+        //var printElement = document.getElementById("printDiv");
+        //document.getElementsByTagName('body')[0].style.zoom = 0.85;
+        window.print();
+        //document.getElementsByTagName('body')[0].style.zoom = 1.0;
+        $("#noprint").show();
+    }
+
+    function ShowFactoryNameEdit() {
+        $("#lblFactoryName").hide();
+        $("#txtFactoryName").show();
+        $("#txtFactoryName").focus();
+    }
+
+    function ShowFactoryNameLabel() {
+        $("#lblFactoryName").html($("#txtFactoryName").val());
+        $("#lblFactoryName").show();
+        $("#txtFactoryName").hide();
+    }
+</script>

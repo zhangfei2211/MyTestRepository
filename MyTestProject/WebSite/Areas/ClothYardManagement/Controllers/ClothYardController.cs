@@ -60,12 +60,13 @@ namespace WebSite.Areas.ClothYardManagement.Controllers
                 {
                     new OrderCondition{ OrderbyField="ReportTime",IsAsc=false },
                     new OrderCondition{ OrderbyField="DeliveryTime",IsAsc=false },
+                    new OrderCondition{ OrderbyField="SN",IsAsc=false },
                     new OrderCondition{ OrderbyField="CustomerId",IsAsc=true },
                     new OrderCondition{ OrderbyField="ClothType",IsAsc=true },
                     new OrderCondition{ OrderbyField="Colour",IsAsc=true },
                     new OrderCondition{ OrderbyField="IsDelivery",IsAsc=true },
                     new OrderCondition{ OrderbyField="IsPaymentAll",IsAsc=true },
-                    new OrderCondition{ OrderbyField="CreateDate",IsAsc=true },
+                    //new OrderCondition{ OrderbyField="CreateDate",IsAsc=false },
                     new OrderCondition{ OrderbyField="Sort",IsAsc=true }
                 }
             };
@@ -95,11 +96,16 @@ namespace WebSite.Areas.ClothYardManagement.Controllers
                 model.CustomerName = customer.CustomerName;
             }
             var clothTypeList = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothType)).ToList();
-            //var clothColour = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothColour)).ToList();
+            var clothColour = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothColour)).ToList();
+            var clothWidth = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothWidth)).ToList();
+            var clothGramWeight = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothGramWeight)).ToList();
 
+            //model.ClothType = clothYard.ClothType;
             model.CustomerList = GetSelectList<B_Customer>(customerList, "CustomerName", "Id", "CustomerName");
             model.ClothTypeList = GetSelectList<B_Dictionary>(clothTypeList, "DictionaryName", "Id", "Code");
-            //model.ClothColourList = GetSelectList<B_Dictionary>(clothColour, "DictionaryName", "Id", "Code");
+            model.ClothColourList = GetSelectList<B_Dictionary>(clothColour, "DictionaryName", "Id", "Code", "asc", false);
+            model.ClothWidthList = GetSelectList<B_Dictionary>(clothWidth, "DictionaryName", "Id", "Code", "asc", false);
+            model.ClothGramWeightList = GetSelectList<B_Dictionary>(clothGramWeight, "DictionaryName", "Id", "Code", "asc", false);
 
             model.ReportTime = DateTime.Now.ToString("yyyy-MM-dd");
             return View(model);
@@ -125,18 +131,30 @@ namespace WebSite.Areas.ClothYardManagement.Controllers
                     model.ReportTime = clothYard.ReportTime == null ? DateTime.Now.ToString("yyyy-MM-dd") : clothYard.ReportTime.Value.ToString("yyyy-MM-dd");
 
                     model.ClothYardList.Add(clothYard);
+
+                    
                 }
             }
 
             var customerList = await customerBll.GetCustomerAll();
             var clothTypeList = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothType)).ToList();
-            //var clothColour = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothColour)).ToList();
+            var clothColour = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothColour)).ToList();
+            var clothWidth = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothWidth)).ToList();
+            var clothGramWeight = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothGramWeight)).ToList();
 
             //model.ClothType = clothYard.ClothType;
             model.CustomerList = GetSelectList<B_Customer>(customerList, "CustomerName", "Id", "CustomerName");
             model.ClothTypeList = GetSelectList<B_Dictionary>(clothTypeList, "DictionaryName", "Id", "Code");
-            //model.ClothColourList = GetSelectList<B_Dictionary>(clothColour, "DictionaryName", "Id", "Code");
+            model.ClothColourList = GetSelectList<B_Dictionary>(clothColour, "DictionaryName", "Id", "Code","asc",false);
+            model.ClothWidthList = GetSelectList<B_Dictionary>(clothWidth, "DictionaryName", "Id", "Code", "asc", false);
+            model.ClothGramWeightList = GetSelectList<B_Dictionary>(clothGramWeight, "DictionaryName", "Id", "Code", "asc", false);
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetCustomerHistoryUnitPrice(string customerId) 
+        {
+            return Json((await clothYardBll.GetClothYardUnitPriceByCustomerId(customerId)).ToList());
         }
 
         [HttpPost]
@@ -146,11 +164,12 @@ namespace WebSite.Areas.ClothYardManagement.Controllers
 
             try
             {
-                var aa = Guid.Empty;
+                //var aa = Guid.Empty;
                 List<B_ClothYard> list = JsonConvert.DeserializeObject<List<B_ClothYard>>(clothYardList);
                 foreach (var l in list) 
                 {
                     var weightList = l.WeightList.Split('，');
+                    l.Count= weightList.Length;
                     l.TotalWeight = 0;
                     foreach (var weight in weightList) 
                     {
@@ -236,24 +255,81 @@ namespace WebSite.Areas.ClothYardManagement.Controllers
             return Json(result);
         }
 
-        public async Task<ActionResult> Deliver(string clothYardIds)
-        {
-            ViewBag.ClothYardId = clothYardIds;
-            return View();
-        }
-
+        /// <summary>
+        /// 批量付款
+        /// </summary>
+        /// <param name="clothYardIds"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> Deliver(string clothYardId, string deliverTime)
+        public async Task<ActionResult> Payments(string clothYardIds)
         {
             var result = new AjaxResult();
 
             try
             {
-                var clothYard = await clothYardBll.GetClothYardById(clothYardId.ToGuid());
-                clothYard.IsDelivery = true;
-                clothYard.DeliveryTime = Convert.ToDateTime(deliverTime);
                 List<B_ClothYard> clothYardList = new List<B_ClothYard>();
-                clothYardList.Add(clothYard);
+
+                foreach (var c in clothYardIds.Split(','))
+                {
+                    var clothYard = await clothYardBll.GetClothYardById(c.ToGuid());
+
+                    if (clothYard != null)
+                    {
+                        clothYard.IsPaymentAll = true;
+
+                        clothYardList.Add(clothYard);
+                    }
+                }
+
+                if (await clothYardBll.SaveClothYard(clothYardList))
+                {
+                    result.Status = AjaxStatus.Success;
+                    result.Message = "付款成功";
+                }
+                else
+                {
+                    result.Status = AjaxStatus.UnSuccess;
+                    result.Message = "付款失败";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Status = AjaxStatus.UnSuccess;
+                result.Message = ex.Message;
+            }
+
+            return Json(result);
+        }
+
+        public async Task<ActionResult> Deliver(string clothYardIds)
+        {
+            ViewBag.ClothYardIds = clothYardIds;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Deliver(string clothYardIds, string deliverTime)
+        {
+            var result = new AjaxResult();
+
+            try
+            {
+                List<B_ClothYard> clothYardList = new List<B_ClothYard>();
+
+                var deliveryTime = Convert.ToDateTime(deliverTime);
+                foreach (var c in clothYardIds.Split(','))
+                {
+                    var clothYard = await clothYardBll.GetClothYardById(c.ToGuid());
+
+                    if (clothYard != null)
+                    {
+                        clothYard.IsDelivery = true;
+                        clothYard.DeliveryTime = Convert.ToDateTime(deliverTime);
+
+                        clothYardList.Add(clothYard);
+                    }
+                }
+
                 if (await clothYardBll.SaveClothYard(clothYardList))
                 {
                     result.Status = AjaxStatus.Success;
@@ -314,6 +390,96 @@ namespace WebSite.Areas.ClothYardManagement.Controllers
             //model.ClothTypeList = GetSelectList<B_Dictionary>(clothTypeList, "DictionaryName", "Id", "Code");
             //model.ClothColourList = GetSelectList<B_Dictionary>(clothColour, "DictionaryName", "Id", "Code");
             return View(model);
+        }
+
+        public async Task<ActionResult> PrintStatement(ClothYardSearch info)
+        {
+            PageSearchModel pageModel = new PageSearchModel
+            {
+                PageIndex = 1,
+                PageSize = 1000000,
+                OrderConditions = new List<OrderCondition>
+                {
+                    new OrderCondition{ OrderbyField="ReportTime",IsAsc=true },
+                    new OrderCondition{ OrderbyField="DeliveryTime",IsAsc=true },
+                    new OrderCondition{ OrderbyField="SN",IsAsc=true },
+                    new OrderCondition{ OrderbyField="CustomerId",IsAsc=true },
+                    new OrderCondition{ OrderbyField="ClothType",IsAsc=true },
+                    new OrderCondition{ OrderbyField="Colour",IsAsc=true },
+                    new OrderCondition{ OrderbyField="IsDelivery",IsAsc=true },
+                    new OrderCondition{ OrderbyField="IsPaymentAll",IsAsc=true },
+                    //new OrderCondition{ OrderbyField="CreateDate",IsAsc=false },
+                    new OrderCondition{ OrderbyField="Sort",IsAsc=true }
+                }
+            };
+
+            var result = await clothYardBll.GetClothYardList(pageModel, info);
+            var customerList = await customerBll.GetCustomerAll();
+            var clothTypeList = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothType)).ToList();
+            //var ClothColour = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothColour)).ToList();
+            foreach (var r in result.Data)
+            {
+                r.CustomerName = customerList.FirstOrDefault(d => d.Id == r.CustomerId).CustomerName;
+                r.ClothTypeName = clothTypeList.FirstOrDefault(d => d.Id == r.ClothType).DictionaryName;
+                //r.Colour = ClothColour.FirstOrDefault(d => d.Id == r.ColourId).DictionaryName;
+            }
+
+            return View(result.Data);
+        }
+
+        public async Task<ActionResult> PrintStatement2(ClothYardSearch info)
+        {
+            PageSearchModel pageModel = new PageSearchModel
+            {
+                PageIndex = 1,
+                PageSize = 1000000,
+                OrderConditions = new List<OrderCondition>
+                {
+                    new OrderCondition{ OrderbyField="ReportTime",IsAsc=true },
+                    new OrderCondition{ OrderbyField="DeliveryTime",IsAsc=true },
+                    new OrderCondition{ OrderbyField="SN",IsAsc=true },
+                    new OrderCondition{ OrderbyField="CustomerId",IsAsc=true },
+                    new OrderCondition{ OrderbyField="ClothType",IsAsc=true },
+                    new OrderCondition{ OrderbyField="Colour",IsAsc=true },
+                    new OrderCondition{ OrderbyField="IsDelivery",IsAsc=true },
+                    new OrderCondition{ OrderbyField="IsPaymentAll",IsAsc=true },
+                    //new OrderCondition{ OrderbyField="CreateDate",IsAsc=false },
+                    new OrderCondition{ OrderbyField="Sort",IsAsc=true }
+                }
+            };
+
+            var result = await clothYardBll.GetClothYardList(pageModel, info);
+            var customerList = await customerBll.GetCustomerAll();
+            var clothTypeList = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothType)).ToList();
+            //var ClothColour = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothColour)).ToList();
+            foreach (var r in result.Data)
+            {
+                r.CustomerName = customerList.FirstOrDefault(d => d.Id == r.CustomerId).CustomerName;
+                r.ClothTypeName = clothTypeList.FirstOrDefault(d => d.Id == r.ClothType).DictionaryName;
+                //r.Colour = ClothColour.FirstOrDefault(d => d.Id == r.ColourId).DictionaryName;
+            }
+
+            //var data= from emp in result.Data
+            //          group emp by new { emp.CustomerName, emp.ReportTime,emp.DeliveryTime,emp.ClothTypeName,emp.Colour,emp.Width,emp.GramWeight } into g
+            //          select new PrintStatement2Model { CustomerName = g., Count = g.Count() };
+
+            var data = result.Data
+         .GroupBy(x => new { x.CustomerName, x.ReportTime, x.DeliveryTime, x.ClothTypeName, x.Colour, x.Width, x.GramWeight,x.UnitPrice,})
+         .Select(g => new PrintStatement2Model {
+             CustomerName = g.Key.CustomerName,
+             ReportTime = g.Key.ReportTime,
+             DeliveryTime = g.Key.DeliveryTime,
+             ClothTypeName = g.Key.ClothTypeName,
+             Colour = g.Key.Colour,
+             Width = g.Key.Width,
+             GramWeight = g.Key.GramWeight,
+             Count = g.Sum(d=>d.Count),
+             TotalWeight = g.Sum(d=>d.TotalWeight),
+             UnitPrice = g.Key.UnitPrice,
+             TotalPrice = g.Sum(d=>d.TotalPrice),
+         }).ToList();
+
+            return View(data);
         }
     }
 }

@@ -64,9 +64,9 @@
             <div>
                 <div class="layui-inline">
                     @{
-                        DateTime dt = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00");
+                        DateTime startMonth = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00");
                         //获得本月月初时间
-                        var startMonth = dt.AddDays(1 - dt.Day);
+                        //var startMonth = dt.AddDays(1 - dt.Day);
                         //获得本月月末时间
                         DateTime s = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd") + " 23:59:59");
                         DateTime ss = s.AddDays(1 - s.Day);
@@ -106,6 +106,18 @@
                     </button>
                     <button type="button" class="btn btn-primary" onclick="EditClothYards()">
                         <span class="glyphicon glyphicon-plus"></span>批量编辑码单
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="OpenDeliver('0')">
+                        <span class="glyphicon glyphicon-plus"></span>批量发货
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="Payments()">
+                        <span class="glyphicon glyphicon-plus"></span>批量付款
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="PrintStatement()">
+                        <span class="glyphicon glyphicon-plus"></span>打印对账单
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="PrintStatement2()">
+                        <span class="glyphicon glyphicon-plus"></span>打印对账单(日)
                     </button>
                     <button type="button" class="btn btn-primary" onclick="PrintClothYards()">
                         <span class="glyphicon glyphicon-plus"></span>打印码单

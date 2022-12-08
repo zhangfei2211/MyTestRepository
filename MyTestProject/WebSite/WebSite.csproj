@@ -148,7 +148,10 @@
     <Compile Include="Areas\ClothYardManagement\ClothYardManagementAreaRegistration.cs" />
     <Compile Include="Areas\ClothYardManagement\Controllers\ClothYardController.cs" />
     <Compile Include="Areas\ClothYardManagement\Controllers\MeterSampleController.cs" />
+    <Compile Include="Areas\ClothYardManagement\Controllers\ReportController.cs" />
     <Compile Include="Areas\ClothYardManagement\Data\ClothYardModel.cs" />
+    <Compile Include="Areas\ClothYardManagement\Data\MeterSampleModel.cs" />
+    <Compile Include="Areas\ClothYardManagement\Data\PrintStatement2Model.cs" />
     <Compile Include="Areas\CustomerManagement\Controllers\CustomerController.cs" />
     <Compile Include="Areas\CustomerManagement\CustomerManagementAreaRegistration.cs" />
     <Compile Include="Areas\StorehouseManagement\Controllers\PutInStorehouseController.cs" />
@@ -899,6 +902,12 @@
     <Content Include="Areas\ClothYardManagement\Views\MeterSample\Search.cshtml" />
     <Content Include="Areas\ClothYardManagement\Views\ClothYard\Deliver.cshtml" />
     <Content Include="Areas\ClothYardManagement\Views\ClothYard\PrintClothYards.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ClothYard\PrintStatement.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\MeterSample\PrintMeterSample.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\MeterSample\PrintStatement.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ClothYard\PrintStatement2.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\Report\Index.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\Report\Search.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
