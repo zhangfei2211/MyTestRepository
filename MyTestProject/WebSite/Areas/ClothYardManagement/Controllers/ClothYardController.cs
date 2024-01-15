@@ -59,13 +59,12 @@ namespace WebSite.Areas.ClothYardManagement.Controllers
                 OrderConditions = new List<OrderCondition>
                 {
                     new OrderCondition{ OrderbyField="ReportTime",IsAsc=false },
-                    new OrderCondition{ OrderbyField="DeliveryTime",IsAsc=false },
+                    new OrderCondition{ OrderbyField="IsDelivery",IsAsc=true },
+                    new OrderCondition{ OrderbyField="IsPaymentAll",IsAsc=true },
                     new OrderCondition{ OrderbyField="SN",IsAsc=false },
                     new OrderCondition{ OrderbyField="CustomerId",IsAsc=true },
                     new OrderCondition{ OrderbyField="ClothType",IsAsc=true },
                     new OrderCondition{ OrderbyField="Colour",IsAsc=true },
-                    new OrderCondition{ OrderbyField="IsDelivery",IsAsc=true },
-                    new OrderCondition{ OrderbyField="IsPaymentAll",IsAsc=true },
                     //new OrderCondition{ OrderbyField="CreateDate",IsAsc=false },
                     new OrderCondition{ OrderbyField="Sort",IsAsc=true }
                 }
@@ -176,6 +175,9 @@ namespace WebSite.Areas.ClothYardManagement.Controllers
                         l.TotalWeight += Convert.ToDecimal(weight);
                     }
                     l.TotalPrice = l.TotalWeight * l.UnitPrice;
+
+                    //标记为非退货
+                    l.IsReturn = false;
                 }
                 if (await clothYardBll.SaveClothYard(list))
                 {

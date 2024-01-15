@@ -23,6 +23,7 @@
         <EntityTypeShape EntityType="ZyfTestDbModel.B_UserToken" Width="1.5" PointX="10.75" PointY="3.75" />
         <EntityTypeShape EntityType="ZyfTestDbModel.D_BaseCloth" Width="1.5" PointX="10.75" PointY="6.75" />
         <EntityTypeShape EntityType="ZyfTestDbModel.D_Factory" Width="1.5" PointX="10.75" PointY="11.75" />
+        <EntityTypeShape EntityType="ZyfTestDbModel.View_MeterSampleList" Width="1.5" PointX="3.375" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

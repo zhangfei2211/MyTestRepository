@@ -22,7 +22,27 @@
             { field: 'CustomerName', title: '客户名', width: 250 },
             { field: 'TotalCount', title: '总匹数', width: 300, totalRow: true },
             { field: 'TotalPrice', title: '总价', width: 300, totalRow: true }
-        ]]
+        ]],
+        done: function (res, curr, count) {
+            //如果是异步请求数据方式，res即为你接口返回的信息。
+            //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+            //console.log(res);
+            //得到当前页码
+            //console.log(curr);
+            //得到数据总量
+            //console.log(count);
+
+            var tableView = this.elem.next();
+            var totalRow = tableView.find('.layui-table-total');
+            layui.each(totalRow.find('td'), function (index, tdElem) {
+                tdElem = $(tdElem);
+                var text = tdElem.text();
+                if (text && !isNaN(text) && index == 1) {
+                    text = parseFloat(text).toFixed(0); //此处为小数点后个数
+                    tdElem.find('div.layui-table-cell').html(text);
+                }
+            });
+        }
     });
 
     function Search() {

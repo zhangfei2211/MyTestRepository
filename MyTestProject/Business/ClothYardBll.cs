@@ -51,7 +51,7 @@ namespace Business
 
             var whereLambda = GetExpression<B_ClothYard>();
 
-            whereLambda = whereLambda.And(d => !d.IsDelete);
+            whereLambda = whereLambda.And(d => !d.IsDelete && d.IsReturn == search.IsReturn);
 
             if (search.CustomerId.IsNotNull())
             {
@@ -113,14 +113,14 @@ namespace Business
         {
             var sql = @"select distinct top(20) b.DictionaryName as ClothTypeName, a.ReportTime, a.Colour,a.UnitPrice from B_ClothYard a
                         left join B_Dictionary b on a.ClothType=b.Id
-                      where CustomerId = '" + customerId + @"'
+                      where a.IsDelete='false' and a.IsReturn='false' and CustomerId = '" + customerId + @"'
                       order by ReportTime desc,ClothTypeName,Colour,UnitPrice";
             return await sqlDal.FindListBySQLAsync<ClothYardUnitPrice>(sql);
         }
 
         public async Task<PageResult<ClothYardMainReport>> GetClothYardMainReport(PageSearchModel searchModel, ClothYardMainReportSearch search)
         {
-            string whereString = " where a.IsDelete='false' and b.IsDelete='false' ";
+            string whereString = " where a.IsDelete='false' and b.IsDelete='false' and a.IsReturn='false' ";
 
             if (search.CustomerId.IsNotNull())
             {

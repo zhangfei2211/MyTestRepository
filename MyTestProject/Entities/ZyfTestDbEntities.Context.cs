@@ -43,5 +43,6 @@ namespace Entities
         public virtual DbSet<B_UserToken> B_UserToken { get; set; }
         public virtual DbSet<D_BaseCloth> D_BaseCloth { get; set; }
         public virtual DbSet<D_Factory> D_Factory { get; set; }
+        public virtual DbSet<View_MeterSampleList> View_MeterSampleList { get; set; }
     }
 }

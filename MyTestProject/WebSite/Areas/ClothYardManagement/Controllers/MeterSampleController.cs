@@ -153,7 +153,7 @@ namespace WebSite.Areas.ClothYardManagement.Controllers
             MeterSampleModel model = new MeterSampleModel();
 
             model.MeterSampleBill = await meterSampleBll.GetMeterSampleById(meterSampleId.ToGuid());
-            model.MeterSampleList = (await meterSampleBll.GetMeterSampleChildListById(meterSampleId.ToGuid())).ToList();
+            model.MeterSampleList = (await meterSampleBll.GetMeterSampleChildListById(meterSampleId.ToGuid())).OrderBy(d => d.ClothType).ThenBy(d => d.Colour).ToList();
 
             var clothTypeList = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothType)).ToList();
 
@@ -172,6 +172,35 @@ namespace WebSite.Areas.ClothYardManagement.Controllers
             }
 
             return View(model);
+        }
+
+        public async Task<ActionResult> PrintStatement(MeterSampleSearch info)
+        {
+            PageSearchModel pageModel = new PageSearchModel
+            {
+                PageIndex = 1,
+                PageSize = 1000000,
+                OrderConditions = new List<OrderCondition>
+                {
+                    new OrderCondition{ OrderbyField="DeliveryTime",IsAsc=true },
+                    new OrderCondition{ OrderbyField="CustomerId",IsAsc=true },
+                    new OrderCondition{ OrderbyField="ClothType",IsAsc=true },
+                    new OrderCondition{ OrderbyField="Colour",IsAsc=true },
+                }
+            };
+
+            var result = await meterSampleBll.GetMeterSampleStatementList(pageModel, info);
+            var customerList = await customerBll.GetCustomerAll();
+            var clothTypeList = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothType)).ToList();
+            //var ClothColour = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothColour)).ToList();
+            foreach (var r in result.Data)
+            {
+                r.CustomerName = customerList.FirstOrDefault(d => d.Id == r.CustomerId).CustomerName;
+                r.ClothTypeName = clothTypeList.FirstOrDefault(d => d.Id == r.ClothType).DictionaryName;
+                //r.Colour = ClothColour.FirstOrDefault(d => d.Id == r.ColourId).DictionaryName;
+            }
+
+            return View(result.Data);
         }
 
         [HttpPost]

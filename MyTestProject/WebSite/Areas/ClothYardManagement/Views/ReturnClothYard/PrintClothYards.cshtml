@@ -1,0 +1,234 @@
+﻿@model WebSite.Areas.ClothYardManagement.Data.ClothYardModel
+
+@{
+    ViewBag.Title = "打印码单";
+    Layout = "~/Views/Shared/_LayoutWithOutNav.cshtml";
+}
+
+<style>
+    table tr {
+        height: 40px;
+    }
+
+/*    table td {
+        width: 80px;
+    }*/
+
+    .tableborder {
+        border: 1px solid black;
+    }
+
+    .layui-form-label {
+        width: 80px;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+
+    .headDiv {
+        float: left;
+        vertical-align: bottom;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .layui-form-item {
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .h20 {
+        height: 20px;
+        line-height: 20px;
+    }
+</style>
+
+<div style="text-align:right;margin-right:200px" class="mt-20" id="noprint">
+    <button class="btn btn-primary btn-lg" onclick="prints()">打印</button>
+    <button class="btn btn-primary btn-lg" onclick="window.close();">关闭</button>
+</div>
+
+<div class="ml-20" id="printDiv">
+    <div class="layui-form-item mt-20" style="text-align:center;">
+        <div class="headDiv" style="font-size: xx-large;padding-left:600px" ondblclick="ShowFactoryNameEdit()">
+            <label id="lblFactoryName">睿锦纺织</label>
+            <input type="text" id="txtFactoryName" value="睿锦纺织" style="display:none" onfocus="this.select();" onblur="ShowFactoryNameLabel()" />
+        </div>
+        <div class="headDiv" style="font-size: large; padding-left:50px">销售码单</div>
+    </div>
+    <div class="layui-form-item" style="margin-bottom:5px">
+        <div class="layui-inline">
+            <label class="layui-form-label">客户：</label>
+            <div class="layui-input-block mt-5" style="margin-bottom:0px">
+                <label>@Model.CustomerName</label>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width:100px">报单时间：</label>
+            <div class="layui-input-block  mt-5" style="margin-bottom:0px">
+                <label>@Model.ReportTime</label>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item" style="width:100%; text-align:center;">
+        <table class="tableborder table-bordered" style="height: 500px; position: absolute">
+            <tr>
+                <td style="width:100px"><label>品名</label></td>
+                <td style="width:80px"><label>颜色</label></td>
+                <td style="width:60px"><label>门幅</label></td>
+                <td style="width:60px"><label>克重</label></td>
+                <td style="width:60px"><label>1</label></td>
+                <td style="width:60px"><label>2</label></td>
+                <td style="width:60px"><label>3</label></td>
+                <td style="width:60px"><label>4</label></td>
+                <td style="width:60px"><label>5</label></td>
+                <td style="width:60px"><label>6</label></td>
+                <td style="width:60px"><label>7</label></td>
+                <td style="width:60px"><label>8</label></td>
+                <td style="width:60px"><label>9</label></td>
+                <td style="width:60px"><label>10</label></td>
+                <td style="width:50px"><label>单位</label></td>
+                <td style="width:80px"><label>总重</label></td>
+                <td style="width:80px"><label>单价</label></td>
+                <td style="width:80px"><label>金额</label></td>
+            </tr>
+            @{
+                var totalCountAll = 0;
+                decimal totalWeightAll = 0;
+                decimal totalPriceAll = 0;
+            }
+            @for (int i = 0; i < 10; i++)
+            {
+
+                if (Model.ClothYardList != null && Model.ClothYardList.Count > i)
+                {
+                    <tr>
+                        <td>
+                            <label>@Model.ClothYardList[i].ClothTypeName</label>
+                        </td>
+                        <td>
+                            <label>@Model.ClothYardList[i].Colour</label>
+                        </td>
+                        <td>
+                            <label>@Model.ClothYardList[i].Width</label>
+                        </td>
+                        <td>
+                            <label>@Model.ClothYardList[i].GramWeight</label>
+                        </td>
+                        @{
+                            string[] weight = { };
+                            if (Model.ClothYardList[i].WeightList != null)
+                            {
+                                weight = Model.ClothYardList[i].WeightList.Split('，');
+                            }
+                        }
+                        @foreach (var w in weight)
+                        {
+                            <td>
+                                <label>@w</label>
+                            </td>
+                        }
+                        @for (int n = 0; n < 10 - weight.Length; n++)
+                        {
+                            <td>
+                            </td>
+                        }
+                        <td>KG</td>
+                        <td>
+                            <label>@Model.ClothYardList[i].TotalWeight</label>
+                        </td>
+                        <td>
+                            <label>@Model.ClothYardList[i].UnitPrice</label>
+                        </td>
+                        <td>
+                            <label>@Model.ClothYardList[i].TotalPrice</label>
+                        </td>
+                    </tr>
+                    totalCountAll = totalCountAll + weight.Length;
+                    totalWeightAll = totalWeightAll + (Model.ClothYardList[i].TotalWeight == null ? 0 : Model.ClothYardList[i].TotalWeight.Value);
+                    totalPriceAll = totalPriceAll + (Model.ClothYardList[i].TotalPrice == null ? 0 : Model.ClothYardList[i].TotalPrice.Value);
+                }
+                else
+                {
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+            }
+            <tr>
+                <td>本单合计</td>
+                <td colspan="13">共计：<label>@totalCountAll</label> 匹</td>
+                <td colspan="3"><label>@totalWeightAll KG</label></td>
+                <td><label>@totalPriceAll</label></td>
+            </tr>
+        </table>
+    </div>
+    <div class="layui-form-item h20" style="margin-top: 480px;margin-bottom:0px">
+        <div class="layui-inline" style="margin-bottom:0px">
+            地址：浙江绍兴柯桥轻纺城
+        </div>
+        <div class="layui-inline" style="margin-left: 210px; margin-bottom: 0px">
+            联系电话：<span>15715838772</span>   <span class="ml-10">18827426180</span>
+        </div>
+    </div>
+    <div class="layui-form-item h20" style="margin-bottom:0px">
+        <div class="layui-inline" style="margin-bottom: 0px">
+            农业银行：62284 8037 92379 94973 杨爱平
+        </div>
+        <div class="layui-inline" style="margin-left: 100px; margin-bottom: 0px">
+            工商银行：621558 3202003957490 张宇飞
+        </div>
+    </div>
+    <div class="layui-form-item h20">
+        <div class="layui-inline">
+            尊敬的客户：感谢您选购我公司产品，如发现质量问题，请在7日内提出与我们协商解决，如果剪开或深加工，本公司概不负责，谢谢合作！
+        </div>
+    </div>
+</div>
+
+<script>
+    function ShowFactoryNameEdit() {
+        $("#lblFactoryName").hide();
+        $("#txtFactoryName").show();
+        $("#txtFactoryName").focus();
+    }
+
+    function ShowFactoryNameLabel() {
+        $("#lblFactoryName").html($("#txtFactoryName").val());
+        $("#lblFactoryName").show();
+        $("#txtFactoryName").hide();
+    }
+
+    function prints() {
+        $("#noprint").hide();
+        //var printElement = document.getElementById("printDiv");
+        document.getElementsByTagName('body')[0].style.zoom = 0.85;
+        window.print();
+        document.getElementsByTagName('body')[0].style.zoom = 1.0;
+        $("#noprint").show();
+    }
+</script>
+

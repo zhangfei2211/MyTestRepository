@@ -44,6 +44,8 @@ namespace Business
 
         protected IBaseRepository<B_MeterSampleList> meterSampleListDal;
 
+        protected IBaseRepository<View_MeterSampleList> v_meterSampleListDal;
+
         protected IBaseRepository<B_SN> snDal;
 
         /// <summary>

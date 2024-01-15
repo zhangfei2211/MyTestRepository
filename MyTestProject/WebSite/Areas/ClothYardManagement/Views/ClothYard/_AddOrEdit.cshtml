@@ -114,6 +114,7 @@
                 <tr>
                     <td style="display:none">
                         <input type="text" name="clothYardId" value="@Model.ClothYardList[i].Id" />
+                        <input type="text" name="IsReturn" value="@(Model.ClothYardList[i].IsReturn ? "true" : "false")" />
                         <input type="text" name="IsDelivery" value="@(Model.ClothYardList[i].IsDelivery ? "true" : "false")" />
                         <input type="text" name="IsPaymentAll" value="@(Model.ClothYardList[i].IsPaymentAll ? "true" : "false")" />
                         <input type="text" name="IsDelete" value="@(Model.ClothYardList[i].IsDelete ? "true" : "false")" />
@@ -226,6 +227,7 @@
                 <tr>
                     <td style="display:none">
                         <input type="text" name="clothYardId" value="@Guid.NewGuid()" />
+                        <input type="text" name="IsReturn" value="" />
                         <input type="text" name="IsDelivery" value="" />
                         <input type="text" name="IsPaymentAll" value="" />
                         <input type="text" name="IsDelete" value="" />
@@ -416,6 +418,7 @@
         for (var i = 1; i < 11; i++) {
             var row = {};
             row.Id = $(trList[i]).find("input[name=clothYardId]").val();
+            row.IsReturn = $(trList[i]).find("input[name=IsReturn]").val() == "true" ? "true " : "false";
             row.IsDelivery = $(trList[i]).find("input[name=IsDelivery]").val() == "true" ? "true " : "false";
             row.IsPaymentAll = $(trList[i]).find("input[name=IsPaymentAll]").val() == "true" ? "true " : "false";
             row.IsDelete = $(trList[i]).find("input[name=IsDelete]").val() == "true" ? "true " : "false";

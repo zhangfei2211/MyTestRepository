@@ -146,6 +146,7 @@
     <Compile Include="Areas\ClothProduction\Controllers\DyeingClothController.cs" />
     <Compile Include="Areas\ClothProduction\Controllers\GallingClothController.cs" />
     <Compile Include="Areas\ClothYardManagement\ClothYardManagementAreaRegistration.cs" />
+    <Compile Include="Areas\ClothYardManagement\Controllers\ReturnClothYardController .cs" />
     <Compile Include="Areas\ClothYardManagement\Controllers\ClothYardController.cs" />
     <Compile Include="Areas\ClothYardManagement\Controllers\MeterSampleController.cs" />
     <Compile Include="Areas\ClothYardManagement\Controllers\ReportController.cs" />
@@ -908,6 +909,15 @@
     <Content Include="Areas\ClothYardManagement\Views\ClothYard\PrintStatement2.cshtml" />
     <Content Include="Areas\ClothYardManagement\Views\Report\Index.cshtml" />
     <Content Include="Areas\ClothYardManagement\Views\Report\Search.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ReturnClothYard\_AddOrEdit.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ReturnClothYard\Add.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ReturnClothYard\Deliver.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ReturnClothYard\Edit.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ReturnClothYard\Index.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ReturnClothYard\PrintClothYards.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ReturnClothYard\PrintStatement.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ReturnClothYard\PrintStatement2.cshtml" />
+    <Content Include="Areas\ClothYardManagement\Views\ReturnClothYard\Search.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

@@ -18,6 +18,8 @@ namespace IBusiness
 
         Task<PageResult<B_MeterSampleBill>> GetMeterSampleList(PageSearchModel searchModel, MeterSampleSearch search);
 
+        Task<PageResult<View_MeterSampleList>> GetMeterSampleStatementList(PageSearchModel searchModel, MeterSampleSearch search);
+
         Task<bool> SaveMeterSample(B_MeterSampleBill meterSample, List<B_MeterSampleList> list);
 
         Task<bool> PaymentMeterSample(B_MeterSampleBill meterSample);

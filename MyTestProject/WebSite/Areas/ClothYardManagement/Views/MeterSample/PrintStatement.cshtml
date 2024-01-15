@@ -1,4 +1,4 @@
-﻿@model List<Entities.B_ClothYard>
+﻿@model List<Entities.View_MeterSampleList>
 
 @{
     ViewBag.Title = "PrintStatement";
@@ -15,7 +15,7 @@
         border: 1px solid black;
     }
 
-/*    .tableborder {
+    /*    .tableborder {
         border: 1px solid black;
     }*/
 
@@ -34,72 +34,59 @@
         <thead>
             <tr style="text-align:center">
                 <td style="width:120px;padding-left:0px">客户</td>
-                <td style="width: 120px; padding-left: 0px">报单日期</td>
                 <td style="width: 120px; padding-left: 0px">发货日期</td>
                 <td style="width: 100px; padding-left: 0px">品名</td>
                 <td style="width: 110px; padding-left: 0px">颜色</td>
                 <td style="width: 80px; padding-left: 0px">幅宽</td>
-                <td style="width: 80px; padding-left: 0px">匹数</td>
                 <td style="width: 80px; padding-left: 0px">克重</td>
-                <td style="width: 100px; padding-left: 0px">总重</td>
                 <td style="width: 100px; padding-left: 0px">单价</td>
-                <td style="width: 100px; padding-left: 0px">总价</td>
+                <td style="width: 100px; padding-left: 0px">长度(米)</td>
+                <td style="width: 100px; padding-left: 0px">总价（元）</td>
             </tr>
         </thead>
         @{
-            var totalCountAll = 0;
-            decimal totalWeightAll = 0;
-            decimal totalPriceAll = 0;
+            decimal? totalPriceAll = 0;
         }
-    <tbody>
-        @for (int i = 0; i < Model.Count; i++)
-        {
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <label>@Model[i].CustomerName</label>
+                    </td>
+                    <td>
+                        <label>@(Model[i].DeliveryTime != null ? Model[i].DeliveryTime.Value.ToString("yyyy-MM-dd"):"")</label>
+                    </td>
+                    <td>
+                        <label>@Model[i].ClothTypeName</label>
+                    </td>
+                    <td>
+                        <label>@Model[i].Colour</label>
+                    </td>
+                    <td>
+                        <label>@Model[i].Width</label>
+                    </td>
+                    <td>
+                        <label>@Model[i].GramWeight</label>
+                    </td>
+                    <td>
+                        <label>@Model[i].UnitPrice</label>
+                    </td>
+                    <td>
+                        <label>@Model[i].Length</label>
+                    </td>
+                    <td>
+                        <label>@Math.Round((Model[i].UnitPrice * Model[i].Length).Value, 2)</label>
+                    </td>
+                </tr>
+                totalPriceAll = totalPriceAll + Model[i].UnitPrice * Model[i].Length;
+            }
             <tr>
-                <td>
-                    <label>@Model[i].CustomerName</label>
-                </td>
-                <td>
-                    <label>@(Model[i].ReportTime != null ? Model[i].ReportTime.Value.ToString("yyyy-MM-dd"):"")</label>
-                </td>
-                <td>
-                    <label>@(Model[i].DeliveryTime != null ? Model[i].DeliveryTime.Value.ToString("yyyy-MM-dd"):"")</label>
-                </td>
-                <td>
-                    <label>@Model[i].ClothTypeName</label>
-                </td>
-                <td>
-                    <label>@Model[i].Colour</label>
-                </td>
-                <td>
-                    <label>@Model[i].Width</label>
-                </td>
-                <td>
-                    <label>@Model[i].Count</label>
-                </td>
-                <td>
-                    <label>@Model[i].GramWeight</label>
-                </td>
-                <td>
-                    <label>@Model[i].TotalWeight</label>
-                </td>
-                <td>
-                    <label>@Model[i].UnitPrice</label>
-                </td>
-                <td>
-                    <label>@Model[i].TotalPrice</label>
-                </td>
+                <td>合计</td>
+                <td colspan="7"></td>
+                <td colspan="2">总价：<label>@Math.Round(totalPriceAll.Value, 2) 元</label></td>
             </tr>
-            totalCountAll = totalCountAll + (Model[i].Count == null ? 0 : Model[i].Count.Value);
-            totalWeightAll = totalWeightAll + (Model[i].TotalWeight == null ? 0 : Model[i].TotalWeight.Value);
-            totalPriceAll = totalPriceAll + (Model[i].TotalPrice == null ? 0 : Model[i].TotalPrice.Value);
-        }
-        <tr>
-            <td>合计</td>
-            <td colspan="6">共计：<label>@totalCountAll</label> 匹</td>
-            <td colspan="2">总重：<label>@totalWeightAll KG</label></td>
-            <td colspan="2">总价：<label>@totalPriceAll 元</label></td>
-        </tr>
-    </tbody>
+        </tbody>
     </table>
 </div>
 

@@ -34,6 +34,11 @@ namespace Entities.Model.Search
         public bool? IsPaymentAll { get; set; }
 
         /// <summary>
+        /// 是否已付款
+        /// </summary>
+        public bool IsReturn{ get; set; }
+
+        /// <summary>
         /// 起始报单时间
         /// </summary>
         public DateTime? StartReportTime { get; set; }

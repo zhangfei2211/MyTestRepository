@@ -21,10 +21,12 @@ namespace Business
     {
         public MeterSampleBll(IBaseRepository<B_MeterSampleBill> _meterSampleDal,
             IBaseRepository<B_MeterSampleList> _meterSampleListDal,
+            IBaseRepository<View_MeterSampleList> _v_meterSampleListDal,
             IBaseRepository<B_SN> _snDal)
         {
             meterSampleDal = _meterSampleDal;
             meterSampleListDal = _meterSampleListDal;
+            v_meterSampleListDal = _v_meterSampleListDal;
             snDal = _snDal;
         }
 
@@ -54,21 +56,54 @@ namespace Business
                 whereLambda = whereLambda.And(d => d.CustomerId == search.CustomerId);
             }
 
-            if (search.StartDeliveryTimeTime.IsNotNull())
+            if (search.StartDeliveryTime.IsNotNull())
             {
-                var date = search.StartDeliveryTimeTime.Value.ToString("yyyy-MM-dd") + " 00:00:00";
+                var date = search.StartDeliveryTime.Value.ToString("yyyy-MM-dd") + " 00:00:00";
                 var startdate = Convert.ToDateTime(date);
                 whereLambda = whereLambda.And(d => d.DeliveryTime >= startdate);
             }
 
-            if (search.EndDeliveryTimeTime.IsNotNull())
+            if (search.EndDeliveryTime.IsNotNull())
             {
-                var date = search.EndDeliveryTimeTime.Value.ToString("yyyy-MM-dd") + " 23:59:59";
+                var date = search.EndDeliveryTime.Value.ToString("yyyy-MM-dd") + " 23:59:59";
                 var enddate = Convert.ToDateTime(date);
                 whereLambda = whereLambda.And(d => d.DeliveryTime <= enddate);
             }
 
             return await meterSampleDal.FindPageListAsync(searchModel, whereLambda);
+        }
+
+        public async Task<PageResult<View_MeterSampleList>> GetMeterSampleStatementList(PageSearchModel searchModel, MeterSampleSearch search)
+        {
+            if (search == null)
+            {
+                search = new MeterSampleSearch();//如果search为空，则new一个，避免写判断
+            }
+
+            var whereLambda = GetExpression<View_MeterSampleList>();
+
+            whereLambda = whereLambda.And(d => !d.IsDelete);
+
+            if (search.CustomerId.IsNotNull())
+            {
+                whereLambda = whereLambda.And(d => d.CustomerId == search.CustomerId);
+            }
+
+            if (search.StartDeliveryTime.IsNotNull())
+            {
+                var date = search.StartDeliveryTime.Value.ToString("yyyy-MM-dd") + " 00:00:00";
+                var startdate = Convert.ToDateTime(date);
+                whereLambda = whereLambda.And(d => d.DeliveryTime >= startdate);
+            }
+
+            if (search.EndDeliveryTime.IsNotNull())
+            {
+                var date = search.EndDeliveryTime.Value.ToString("yyyy-MM-dd") + " 23:59:59";
+                var enddate = Convert.ToDateTime(date);
+                whereLambda = whereLambda.And(d => d.DeliveryTime <= enddate);
+            }
+
+            return await v_meterSampleListDal.FindPageListAsync(searchModel, whereLambda);
         }
 
         public async Task<bool> SaveMeterSample(B_MeterSampleBill meterSample, List<B_MeterSampleList> list)

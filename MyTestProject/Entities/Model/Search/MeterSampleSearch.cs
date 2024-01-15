@@ -13,25 +13,25 @@ namespace Entities.Model.Search
         /// </summary>
         public Guid CustomerId { get; set; }
 
-        /// <summary>
-        /// 布匹种类
-        /// </summary>
-        public Guid ClothType { get; set; }
+        ///// <summary>
+        ///// 布匹种类
+        ///// </summary>
+        //public Guid ClothType { get; set; }
 
-        /// <summary>
-        /// 颜色
-        /// </summary>
-        public Guid Colour { get; set; }
+        ///// <summary>
+        ///// 颜色
+        ///// </summary>
+        //public Guid Colour { get; set; }
 
 
         /// <summary>
         /// 起始发货时间
         /// </summary>
-        public DateTime? StartDeliveryTimeTime { get; set; }
+        public DateTime? StartDeliveryTime { get; set; }
 
         /// <summary>
         /// 截止发货时间
         /// </summary>
-        public DateTime? EndDeliveryTimeTime { get; set; }
+        public DateTime? EndDeliveryTime { get; set; }
     }
 }

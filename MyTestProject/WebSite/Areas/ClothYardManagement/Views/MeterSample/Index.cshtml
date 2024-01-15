@@ -3,6 +3,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml"; 
 }
 
+<style>
+    .red {
+        background-color: red;
+        color: white;
+    }
+
+    .green {
+        background-color: green;
+        color: white;
+    }
+</style>
+
 <div class="mr-5 mt-5">
     @Html.Partial("Search")
 </div>
@@ -28,6 +40,7 @@
         elem: '#meterSampleListTable',
         url: '@Url.Action("GetMeterSampleList")',
         searchform: 'meterSampleSearchForm',
+        id: 'meterSampleListLayerTable',
         totalRow: true,
         cols: [[
             { type: 'checkbox', width: 50 },
@@ -48,6 +61,7 @@
             /*{ field: 'Remark', title: '备注', width: 100 },*/
             { title: '操作', align: 'center', toolbar: '#meterSampleBar' }
         ]],
+        where: $("#meterSampleSearchForm").serializeJson(),
         done: function (res, curr, count) {
             //如果是异步请求数据方式，res即为你接口返回的信息。
             //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
@@ -56,10 +70,13 @@
             //console.log(curr);
             //得到数据总量
             //console.log(count);
+
             $("[data-field='IsPayment']").children().each(function () {
                 if ($(this).text() == 'true') {
+                    $(this).parent().addClass("green");
                     $(this).text("是")
                 } else if ($(this).text() == 'false') {
+                    $(this).parent().addClass("red");
                     $(this).text("否")
                 }
             });
@@ -132,7 +149,7 @@
     }
 
     function PrintMeterSample() {
-        var selectData = layui.table.checkStatus('meterSampleListTable').data;
+        var selectData = layui.table.checkStatus('meterSampleListLayerTable').data;
         if (selectData.length != 1) {
             ErrorMsg("必须选择一条米样单且最多只能选择1条米样单");
             return;
@@ -141,6 +158,11 @@
             var meterSampleId = selectData[0].Id;
             window.open('@Url.Action("PrintMeterSample")' + "?meterSampleId=" + meterSampleId);
         }
+    }
+
+    function PrintStatement() {
+        var param = paramsToUrlQuery($("#meterSampleSearchForm").serializeJson());
+        window.open('@Url.Action("PrintStatement")' + "?" + param);
     }
 
     function DeleteMeterSample(meterSampleId) {

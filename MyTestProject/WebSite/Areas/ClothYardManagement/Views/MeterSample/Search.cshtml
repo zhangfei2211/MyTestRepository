@@ -10,7 +10,7 @@
     }
 </style>
 
-<form class="layui-form" id="clothYardSearchForm">
+<form class="layui-form" id="meterSampleSearchForm">
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">客户：</label>
@@ -22,16 +22,25 @@
             </div>
         </div>
         <div>
+            @{
+                DateTime startMonth = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00");
+                //获得本月月初时间
+                //var startMonth = dt.AddDays(1 - dt.Day);
+                //获得本月月末时间
+                DateTime s = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd") + " 23:59:59");
+                DateTime ss = s.AddDays(1 - s.Day);
+                var endMonth = ss.AddMonths(1).AddDays(-1);
+            }
             <div class="layui-inline">
                 <label class="layui-form-label">起始发货时间：</label>
                 <div class="layui-input-block">
-                    <input type="date" class="layui-input" lay-verify="required" id="StartDeliveryTimeTime" value='@DateTime.Now.ToString("yyyy-MM-dd")' name="StartDeliveryTimeTime" style="height:40px;width:200px;">
+                    <input type="date" class="layui-input" lay-verify="required" id="StartDeliveryTime" value='@startMonth.ToString("yyyy-MM-dd")' name="StartDeliveryTime" style="height:40px;width:200px;">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">截止发货时间：</label>
                 <div class="layui-input-block">
-                    <input type="date" class="layui-input" lay-verify="required" id="EndDeliveryTimeTime" value='@DateTime.Now.ToString("yyyy-MM-dd")' name="EndDeliveryTimeTime" style="height:40px;width:200px;">
+                    <input type="date" class="layui-input" lay-verify="required" id="EndDeliveryTime" value='@endMonth.ToString("yyyy-MM-dd")' name="EndDeliveryTime" style="height:40px;width:200px;">
                 </div>
             </div>
             <div class="layui-inline" style="margin-left:100px">

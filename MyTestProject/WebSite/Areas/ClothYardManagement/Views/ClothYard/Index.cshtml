@@ -75,7 +75,7 @@
             { field: 'UnitPrice', title: '单价', width: 60 },
             { field: 'Width', title: '幅宽', width: 60 },
             { field: 'GramWeight', title: '克总', width: 60 },
-            { field: 'Count', title: '匹数', width: 60, totalRow: true },
+            { field: 'Count', title: '匹数', width: 90, totalRow: true, totalRowType:'int' },
             { field: 'TotalWeight', title: '总重', width: 90, totalRow: true},
             { field: 'TotalPrice', title: '总价', width: 110, totalRow: true },
             { field: 'IsDelivery', title: '已发货', width: 75 },
@@ -112,6 +112,17 @@
                 }
             });
 
+            var tableView = this.elem.next();
+            var totalRow = tableView.find('.layui-table-total');
+            layui.each(totalRow.find('td'), function (index, tdElem) {
+                tdElem = $(tdElem);
+                var text = tdElem.text();
+                if (text && !isNaN(text) && index == 11) {
+                    text = parseFloat(text).toFixed(0); //此处为小数点后个数
+                    tdElem.find('div.layui-table-cell').html(text);
+                }
+            });
+
             CreateTips();
         }
     });
@@ -126,10 +137,27 @@
         } else {
             tableDiv = tableBox.find(".layui-table-body.layui-table-main");
         }
-        var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
-        if (checkCell.length > 0) {
-            checkCell.click();
-        }
+        //var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+
+        //以下代码用于一次勾选所有sn相同的行
+        var tableDate = layui.table.cache["clothYardListLayerTable"];
+        var SN = tableDate[index].SN;
+        //if (checkCell.length > 0) {
+        //    checkCell.click();
+
+            //选中sn相同的行
+            var selectData = layui.table.checkStatus('clothYardListLayerTable').data;
+            for (var j = 0; j < tableDate.length; j++) {
+                var rowSN = tableDate[j].SN;
+                var rowId = tableDate[j].Id;
+                if (rowSN == SN) {
+                    var theSameSNCell = tableDiv.find("tr[data-index=" + j + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+                    if (theSameSNCell.length > 0) {
+                            theSameSNCell.click();
+                    }
+                }
+            }
+        //}
     });
     //对td的单击事件进行拦截停止，防止事件冒泡
     $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
@@ -238,7 +266,7 @@
         window.open('@Url.Action("PrintStatement")' + "?" + param);
     }
 
-        function PrintStatement2() {
+    function PrintStatement2() {
         var param = paramsToUrlQuery($("#clothYardSearchForm").serializeJson());
         window.open('@Url.Action("PrintStatement2")' + "?" + param);
     }

@@ -41,5 +41,6 @@ namespace Entities
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.Guid> UpdateBy { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
+        public bool IsReturn { get; set; }
     }
 }
