@@ -26,10 +26,10 @@
                 <label class="layui-form-label">起始报单时间：</label>
                 <div class="layui-input-block">
                     @{ 
-                        //DateTime startTime = new DateTime(DateTime.Now.Year, 1, 1);
+                        DateTime startTime = new DateTime(DateTime.Now.Year, 2, 1);
 
-                        DateTime startTime = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00");
-                        startTime = startTime.AddDays(1 - startTime.Day);
+                        //DateTime startTime = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00");
+                        //startTime = startTime.AddDays(1 - startTime.Day);
                     }
                     <input type="date" class="layui-input" lay-verify="required" id="StartReportTime" value='@startTime.ToString("yyyy-MM-dd")' name="StartReportTime" style="height:40px;width:200px;">
                 </div>

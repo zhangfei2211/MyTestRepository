@@ -34,6 +34,13 @@ namespace WebSite.Areas.ClothYardManagement.Controllers
         {
             var customerList = await customerBll.GetCustomerAll();
             ViewBag.CustomerList = GetSelectList<B_Customer>(customerList, "CustomerName", "Id", "CustomerName");
+
+            var isPaymentList = new List<SelectListItem>();
+            isPaymentList.Add(new SelectListItem { Text = "请选择", Value = "" });
+            isPaymentList.Add(new SelectListItem { Text = "否", Value = "false" });
+            isPaymentList.Add(new SelectListItem { Text = "是", Value = "true" });
+
+            ViewBag.IsPaymentList = isPaymentList;
             return View();
         }
 

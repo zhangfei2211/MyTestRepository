@@ -56,6 +56,11 @@ namespace Business
                 whereLambda = whereLambda.And(d => d.CustomerId == search.CustomerId);
             }
 
+            if (search.IsPayment.IsNotNull())
+            {
+                whereLambda = whereLambda.And(d => d.IsPayment == search.IsPayment.Value);
+            }
+
             if (search.StartDeliveryTime.IsNotNull())
             {
                 var date = search.StartDeliveryTime.Value.ToString("yyyy-MM-dd") + " 00:00:00";

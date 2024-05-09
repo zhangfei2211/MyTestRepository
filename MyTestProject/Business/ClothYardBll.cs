@@ -120,29 +120,33 @@ namespace Business
 
         public async Task<PageResult<ClothYardMainReport>> GetClothYardMainReport(PageSearchModel searchModel, ClothYardMainReportSearch search)
         {
-            string whereString = " where a.IsDelete='false' and b.IsDelete='false' and a.IsReturn='false' ";
+            string whereString = " where IsDelete='false' ";
 
             if (search.CustomerId.IsNotNull())
             {
-                whereString += " and a.CustomerId='" + search.CustomerId.ToString() + "' ";
+                whereString += " and CustomerId='" + search.CustomerId.ToString() + "' ";
             }
 
             if (search.StartReportTime.IsNotNull())
             {
                 var date = search.StartReportTime.Value.ToString("yyyy-MM-dd") + " 00:00:00";
-                whereString += " and a.ReportTime >='" + date + "' ";
+                whereString += " and ReportTime >='" + date + "' ";
             }
 
             if (search.EndReportTime.IsNotNull())
             {
                 var date = search.EndReportTime.Value.ToString("yyyy-MM-dd") + " 23:59:59";
-                whereString += " and a.ReportTime <='" + date + "' ";
+                whereString += " and ReportTime <='" + date + "' ";
             }
 
             var sql = @"select  b.Id,b.CustomerName,Sum(a.[Count]) as TotalCount,SUM(a.TotalPrice) as TotalPrice from 
-                                B_ClothYard a
-                                left join B_Customer b on a.CustomerId=b.Id" + whereString +
-                                @"group by b.Id,b.CustomerName";
+                                (select 
+                                CustomerId,
+                                IIF(IsReturn=1,-[Count],[Count]) as [Count],
+                                IIF(IsReturn=1,-TotalPrice,TotalPrice) as TotalPrice
+                                from B_ClothYard "+whereString+ @") a
+                                left join B_Customer b on a.CustomerId=b.Id where b.IsDelete='false'
+                                group by b.Id,b.CustomerName";
 
             //用于分页的排序字段
             searchModel.OrderBy= " TotalCount desc,Id";

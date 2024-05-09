@@ -452,6 +452,8 @@ namespace WebSite.Areas.ClothYardManagement.Controllers
                 }
             };
 
+            info.IsReturn = true;
+
             var result = await clothYardBll.GetClothYardList(pageModel, info);
             var customerList = await customerBll.GetCustomerAll();
             var clothTypeList = (await dictionaryBll.GetDictionaryListByDictionaryTypeCode(DictionaryType.ClothType)).ToList();

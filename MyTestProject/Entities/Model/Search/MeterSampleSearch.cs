@@ -13,6 +13,11 @@ namespace Entities.Model.Search
         /// </summary>
         public Guid CustomerId { get; set; }
 
+        /// <summary>
+        /// 是否已付款
+        /// </summary>
+        public bool? IsPayment { get; set; }
+
         ///// <summary>
         ///// 布匹种类
         ///// </summary>

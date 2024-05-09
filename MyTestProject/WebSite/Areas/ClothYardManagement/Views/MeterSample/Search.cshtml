@@ -21,6 +21,15 @@
                         { "lay-search" , ""} })
             </div>
         </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">是否已付款：</label>
+            <div class="layui-input-block">
+                @Html.DropDownListFor(d => d.IsPayment, ViewBag.IsPaymentList as IEnumerable<SelectListItem>,
+            new Dictionary<string, object> {
+                { "class" , "layui-input" },
+                { "lay-search" , ""} })
+            </div>
+        </div>
         <div>
             @{
                 DateTime startMonth = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00");
