@@ -57,8 +57,8 @@
 <div class="ml-20" id="printDiv">
     <div class="layui-form-item mt-20" style="text-align:center;">
         <div class="headDiv" style="font-size: xx-large;padding-left:600px" ondblclick="ShowFactoryNameEdit()">
-            <label id="lblFactoryName">睿锦纺织</label>
-            <input type="text" id="txtFactoryName" value="睿锦纺织" style="display:none" onfocus="this.select();" onblur="ShowFactoryNameLabel()" />
+            <label id="lblFactoryName">宇轩纺织</label>
+            <input type="text" id="txtFactoryName" value="宇轩纺织" style="display:none" onfocus="this.select();" onblur="ShowFactoryNameLabel()" />
         </div>
         <div class="headDiv" style="font-size: large; padding-left:50px">销售码单</div>
     </div>
@@ -93,6 +93,15 @@
                 <td style="width:60px"><label>8</label></td>
                 <td style="width:60px"><label>9</label></td>
                 <td style="width:60px"><label>10</label></td>
+
+                @if (ViewBag.IsDeduct)
+                {
+
+                    <td style="width:60px"><label>扣减</label></td>
+                }
+                else
+                {
+                }
                 <td style="width:50px"><label>单位</label></td>
                 <td style="width:80px"><label>总重</label></td>
                 <td style="width:80px"><label>单价</label></td>
@@ -102,6 +111,7 @@
                 var totalCountAll = 0;
                 decimal totalWeightAll = 0;
                 decimal totalPriceAll = 0;
+                int colspanCount = 0;
             }
             @for (int i = 0; i < 10; i++)
             {
@@ -139,6 +149,17 @@
                             <td>
                             </td>
                         }
+                        @if (ViewBag.IsDeduct)
+                        {
+                            colspanCount = 14;
+                            <td>
+                                <label>@Model.ClothYardList[i].Deduct</label>
+                            </td>
+                        }
+                        else
+                        {
+                            colspanCount = 13;
+                        }
                         <td>KG</td>
                         <td>
                             <label>@Model.ClothYardList[i].TotalWeight</label>
@@ -175,12 +196,16 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        @if (ViewBag.IsDeduct)
+                        {
+                            <td></td>
+                        }
                     </tr>
                 }
             }
             <tr>
                 <td>本单合计</td>
-                <td colspan="13">共计：<label>@totalCountAll</label> 匹</td>
+                <td colspan="@colspanCount">共计：<label>@totalCountAll</label> 匹</td>
                 <td colspan="3"><label>@totalWeightAll KG</label></td>
                 <td><label>@totalPriceAll</label></td>
             </tr>

@@ -99,6 +99,7 @@
             <td>8</td>
             <td>9</td>
             <td>10</td>
+            <td>扣减</td>
             <td style="width:100px">粘贴码单</td>
             <td>备注</td>
             @*<td>总重</td>
@@ -114,7 +115,7 @@
                 <tr>
                     <td style="display:none">
                         <input type="text" name="clothYardId" value="@Model.ClothYardList[i].Id" />
-                        <input type="text" name="IsReturn" value="@(Model.ClothYardList[i].IsReturn ? "true" : "false")" />
+                        <input type="text" name="IsReturn" value="@(Model.ClothYardList[i].IsReturn.Value ? "true" : "false")" />
                         <input type="text" name="IsDelivery" value="@(Model.ClothYardList[i].IsDelivery ? "true" : "false")" />
                         <input type="text" name="IsPaymentAll" value="@(Model.ClothYardList[i].IsPaymentAll ? "true" : "false")" />
                         <input type="text" name="IsDelete" value="@(Model.ClothYardList[i].IsDelete ? "true" : "false")" />
@@ -136,7 +137,7 @@
                             }
 
                             @Html.DropDownList("ClothTypeId", clothTypeList,
-                            new Dictionary<string, object> { { "class", "layui-input" } })
+                            new Dictionary<string, object> { { "class", "layui-input" }, { "lay-search", "" } })
 
                             //赋值完恢复原样，避免影响其他行
                             if (clothType != null)
@@ -146,17 +147,17 @@
                         }
                     </td>
                     @*<td>
-                            @{
-                                var clothColourList = Model.ClothColourList as List<SelectListItem>;
-                                var clothColour = clothColourList.Where(d => d.Value == Model.ClothYardList[i].ColourId.ToString()).FirstOrDefault();
-                                if (clothColour != null)
-                                {
-                                    clothColour.Selected = true;
-                                }
-                            }
-                            @Html.DropDownList("Colour", clothColourList,
-                            new Dictionary<string, object> { { "class", "layui-input" }, { "lay-search", "" } })
-                        </td>*@
+            @{
+                var clothColourList = Model.ClothColourList as List<SelectListItem>;
+                var clothColour = clothColourList.Where(d => d.Value == Model.ClothYardList[i].ColourId.ToString()).FirstOrDefault();
+                if (clothColour != null)
+                {
+                    clothColour.Selected = true;
+                }
+            }
+            @Html.DropDownList("Colour", clothColourList,
+            new Dictionary<string, object> { { "class", "layui-input" }, { "lay-search", "" } })
+        </td>*@
                     <td>
                         <div style="position: relative;">
                             <input class="layui-input inputWidth" id="@("Colour" + i)" name="Colour" value="@Model.ClothYardList[i].Colour" onclick="ShowList(@i,'Colour')">
@@ -198,6 +199,9 @@
                         </td>
                     }
                     <td>
+                        <input class="layui-input inputWidth" name="Deduct" type="number" value="@Model.ClothYardList[i].Deduct">
+                    </td>
+                    <td>
                         <div style="float:left">
                             <input class="layui-input inputWidth" id="@("WeightListPaste"+i)" name="WeightList" type="text" value="">
                         </div>
@@ -209,11 +213,11 @@
                         <input class="layui-input blackinput" style="width:100px" name="Remark" type="text" value="@Model.ClothYardList[i].Remark">
                     </td>
                     @*<td>
-                            <input class="layui-input inputWidth" name="TotalWeight" type="number" value="@Model.ClothYardList[i].TotalWeight">
-                        </td>
-                        <td>
-                            <input class="layui-input inputWidth" name="TotalPrice" type="number" value="@Model.ClothYardList[i].TotalPrice">
-                        </td>*@
+                        <input class="layui-input inputWidth" name="TotalWeight" type="number" value="@Model.ClothYardList[i].TotalWeight">
+                    </td>
+                    <td>
+                        <input class="layui-input inputWidth" name="TotalPrice" type="number" value="@Model.ClothYardList[i].TotalPrice">
+                    </td>*@
                     <td>
                         @if (i != 0)
                         {
@@ -256,7 +260,7 @@
                         else
                         {*@
                             @Html.DropDownList("ClothTypeId", clothTypeList,
-                            new Dictionary<string, object> { { "class", "layui-input" } })
+                            new Dictionary<string, object> { { "class", "layui-input" }, { "lay-search", "" } })
                         @*}*@
                     </td>
                     @*<td>
@@ -307,6 +311,9 @@
                             <input class="layui-input inputWidth" @disabled name="Weight" type="number" value="">
                         </td>
                     }
+                    <td>
+                        <input class="layui-input inputWidth" name="Deduct" type="number" value="">
+                    </td>
                     <td>
                         <div style="float:left">
                             <input class="layui-input inputWidth" id="@("WeightListPaste"+i)" name="WeightList" type="text" value="">
@@ -451,7 +458,7 @@
                     }
                 }
             }
-
+            row.Deduct = $(trList[i]).find("[name=Deduct]").val();
             row.Width = $(trList[i]).find("[name=Width]").val();
             row.GramWeight = $(trList[i]).find("[name=GramWeight]").val();
             row.UnitPrice = $(trList[i]).find("[name=UnitPrice]").val();

@@ -114,7 +114,7 @@
                 <tr>
                     <td style="display:none">
                         <input type="text" name="clothYardId" value="@Model.ClothYardList[i].Id" />
-                        <input type="text" name="IsReturn" value="@(Model.ClothYardList[i].IsReturn ? "true" : "false")" />
+                        <input type="text" name="IsReturn" value="@(Model.ClothYardList[i].IsReturn.Value ? "true" : "false")" />
                         <input type="text" name="IsDelivery" value="@(Model.ClothYardList[i].IsDelivery ? "true" : "false")" />
                         <input type="text" name="IsPaymentAll" value="@(Model.ClothYardList[i].IsPaymentAll ? "true" : "false")" />
                         <input type="text" name="IsDelete" value="@(Model.ClothYardList[i].IsDelete ? "true" : "false")" />

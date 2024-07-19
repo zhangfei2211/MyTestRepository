@@ -22,12 +22,13 @@
           <Property Name="GramWeight" Type="numeric" Precision="18" Scale="0" />
           <Property Name="WeightList" Type="text" />
           <Property Name="Count" Type="int" />
+          <Property Name="Deduct" Type="numeric" Precision="18" Scale="2" />
           <Property Name="TotalWeight" Type="numeric" Precision="18" Scale="2" />
           <Property Name="TotalPrice" Type="numeric" Precision="18" Scale="2" />
           <Property Name="ReportTime" Type="datetime" />
           <Property Name="DeliveryTime" Type="datetime" />
           <Property Name="HasPaymentMoney" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="IsReturn" Type="bit" Nullable="false" />
+          <Property Name="IsReturn" Type="bit" />
           <Property Name="IsDelivery" Type="bit" Nullable="false" />
           <Property Name="IsPaymentAll" Type="bit" Nullable="false" />
           <Property Name="Remark" Type="text" />
@@ -399,7 +400,8 @@
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateBy" Type="Guid" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
-          <Property Name="IsReturn" Type="Boolean" Nullable="false" />
+          <Property Name="IsReturn" Type="Boolean" />
+          <Property Name="Deduct" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="B_ClothYardPaymentRecord">
           <Key>
@@ -674,6 +676,7 @@
           <EntitySetMapping Name="B_ClothYard">
             <EntityTypeMapping TypeName="ZyfTestDbModel.B_ClothYard">
               <MappingFragment StoreEntitySet="B_ClothYard">
+                <ScalarProperty Name="Deduct" ColumnName="Deduct" />
                 <ScalarProperty Name="IsReturn" ColumnName="IsReturn" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />

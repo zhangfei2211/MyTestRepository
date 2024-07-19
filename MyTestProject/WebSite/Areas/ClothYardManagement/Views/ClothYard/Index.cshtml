@@ -226,7 +226,7 @@
         }
     }
 
-    function PrintClothYards() {
+    function PrintClothYards(isDeduct) {
         var selectData = layui.table.checkStatus('clothYardListLayerTable').data;
         if (selectData.length == 0 || selectData.length > 10) {
             ErrorMsg("必须选择一条码单且最多只能选择10条码单");
@@ -247,7 +247,7 @@
             }
             clothYardIds = clothYardIds.substr(0, clothYardIds.length - 1);
             if (isSameCustomerAndSameReportTime) {
-                window.open('@Url.Action("PrintClothYards")' + "?clothYardIds=" + clothYardIds);
+                window.open('@Url.Action("PrintClothYards")' + "?clothYardIds=" + clothYardIds + "&isDeduct=" + isDeduct);
                 @*layer.open({
                     title: '码单',
                     area: ['100%', '100%'],

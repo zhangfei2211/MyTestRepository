@@ -169,10 +169,14 @@ namespace WebSite.Areas.ClothYardManagement.Controllers
                 {
                     var weightList = l.WeightList.Split('，');
                     l.Count= weightList.Length;
+                    if (l.Deduct==null) 
+                    { 
+                        l.Deduct = 0; 
+                    }
                     l.TotalWeight = 0;
                     foreach (var weight in weightList) 
                     {
-                        l.TotalWeight += Convert.ToDecimal(weight);
+                        l.TotalWeight += Convert.ToDecimal(weight)-l.Deduct;
                     }
                     l.TotalPrice = l.TotalWeight * l.UnitPrice;
 
@@ -352,7 +356,7 @@ namespace WebSite.Areas.ClothYardManagement.Controllers
             return Json(result);
         }
 
-        public async Task<ActionResult> PrintClothYards(string clothYardIds)
+        public async Task<ActionResult> PrintClothYards(string clothYardIds,bool isDeduct)
         {
 
             ClothYardModel model = new ClothYardModel();
@@ -391,6 +395,7 @@ namespace WebSite.Areas.ClothYardManagement.Controllers
             //model.CustomerList = GetSelectList<B_Customer>(customerList, "CustomerName", "Id", "CustomerName");
             //model.ClothTypeList = GetSelectList<B_Dictionary>(clothTypeList, "DictionaryName", "Id", "Code");
             //model.ClothColourList = GetSelectList<B_Dictionary>(clothColour, "DictionaryName", "Id", "Code");
+            ViewBag.IsDeduct = isDeduct;
             return View(model);
         }
 
